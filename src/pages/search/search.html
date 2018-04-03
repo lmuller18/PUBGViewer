@@ -1,0 +1,56 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'SIGNUP_TITLE' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="searchForm"
+        (submit)="doSignup()">
+    <ion-list>
+
+      <ion-item>
+        <ion-searchbar formControlName="player"
+                       placeholder="Search for a player"></ion-searchbar>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Platform</ion-label>
+        <ion-select formControlName="platform">
+          <ion-option value="xbox">XBox</ion-option>
+          <ion-option value="pc">PC</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Region</ion-label>
+        <ion-select formControlName="region">
+          <ion-option value="na">North America</ion-option>
+          <ion-option value="eu">European Union</ion-option>
+          <ion-option value="as">Asia</ion-option>
+          <ion-option value="oc">Oceania</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <!--
+      Want to add a Username? Here you go:
+
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+      </ion-item>
+      -->
+
+      <div padding>
+        <button ion-button
+                color="primary"
+                [disabled]="!formValid()"
+                block>Search</button>
+      </div>
+
+    </ion-list>
+  </form>
+</ion-content>
