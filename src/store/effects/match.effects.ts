@@ -9,7 +9,8 @@ import {
   LoadMatchFailure,
   LoadMatches,
   LoadMatchesSuccess,
-  LoadMatchesFailure
+  LoadMatchesFailure,
+  SetUpMatches
 } from "../actions/match.actions";
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
@@ -47,23 +48,23 @@ export class MatchEffects {
         return of(
           params.matches.every((match, i) => {
             if (i === 5) return false;
-            console.log(i, params);
-            setTimeout(() => {
-              this.store.dispatch(
-                new LoadMatch({
-                  platform: params.platform,
-                  region: params.region,
-                  id: match.id
-                })
-              );
-              return true;
-            }, 500);
+            let next = params.matches[i + 1].id;
+            if (i === 4) next = null;
+            params.matches[i] = { ...match, next };
             return true;
           })
         ).pipe(
           map(value => {
-            console.log("Done Loading All Matches");
-            return new LoadMatchesSuccess(value);
+            console.log("load matches value: ", params.matches);
+            this.store.dispatch(
+              new LoadMatch({
+                region: params.region,
+                platform: params.platform,
+                matches: params.matches,
+                number: 0
+              })
+            );
+            return new SetUpMatches(value);
           }),
           catchError(error => {
             console.log("Error Loading All Matches");
@@ -84,13 +85,29 @@ export class MatchEffects {
           .get<any>(
             `https://api.playbattlegrounds.com/shards/${match.platform}-${
               match.region
-            }/matches/${match.id}`,
+            }/matches/${match.matches[match.number].id}`,
             { headers: this.headers }
           )
           .pipe(
             map(value => {
               console.log("Loading Match Done", value);
-              return new LoadMatchSuccess(value);
+              this.store.dispatch(new LoadMatchSuccess(value));
+
+              if (match.number < 5) {
+                const newParams = {
+                  region: match.region,
+                  platform: match.platform,
+                  id: match.id,
+                  matches: match.matches,
+                  number: (match.number += 1)
+                };
+
+                console.log("NEW PARAMS: ", newParams);
+
+                return new LoadMatch(newParams);
+              } else {
+                return new LoadMatchesSuccess(value);
+              }
             }),
             catchError(error => {
               console.log("Error Loading Match: ", error);

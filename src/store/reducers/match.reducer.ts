@@ -2,12 +2,14 @@ import { MatchActionTypes, MatchActions } from "../actions/match.actions";
 
 export interface MatchState {
   matches: Array<any>;
+  rawMatches: Array<any>;
   loading: boolean;
   loaded: boolean;
 }
 
 export const initialState: MatchState = {
   matches: [],
+  rawMatches: [],
   loading: false,
   loaded: false
 };
@@ -21,6 +23,7 @@ export function reducer(
       return {
         ...state,
         matches: [],
+        rawMatches: [],
         loading: true
       };
     }
@@ -38,6 +41,13 @@ export function reducer(
         ...state,
         loading: false,
         loaded: true
+      };
+    }
+
+    case MatchActionTypes.SetUpMatches: {
+      return {
+        ...state,
+        rawMatches: action.payload
       };
     }
 

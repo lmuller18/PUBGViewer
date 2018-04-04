@@ -7,7 +7,9 @@ export enum MatchActionTypes {
 
   LoadMatch = "[Viewer] Load Match",
   LoadMatchSuccess = "[Viewer] Load Match Success",
-  LoadMatchFailure = "[Viewer] Load Match Failure"
+  LoadMatchFailure = "[Viewer] Load Match Failure",
+
+  SetUpMatches = "[Viewer] Set Up Matches"
 }
 
 export class LoadMatch implements Action {
@@ -40,10 +42,16 @@ export class LoadMatchesFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class SetUpMatches implements Action {
+  readonly type = MatchActionTypes.SetUpMatches;
+  constructor(public payload: any) {}
+}
+
 export type MatchActions =
   | LoadMatch
   | LoadMatchSuccess
   | LoadMatchFailure
   | LoadMatches
   | LoadMatchesSuccess
-  | LoadMatchesFailure;
+  | LoadMatchesFailure
+  | SetUpMatches;
