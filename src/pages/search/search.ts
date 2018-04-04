@@ -1,10 +1,14 @@
 import { Component } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
 import { IonicPage, NavController, ToastController } from "ionic-angular";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 
-import { Player } from "../../providers/providers";
-import { MainPage } from "../pages";
+import { Observable } from "rxjs/Observable";
+import { Store, select } from "@ngrx/store";
+import * as fromViewer from "../../store";
+import { LoadPlayer, LoadMatches } from "../../store";
+
+// import { MainPage } from "../pages";
+import { filter } from "rxjs/operators";
 
 @IonicPage()
 @Component({
@@ -16,75 +20,81 @@ export class SearchPage {
   // If you're using the username field with or without email, make
   // sure to add it to the type
 
+  notFound: boolean;
   searchForm: FormGroup;
+  player$: Observable<any>;
+  matches$: Observable<any>;
   // Our translated text strings
   // private signupErrorString: string;
 
   constructor(
     public navCtrl: NavController,
-    public player: Player,
     public toastCtrl: ToastController,
-    public translateService: TranslateService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<fromViewer.ViewerState>
   ) {
     // this.translateService.get("SIGNUP_ERROR").subscribe(value => {
     // this.signupErrorString = value;
     // });
     this.searchForm = this.formBuilder.group({
-      player: ["", Validators.required],
+      username: ["", Validators.required],
       platform: ["", Validators.required],
       region: ["", Validators.required]
     });
+    this.player$ = this.store.pipe(
+      select(fromViewer.getPlayer),
+      filter(Boolean)
+    );
+    this.matches$ = this.store.pipe(
+      select(fromViewer.getMatches),
+      filter(Boolean)
+    );
   }
 
-  doSignup() {
+  search() {
     console.log(this.searchForm.value);
+    this.store.dispatch(new LoadPlayer(this.searchForm.value));
+    this.player$.subscribe((player: any) => {
+      console.log(player);
+      const matches: Array<any> = player.relationships.matches.data;
+      this.store.dispatch(
+        new LoadMatches({
+          platform: this.platform,
+          region: this.region,
+          matches
+        })
+      );
+    });
+    this.matches$.subscribe((match: any) => {
+      console.log(match);
+    });
 
-    this.navCtrl.push(MainPage);
-
-    this.player.search(this.searchForm.value).subscribe(
-      resp => {
-        this.navCtrl.push(MainPage);
-
-        let toast = this.toastCtrl.create({
-          message: "Success",
-          duration: 3000,
-          position: "top"
-        });
-        toast.present();
-      },
-      err => {
-        this.navCtrl.push(MainPage);
-
-        // Unable to sign up
-        let toast = this.toastCtrl.create({
-          message: "Error",
-          duration: 3000,
-          position: "top"
-        });
-        toast.present();
-      }
-    );
-    // Attempt to login in through our User service
-    // this.user.signup(this.account).subscribe(
-    //   resp => {
-    //     this.navCtrl.push(MainPage);
+    // this.player.search(this.searchForm.value).subscribe(
+    //   (resp: any) => {
+    //     const matches: Array<any> = resp.data[0].relationships.matches.data;
+    //     this.match
+    //       .get(this.searchForm.value, matches)
+    //       .subscribe((matchResponse: any) => {});
     //   },
     //   err => {
-    //     this.navCtrl.push(MainPage);
-
-    //     // Unable to sign up
-    //     let toast = this.toastCtrl.create({
-    //       message: this.signupErrorString,
-    //       duration: 3000,
-    //       position: "top"
-    //     });
-    //     toast.present();
+    //     this.username.setErrors({ notFound: true });
     //   }
     // );
   }
 
   formValid() {
     return this.searchForm.dirty && this.searchForm.valid;
+  }
+
+  get username() {
+    return this.searchForm.get("username");
+  }
+
+  get platform() {
+    return this.searchForm.get("platform");
+  }
+
+  get region() {
+    return this.searchForm.get("region");
   }
 }

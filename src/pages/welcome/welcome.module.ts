@@ -1,19 +1,11 @@
-import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { IonicPageModule } from 'ionic-angular';
+import { NgModule } from "@angular/core";
+import { IonicPageModule } from "ionic-angular";
 
-import { WelcomePage } from './welcome';
+import { WelcomePage } from "./welcome";
 
 @NgModule({
-  declarations: [
-    WelcomePage,
-  ],
-  imports: [
-    IonicPageModule.forChild(WelcomePage),
-    TranslateModule.forChild()
-  ],
-  exports: [
-    WelcomePage
-  ]
+  declarations: [WelcomePage],
+  imports: [IonicPageModule.forChild(WelcomePage)],
+  exports: [WelcomePage]
 })
-export class WelcomePageModule { }
+export class WelcomePageModule {}
