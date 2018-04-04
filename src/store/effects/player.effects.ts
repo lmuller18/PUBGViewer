@@ -36,6 +36,7 @@ export class PlayerEffects {
     .pipe(
       map((action: LoadPlayer) => action.payload),
       switchMap((player: any) => {
+        console.log("Load Player: ", player);
         return this.http
           .get<any>(
             `https://api.playbattlegrounds.com/shards/${player.platform}-${
@@ -45,11 +46,11 @@ export class PlayerEffects {
           )
           .pipe(
             map(value => {
-              console.log("done", value.data[0]);
+              console.log("Loading Player Done", value.data[0]);
               return new LoadPlayerSuccess(value.data[0]);
             }),
             catchError(error => {
-              console.log("error", error);
+              console.log("Error Loading Player: ", error);
               return of(new LoadPlayerFailure(error));
             })
           );

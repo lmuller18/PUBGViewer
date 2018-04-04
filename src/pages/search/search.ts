@@ -5,10 +5,12 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { Store, select } from "@ngrx/store";
 import * as fromViewer from "../../store";
+import { filter } from "rxjs/operators";
+
 import { LoadPlayer, LoadMatches } from "../../store";
 
 // import { MainPage } from "../pages";
-import { filter } from "rxjs/operators";
+import { MainPage } from "../pages";
 
 @IonicPage()
 @Component({
@@ -23,7 +25,6 @@ export class SearchPage {
   notFound: boolean;
   searchForm: FormGroup;
   player$: Observable<any>;
-  matches$: Observable<any>;
   // Our translated text strings
   // private signupErrorString: string;
 
@@ -45,17 +46,11 @@ export class SearchPage {
       select(fromViewer.getPlayer),
       filter(Boolean)
     );
-    this.matches$ = this.store.pipe(
-      select(fromViewer.getMatches),
-      filter(Boolean)
-    );
   }
 
   search() {
-    console.log(this.searchForm.value);
     this.store.dispatch(new LoadPlayer(this.searchForm.value));
     this.player$.subscribe((player: any) => {
-      console.log(player);
       const matches: Array<any> = player.relationships.matches.data;
       this.store.dispatch(
         new LoadMatches({
@@ -64,9 +59,7 @@ export class SearchPage {
           matches
         })
       );
-    });
-    this.matches$.subscribe((match: any) => {
-      console.log(match);
+      this.navCtrl.push(MainPage);
     });
 
     // this.player.search(this.searchForm.value).subscribe(

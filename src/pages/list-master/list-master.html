@@ -5,8 +5,7 @@
 
     <ion-buttons end>
       <button ion-button
-              icon-only
-              (click)="addItem()">
+              icon-only>
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -16,23 +15,19 @@
 
 <ion-content>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of currentItems">
-      <button ion-item
-              (click)="openItem(item)">
-        <ion-avatar item-start>
-          <img [src]="item.profilePic" />
+  <ion-list *ngIf="matches">
+    <ion-item-sliding *ngFor="let match of matches">
+      <button ion-item>
+        <ion-avatar match-start>
+          <img src="assets/img/miramar.jpg" />
         </ion-avatar>
-        <h2>{{item.name}}</h2>
-        <p>{{item.about}}</p>
-        <ion-note item-end
-                  *ngIf="item.note">{{item.note}}</ion-note>
+        <h2>{{ match.data.attributes.gameMode | uppercase }}</h2>
+        <p>A test of the sliding list thing for the pubg viewer</p>
+        <ion-note item-end>Duration {{ match.data.attributes.duration }}</ion-note>
       </button>
-
       <ion-item-options>
         <button ion-button
-                color="danger"
-                (click)="deleteItem(item)">
+                color="danger">
           Delete
         </button>
       </ion-item-options>
