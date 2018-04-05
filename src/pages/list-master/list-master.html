@@ -21,9 +21,26 @@
         <ion-avatar match-start>
           <img src="assets/img/miramar.jpg" />
         </ion-avatar>
-        <h2>{{ match.data.attributes.gameMode | uppercase }}</h2>
+        <ng-container *ngIf="match.gameMode.includes('solo')">
+          <h2>
+            <ion-icon name="md-person"></ion-icon>
+          </h2>
+        </ng-container>
+        <ng-container *ngIf="match.gameMode.includes('duo')">
+          <h2>
+            <ion-icon name="md-people"></ion-icon>
+          </h2>
+        </ng-container>
+        <ng-container *ngIf="match.gameMode.includes('squad')">
+          <h2>
+            <ion-icon name="md-people"></ion-icon>
+            <ion-icon name="md-people"></ion-icon>
+          </h2>
+        </ng-container>
         <p>A test of the sliding list thing for the pubg viewer</p>
-        <ion-note item-end>Duration {{ match.data.attributes.duration }}</ion-note>
+        <ion-note item-end>
+          Duration {{ match.duration }}
+        </ion-note>
       </button>
       <ion-item-options>
         <button ion-button

@@ -9,8 +9,7 @@ import {
   LoadMatchFailure,
   LoadMatches,
   LoadMatchesSuccess,
-  LoadMatchesFailure,
-  SetUpMatches
+  LoadMatchesFailure
 } from "../actions/match.actions";
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
@@ -56,15 +55,12 @@ export class MatchEffects {
         ).pipe(
           map(value => {
             console.log("load matches value: ", params.matches);
-            this.store.dispatch(
-              new LoadMatch({
-                region: params.region,
-                platform: params.platform,
-                matches: params.matches,
-                number: 0
-              })
-            );
-            return new SetUpMatches(value);
+            return new LoadMatch({
+              region: params.region,
+              platform: params.platform,
+              matches: params.matches,
+              number: 0
+            });
           }),
           catchError(error => {
             console.log("Error Loading All Matches");
@@ -93,7 +89,9 @@ export class MatchEffects {
               console.log("Loading Match Done", value);
               this.store.dispatch(new LoadMatchSuccess(value));
 
-              if (match.number < 5) {
+              const matchesToSearch = 4;
+              // const matchesToSearch = 1;
+              if (match.number < matchesToSearch) {
                 const newParams = {
                   region: match.region,
                   platform: match.platform,
@@ -106,7 +104,8 @@ export class MatchEffects {
 
                 return new LoadMatch(newParams);
               } else {
-                return new LoadMatchesSuccess(value);
+                console.log("Loading Matches Done");
+                return new LoadMatchesSuccess();
               }
             }),
             catchError(error => {

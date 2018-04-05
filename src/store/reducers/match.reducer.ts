@@ -32,22 +32,18 @@ export function reducer(
       const match = action.payload;
       return {
         ...state,
-        matches: [...state.matches, match]
+        rawMatches: [...state.rawMatches, match]
       };
     }
 
     case MatchActionTypes.LoadMatchesSuccess: {
+      const doneMatches = [...state.rawMatches];
       return {
         ...state,
+        matches: doneMatches,
+        rawMatches: [],
         loading: false,
         loaded: true
-      };
-    }
-
-    case MatchActionTypes.SetUpMatches: {
-      return {
-        ...state,
-        rawMatches: action.payload
       };
     }
 
@@ -65,6 +61,6 @@ export function reducer(
   }
 }
 
-export const getMatches = (state: MatchState) => state.matches;
+export const getRawMatches = (state: MatchState) => state.matches;
 export const getMatchesLoading = (state: MatchState) => state.loading;
 export const getMatchesLoaded = (state: MatchState) => state.loaded;
