@@ -89,8 +89,8 @@ export class MatchEffects {
               console.log("Loading Match Done", value);
               this.store.dispatch(new LoadMatchSuccess(value));
 
-              const matchesToSearch = 4;
-              // const matchesToSearch = 1;
+              // const matchesToSearch = 4;
+              const matchesToSearch = 1;
               if (match.number < matchesToSearch) {
                 const newParams = {
                   region: match.region,

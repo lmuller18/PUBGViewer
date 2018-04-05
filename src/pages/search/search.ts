@@ -51,7 +51,7 @@ export class SearchPage {
   search() {
     this.store.dispatch(new LoadPlayer(this.searchForm.value));
     this.player$.subscribe((player: any) => {
-      const matches: Array<any> = player.relationships.matches.data;
+      const matches: Array<any> = player.matches;
       this.store.dispatch(
         new LoadMatches({
           platform: this.platform,

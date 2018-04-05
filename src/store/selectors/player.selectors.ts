@@ -7,7 +7,22 @@ export const getPlayerState = createSelector(
   (state: fromViewer.ViewerState) => state.player
 );
 
-export const getPlayer = createSelector(getPlayerState, fromPlayer.getPlayer);
+export const getRawPlayer = createSelector(
+  getPlayerState,
+  fromPlayer.getPlayer
+);
+
+export const getPlayer = createSelector(getRawPlayer, rawPlayer => {
+  console.log("raw player: ", rawPlayer);
+  if (!rawPlayer) return undefined;
+  const player = {
+    name: rawPlayer.attributes.name,
+    id: rawPlayer.id,
+    matches: rawPlayer.relationships.matches.data
+  };
+  console.log("formatted player: ", player);
+  return player;
+});
 
 export const getPlayerLoading = createSelector(
   getPlayerState,

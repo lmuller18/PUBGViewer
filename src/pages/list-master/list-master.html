@@ -1,14 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>List Title</ion-title>
-
-    <ion-buttons end>
-      <button ion-button
-              icon-only>
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>{{ player.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -37,7 +30,11 @@
             <ion-icon name="md-people"></ion-icon>
           </h2>
         </ng-container>
-        <p>A test of the sliding list thing for the pubg viewer</p>
+        <p>
+          <ng-container *ngFor="let teammate of match.team.teammates">
+            {{teammate.stats.name}},
+          </ng-container>
+        </p>
         <ion-note item-end>
           Duration {{ match.duration }}
         </ion-note>
