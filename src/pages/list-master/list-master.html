@@ -30,14 +30,16 @@
             <ion-icon name="md-people"></ion-icon>
           </h2>
         </ng-container>
+        <h2>Rank #{{ match.team.stats.rank }}
+          <span *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</span>
+        </h2>
+        <p>Duration {{ match.duration }}</p>
         <p>
-          <ng-container *ngFor="let teammate of match.team.teammates">
-            {{teammate.stats.name}},
+          <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
+            {{teammate.stats.name}}
+            <span *ngIf="!last">, </span>
           </ng-container>
         </p>
-        <ion-note item-end>
-          Duration {{ match.duration }}
-        </ion-note>
       </button>
       <ion-item-options>
         <button ion-button

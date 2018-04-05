@@ -65,7 +65,7 @@ export const getMatches = createSelector(
 
       const team = {
         stats: {
-          won: playerRoster.attributes.won,
+          won: playerRoster.attributes.won == "true",
           rank: playerRoster.attributes.stats.rank,
           teamId: playerRoster.attributes.stats.teamId
         },
@@ -74,9 +74,13 @@ export const getMatches = createSelector(
 
       let duration = new Date(null);
       duration.setSeconds(rawMatch.data.attributes.duration);
+      let seconds = "";
+      if (duration.getSeconds() < 10) {
+        seconds = "0" + duration.getSeconds();
+      }
       matches.push({
         gameMode: rawMatch.data.attributes.gameMode,
-        duration: duration.getMinutes() + ":" + duration.getSeconds(),
+        duration: duration.getMinutes() + ":" + seconds,
         player: playerParticipant,
         team: team,
         included: rawMatch.included
