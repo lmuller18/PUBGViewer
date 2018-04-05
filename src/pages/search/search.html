@@ -18,7 +18,7 @@
                        placeholder="Search for a player"></ion-searchbar>
       </ion-item>
 
-      <ion-item *ngIf="username.hasError('notFound')">
+      <ion-item *ngIf="playerNotFound$ | async">
         Player was not found
       </ion-item>
 

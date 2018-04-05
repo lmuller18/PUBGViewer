@@ -24,6 +24,11 @@ export const getPlayer = createSelector(getRawPlayer, rawPlayer => {
   return player;
 });
 
+export const getPlayerNotFound = createSelector(
+  getPlayerState,
+  fromPlayer.getPlayerNotFound
+);
+
 export const getPlayerLoading = createSelector(
   getPlayerState,
   fromPlayer.getPlayerLoading

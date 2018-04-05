@@ -74,7 +74,7 @@ export const getMatches = createSelector(
 
       let duration = new Date(null);
       duration.setSeconds(rawMatch.data.attributes.duration);
-      let seconds = "";
+      let seconds = duration.getSeconds().toString();
       if (duration.getSeconds() < 10) {
         seconds = "0" + duration.getSeconds();
       }

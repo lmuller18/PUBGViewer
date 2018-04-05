@@ -25,6 +25,7 @@ export class SearchPage {
   notFound: boolean;
   searchForm: FormGroup;
   player$: Observable<any>;
+  playerNotFound$: Observable<boolean>;
   // Our translated text strings
   // private signupErrorString: string;
 
@@ -42,6 +43,7 @@ export class SearchPage {
       platform: ["", Validators.required],
       region: ["", Validators.required]
     });
+    this.playerNotFound$ = this.store.select(fromViewer.getPlayerNotFound);
     this.player$ = this.store.pipe(
       select(fromViewer.getPlayer),
       filter(Boolean)

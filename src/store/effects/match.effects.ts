@@ -8,8 +8,7 @@ import {
   LoadMatchSuccess,
   LoadMatchFailure,
   LoadMatches,
-  LoadMatchesSuccess,
-  LoadMatchesFailure
+  LoadMatchesSuccess
 } from "../actions/match.actions";
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
@@ -42,31 +41,14 @@ export class MatchEffects {
     .ofType(MatchActionTypes.LoadMatches)
     .pipe(
       map((action: LoadMatches) => action.payload),
-      switchMap((params: any) => {
-        console.log("Loading All Matches: ", params);
-        return of(
-          params.matches.every((match, i) => {
-            if (i === 5) return false;
-            let next = params.matches[i + 1].id;
-            if (i === 4) next = null;
-            params.matches[i] = { ...match, next };
-            return true;
-          })
-        ).pipe(
-          map(value => {
-            console.log("load matches value: ", params.matches);
-            return new LoadMatch({
-              region: params.region,
-              platform: params.platform,
-              matches: params.matches,
-              number: 0
-            });
-          }),
-          catchError(error => {
-            console.log("Error Loading All Matches");
-            return of(new LoadMatchesFailure(error));
-          })
-        );
+      map((params: any) => {
+        console.log("Loading Matches: ", params);
+        return new LoadMatch({
+          region: params.region,
+          platform: params.platform,
+          matches: params.matches,
+          number: 0
+        });
       })
     );
 
@@ -91,7 +73,10 @@ export class MatchEffects {
 
               // const matchesToSearch = 4;
               const matchesToSearch = 1;
-              if (match.number < matchesToSearch) {
+              if (
+                match.number + 1 < match.matches.length &&
+                match.number < matchesToSearch
+              ) {
                 const newParams = {
                   region: match.region,
                   platform: match.platform,
