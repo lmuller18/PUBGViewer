@@ -1,10 +1,11 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'LIST_MASTER_TITLE' | translate }}</ion-title>
+    <ion-title>List Title</ion-title>
 
     <ion-buttons end>
-      <button ion-button icon-only (click)="addItem()">
+      <button ion-button
+              icon-only>
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,20 +15,37 @@
 
 <ion-content>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of currentItems">
-      <button ion-item (click)="openItem(item)">
-        <ion-avatar item-start>
-          <img [src]="item.profilePic" />
+  <ion-list *ngIf="matches">
+    <ion-item-sliding *ngFor="let match of matches">
+      <button ion-item>
+        <ion-avatar match-start>
+          <img src="assets/img/miramar.jpg" />
         </ion-avatar>
-        <h2>{{item.name}}</h2>
-        <p>{{item.about}}</p>
-        <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
+        <ng-container *ngIf="match.gameMode.includes('solo')">
+          <h2>
+            <ion-icon name="md-person"></ion-icon>
+          </h2>
+        </ng-container>
+        <ng-container *ngIf="match.gameMode.includes('duo')">
+          <h2>
+            <ion-icon name="md-people"></ion-icon>
+          </h2>
+        </ng-container>
+        <ng-container *ngIf="match.gameMode.includes('squad')">
+          <h2>
+            <ion-icon name="md-people"></ion-icon>
+            <ion-icon name="md-people"></ion-icon>
+          </h2>
+        </ng-container>
+        <p>A test of the sliding list thing for the pubg viewer</p>
+        <ion-note item-end>
+          Duration {{ match.duration }}
+        </ion-note>
       </button>
-
       <ion-item-options>
-        <button ion-button color="danger" (click)="deleteItem(item)">
-          {{ 'DELETE_BUTTON' | translate }}
+        <button ion-button
+                color="danger">
+          Delete
         </button>
       </ion-item-options>
     </ion-item-sliding>

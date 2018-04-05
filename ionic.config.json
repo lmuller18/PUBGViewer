@@ -1,6 +1,6 @@
 {
   "name": "PUBG",
-  "app_id": "",
+  "app_id": "578f6f0c",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
