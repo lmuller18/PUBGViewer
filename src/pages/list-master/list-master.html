@@ -34,7 +34,7 @@
           <span *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</span>
         </h2>
         <p>Duration {{ match.duration }}</p>
-        <p>
+        <p *ngIf="!match.gameMode.includes('solo')">
           <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
             {{teammate.stats.name}}
             <span *ngIf="!last">, </span>

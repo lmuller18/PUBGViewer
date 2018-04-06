@@ -5,7 +5,7 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { Store, select } from "@ngrx/store";
 import * as fromViewer from "../../store";
-import { filter } from "rxjs/operators";
+import { filter, take } from "rxjs/operators";
 
 import { LoadPlayer, LoadMatches } from "../../store";
 
@@ -43,15 +43,28 @@ export class SearchPage {
       platform: ["", Validators.required],
       region: ["", Validators.required]
     });
-    this.playerNotFound$ = this.store.select(fromViewer.getPlayerNotFound);
+    this.playerNotFound$ = this.store.pipe(
+      select(fromViewer.getPlayerNotFound),
+      filter(Boolean)
+    );
     this.player$ = this.store.pipe(
       select(fromViewer.getPlayer),
-      filter(Boolean)
+      filter(Boolean),
+      take(1)
     );
   }
 
   search() {
     this.store.dispatch(new LoadPlayer(this.searchForm.value));
+    this.playerNotFound$.subscribe(notFound => {
+      let toast = this.toastCtrl.create({
+        message: "Player was not found",
+        duration: 3000,
+        position: "top"
+      });
+
+      toast.present();
+    });
     this.player$.subscribe((player: any) => {
       const matches: Array<any> = player.matches;
       this.store.dispatch(

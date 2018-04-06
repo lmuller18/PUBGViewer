@@ -1,47 +1,42 @@
-<ion-header>
+<ion-content scroll="false">
+  <div class="splash-bg"></div>
+  <div class="splash-info">
+    <div class="splash-logo"></div>
+    <div class="splash-intro">
+    </div>
+  </div>
+  <div>
+    <form [formGroup]="searchForm"
+          (submit)="search()">
+      <ion-list>
+        <ion-item [class.error]="playerNotFound$ | async"
+                  [class.ng-invalid]="playerNotFound$ | async">
+          <ion-searchbar [class.error]="playerNotFound$ | async"
+                         [class.ng-invalid]="playerNotFound$ | async"
+                         formControlName="username"
+                         placeholder="Search for a player"></ion-searchbar>
+        </ion-item>
 
-  <ion-navbar>
-    <ion-title>Search</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content>
-  <form [formGroup]="searchForm"
-        (submit)="search()">
-    <ion-list>
-
-      <ion-item>
-        <ion-searchbar formControlName="username"
-                       [ngClass]="{'error': username.hasError('notFound')}"
-                       placeholder="Search for a player"></ion-searchbar>
-      </ion-item>
-
-      <ion-item *ngIf="playerNotFound$ | async">
-        Player was not found
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Platform</ion-label>
-        <ion-select formControlName="platform">
-          <ion-option value="pc">PC</ion-option>
-          <ion-option value="xbox">Xbox</ion-option>
-        </ion-select>
-      </ion-item>
+        <ion-item>
+          <ion-label>Platform</ion-label>
+          <ion-select formControlName="platform">
+            <ion-option value="pc">PC</ion-option>
+            <ion-option value="xbox">Xbox</ion-option>
+          </ion-select>
+        </ion-item>
 
 
-      <ion-item>
-        <ion-label>Region</ion-label>
-        <ion-select formControlName="region">
-          <ion-option value="na">North America</ion-option>
-          <ion-option value="eu">European Union</ion-option>
-          <ion-option value="as">Asia</ion-option>
-          <ion-option value="oc">Oceania</ion-option>
-        </ion-select>
-      </ion-item>
+        <ion-item>
+          <ion-label>Region</ion-label>
+          <ion-select formControlName="region">
+            <ion-option value="na">North America</ion-option>
+            <ion-option value="eu">European Union</ion-option>
+            <ion-option value="as">Asia</ion-option>
+            <ion-option value="oc">Oceania</ion-option>
+          </ion-select>
+        </ion-item>
 
-      <!--
+        <!--
       Want to add a Username? Here you go:
 
       <ion-item>
@@ -50,13 +45,15 @@
       </ion-item>
       -->
 
-      <div padding>
-        <button ion-button
-                color="primary"
-                [disabled]="!formValid()"
-                block>Search</button>
-      </div>
+        <div padding>
+          <button ion-button
+                  color="primary"
+                  [disabled]="!formValid()"
+                  block>Search</button>
+        </div>
 
-    </ion-list>
-  </form>
+      </ion-list>
+    </form>
+  </div>
+
 </ion-content>
