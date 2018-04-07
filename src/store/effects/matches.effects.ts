@@ -3,24 +3,24 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Actions, Effect } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import {
-  MatchActionTypes,
-  LoadMatch,
-  LoadMatchSuccess,
-  LoadMatchFailure,
+  MatchesActionTypes,
+  LoadExternalMatch,
+  LoadExternalMatchSuccess,
+  LoadExternalMatchFailure,
   LoadMatches,
   LoadMatchesSuccess
-} from "../actions/match.actions";
+} from "../actions/matches.actions";
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import * as fromViewer from "../../store";
 
-export interface MatchResponse {
-  match: any;
+export interface MatchesResponse {
+  matches: any;
 }
 
 @Injectable()
-export class MatchEffects {
+export class MatchesEffects {
   headers: HttpHeaders;
 
   constructor(
@@ -38,12 +38,12 @@ export class MatchEffects {
 
   @Effect()
   loadMatches$: Observable<Action> = this.actions$
-    .ofType(MatchActionTypes.LoadMatches)
+    .ofType(MatchesActionTypes.LoadMatches)
     .pipe(
       map((action: LoadMatches) => action.payload),
       map((params: any) => {
         console.log("Loading Matches: ", params);
-        return new LoadMatch({
+        return new LoadExternalMatch({
           region: params.region,
           platform: params.platform,
           matches: params.matches,
@@ -54,9 +54,9 @@ export class MatchEffects {
 
   @Effect()
   loadMatch$: Observable<Action> = this.actions$
-    .ofType(MatchActionTypes.LoadMatch)
+    .ofType(MatchesActionTypes.LoadExternalMatch)
     .pipe(
-      map((action: LoadMatch) => action.payload),
+      map((action: LoadExternalMatch) => action.payload),
       switchMap((match: any) => {
         console.log("Loading Match: ", match);
         return this.http
@@ -69,7 +69,7 @@ export class MatchEffects {
           .pipe(
             map(value => {
               console.log("Loading Match Done", value);
-              this.store.dispatch(new LoadMatchSuccess(value));
+              this.store.dispatch(new LoadExternalMatchSuccess(value));
 
               // const matchesToSearch = 4;
               const matchesToSearch = 1;
@@ -87,7 +87,7 @@ export class MatchEffects {
 
                 console.log("NEW PARAMS: ", newParams);
 
-                return new LoadMatch(newParams);
+                return new LoadExternalMatch(newParams);
               } else {
                 console.log("Loading Matches Done");
                 return new LoadMatchesSuccess();
@@ -95,7 +95,7 @@ export class MatchEffects {
             }),
             catchError(error => {
               console.log("Error Loading Match: ", error);
-              return of(new LoadMatchFailure(error));
+              return of(new LoadExternalMatchFailure(error));
             })
           );
       })

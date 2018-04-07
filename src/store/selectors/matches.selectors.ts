@@ -1,15 +1,15 @@
 import { createSelector } from "@ngrx/store";
 import * as fromViewer from "../reducers";
-import * as fromMatch from "../reducers/match.reducer";
+import * as fromMatch from "../reducers/matches.reducer";
 import { getPlayer } from "../selectors/player.selectors";
 
-export const getMatchState = createSelector(
+export const getMatchesState = createSelector(
   fromViewer.getViewerState,
-  (state: fromViewer.ViewerState) => state.match
+  (state: fromViewer.ViewerState) => state.matches
 );
 
 export const getRawMatches = createSelector(
-  getMatchState,
+  getMatchesState,
   fromMatch.getRawMatches
 );
 
@@ -92,12 +92,12 @@ export const getMatches = createSelector(
 );
 
 export const getMatchesLoading = createSelector(
-  getMatchState,
+  getMatchesState,
   fromMatch.getMatchesLoading
 );
 
 export const getMatchesLoaded = createSelector(
-  getMatchState,
+  getMatchesState,
   fromMatch.getMatchesLoaded
 );
 

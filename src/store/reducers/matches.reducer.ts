@@ -1,4 +1,4 @@
-import { MatchActionTypes, MatchActions } from "../actions/match.actions";
+import { MatchesActionTypes, MatchesActions } from "../actions/matches.actions";
 
 export interface MatchState {
   matches: Array<any>;
@@ -16,10 +16,10 @@ export const initialState: MatchState = {
 
 export function reducer(
   state = initialState,
-  action: MatchActions
+  action: MatchesActions
 ): MatchState {
   switch (action.type) {
-    case MatchActionTypes.LoadMatches: {
+    case MatchesActionTypes.LoadMatches: {
       return {
         ...state,
         matches: [],
@@ -28,7 +28,7 @@ export function reducer(
       };
     }
 
-    case MatchActionTypes.LoadMatchSuccess: {
+    case MatchesActionTypes.LoadExternalMatchSuccess: {
       const match = action.payload;
       return {
         ...state,
@@ -36,7 +36,7 @@ export function reducer(
       };
     }
 
-    case MatchActionTypes.LoadMatchesSuccess: {
+    case MatchesActionTypes.LoadMatchesSuccess: {
       const doneMatches = [...state.rawMatches];
       return {
         ...state,
@@ -47,8 +47,8 @@ export function reducer(
       };
     }
 
-    case MatchActionTypes.LoadMatchesFailure:
-    case MatchActionTypes.LoadMatchFailure: {
+    case MatchesActionTypes.LoadMatchesFailure:
+    case MatchesActionTypes.LoadExternalMatchFailure: {
       return {
         ...state,
         loaded: true,

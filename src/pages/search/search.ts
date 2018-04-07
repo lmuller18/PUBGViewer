@@ -76,18 +76,6 @@ export class SearchPage {
       );
       this.navCtrl.push(MainPage);
     });
-
-    // this.player.search(this.searchForm.value).subscribe(
-    //   (resp: any) => {
-    //     const matches: Array<any> = resp.data[0].relationships.matches.data;
-    //     this.match
-    //       .get(this.searchForm.value, matches)
-    //       .subscribe((matchResponse: any) => {});
-    //   },
-    //   err => {
-    //     this.username.setErrors({ notFound: true });
-    //   }
-    // );
   }
 
   formValid() {
