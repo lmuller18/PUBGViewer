@@ -1,13 +1,13 @@
 import { MatchesActionTypes, MatchesActions } from "../actions/matches.actions";
 
-export interface MatchState {
+export interface MatchesState {
   matches: Array<any>;
   rawMatches: Array<any>;
   loading: boolean;
   loaded: boolean;
 }
 
-export const initialState: MatchState = {
+export const initialState: MatchesState = {
   matches: [],
   rawMatches: [],
   loading: false,
@@ -17,7 +17,7 @@ export const initialState: MatchState = {
 export function reducer(
   state = initialState,
   action: MatchesActions
-): MatchState {
+): MatchesState {
   switch (action.type) {
     case MatchesActionTypes.LoadMatches: {
       return {
@@ -61,6 +61,6 @@ export function reducer(
   }
 }
 
-export const getRawMatches = (state: MatchState) => state.matches;
-export const getMatchesLoading = (state: MatchState) => state.loading;
-export const getMatchesLoaded = (state: MatchState) => state.loaded;
+export const getRawMatches = (state: MatchesState) => state.matches;
+export const getMatchesLoading = (state: MatchesState) => state.loading;
+export const getMatchesLoaded = (state: MatchesState) => state.loaded;

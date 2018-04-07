@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { MainPage } from "../../pages/pages";
 
 import { Actions, Effect } from "@ngrx/effects";
 import { Action } from "@ngrx/store";
@@ -12,6 +13,7 @@ import {
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
+import { ToastController, App } from "ionic-angular";
 
 export interface PlayerResponse {
   player: any;
@@ -21,7 +23,12 @@ export interface PlayerResponse {
 export class PlayerEffects {
   headers: HttpHeaders;
 
-  constructor(private http: HttpClient, private actions$: Actions) {
+  constructor(
+    private app: App,
+    private http: HttpClient,
+    private actions$: Actions,
+    private toastCtrl: ToastController
+  ) {
     this.headers = new HttpHeaders()
       .set("Accept", "application/vnd.api+json")
       .set(
@@ -47,10 +54,21 @@ export class PlayerEffects {
           .pipe(
             map(value => {
               console.log("Loading Player Done", value.data[0]);
+              if (this.app.getActiveNav().parent) {
+                this.app.getActiveNav().parent.select(0);
+              } else {
+                this.app.getActiveNav().push(MainPage);
+              }
               return new LoadPlayerSuccess(value.data[0]);
             }),
             catchError(error => {
-              console.log("Error Loading Player: ", error);
+              let toast = this.toastCtrl.create({
+                message: "Player was not found",
+                duration: 3000,
+                position: "top"
+              });
+
+              toast.present();
               return of(new LoadPlayerFailure(error));
             })
           );

@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 import * as fromViewer from "../reducers";
-import * as fromMatch from "../reducers/matches.reducer";
+import * as fromMatches from "../reducers/matches.reducer";
 import { getPlayer } from "../selectors/player.selectors";
 
 export const getMatchesState = createSelector(
@@ -10,7 +10,7 @@ export const getMatchesState = createSelector(
 
 export const getRawMatches = createSelector(
   getMatchesState,
-  fromMatch.getRawMatches
+  fromMatches.getRawMatches
 );
 
 export const getMatches = createSelector(
@@ -93,12 +93,12 @@ export const getMatches = createSelector(
 
 export const getMatchesLoading = createSelector(
   getMatchesState,
-  fromMatch.getMatchesLoading
+  fromMatches.getMatchesLoading
 );
 
 export const getMatchesLoaded = createSelector(
   getMatchesState,
-  fromMatch.getMatchesLoaded
+  fromMatches.getMatchesLoaded
 );
 
 export const getLoadedMatches = createSelector(

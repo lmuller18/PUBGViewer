@@ -2,14 +2,12 @@ import { PlayerActionTypes, PlayerActions } from "../actions/player.actions";
 
 export interface PlayerState {
   player: any;
-  notFound: boolean;
   loading: boolean;
   loaded: boolean;
 }
 
 export const initialState: PlayerState = {
   player: undefined,
-  notFound: false,
   loading: false,
   loaded: false
 };
@@ -22,7 +20,6 @@ export function reducer(
     case PlayerActionTypes.LoadPlayer: {
       return {
         ...state,
-        notFound: false,
         loading: true
       };
     }
@@ -32,7 +29,6 @@ export function reducer(
       return {
         ...state,
         player,
-        notFound: false,
         loading: false,
         loaded: true
       };
@@ -41,7 +37,7 @@ export function reducer(
     case PlayerActionTypes.LoadPlayerFailure: {
       return {
         ...state,
-        notFound: true,
+        player: undefined,
         loaded: true,
         loading: false
       };
@@ -53,6 +49,5 @@ export function reducer(
 }
 
 export const getPlayer = (state: PlayerState) => state.player;
-export const getPlayerNotFound = (state: PlayerState) => state.notFound;
 export const getPlayerLoading = (state: PlayerState) => state.loading;
 export const getPlayerLoaded = (state: PlayerState) => state.loaded;
