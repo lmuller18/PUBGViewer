@@ -8,12 +8,13 @@
 
 <ion-content>
 
-  <ion-list *ngIf="matches">
-    <ion-item-sliding *ngFor="let match of matches">
+  <ion-list>
+    <ion-item-sliding *ngFor="let match of (matches$ | async)">
       <button ion-item>
-        <ion-avatar match-start>
-          <img src="assets/img/miramar.jpg" />
-        </ion-avatar>
+        <ng-container match-start>
+          <div class="parallax"
+               [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'"></div>
+        </ng-container>
         <h2>
           <ng-container *ngIf="match.gameMode.includes('solo')">
             <ion-icon name="md-person"></ion-icon>
