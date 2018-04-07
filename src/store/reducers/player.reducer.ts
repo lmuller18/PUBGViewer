@@ -20,6 +20,7 @@ export function reducer(
     case PlayerActionTypes.LoadPlayer: {
       return {
         ...state,
+        player: undefined,
         loading: true
       };
     }

@@ -18,6 +18,7 @@ export const getMatches = createSelector(
   getRawMatches,
   (player: any, rawMatches: any[]) => {
     const matches: any[] = [];
+    if (!player || !rawMatches) return matches;
     rawMatches.forEach(rawMatch => {
       // get list of all participants
       const participantList: any[] = rawMatch.included.filter(element => {
@@ -30,9 +31,11 @@ export const getMatches = createSelector(
       });
 
       // get participant object of current user
-      let playerParticipant = participantList.filter(participant => {
+      let playerParticipant = participantList.find(participant => {
         return participant.attributes.stats.playerId === player.id;
-      })[0];
+      });
+
+      if (!playerParticipant) return;
 
       // format current player object
       playerParticipant = {

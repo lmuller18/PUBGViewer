@@ -11,7 +11,7 @@ import {
   LoadPlayerFailure
 } from "../actions/player.actions";
 import { Observable } from "rxjs/Observable";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { switchMap, map, concatMap, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import {
   ToastController,
@@ -19,6 +19,7 @@ import {
   LoadingController,
   Loading
 } from "ionic-angular";
+import { LoadMatches } from "..";
 
 export interface PlayerResponse {
   player: any;
@@ -70,7 +71,7 @@ export class PlayerEffects {
             { headers: this.headers }
           )
           .pipe(
-            map(value => {
+            concatMap(value => {
               if (this.loading) {
                 this.loading.dismiss();
                 this.loading = null;
@@ -80,7 +81,14 @@ export class PlayerEffects {
               } else {
                 this.app.getActiveNav().push(MainPage);
               }
-              return new LoadPlayerSuccess(value.data[0]);
+              return [
+                new LoadPlayerSuccess(value.data[0]),
+                new LoadMatches({
+                  platform: player.platform,
+                  region: player.region,
+                  matches: value.data[0].relationships.matches.data
+                })
+              ];
             }),
             catchError(error => {
               if (this.loading) {

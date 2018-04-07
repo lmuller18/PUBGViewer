@@ -25,7 +25,10 @@ export class ListMasterPage implements OnInit {
       select(fromViewer.getPlayer),
       filter(Boolean)
     );
-    this.matches$ = this.store.pipe(select(fromViewer.getMatches));
+    this.matches$ = this.store.pipe(
+      select(fromViewer.getMatches),
+      filter(Boolean)
+    );
   }
 
   ngOnInit() {

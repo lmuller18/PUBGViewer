@@ -83,7 +83,6 @@ export class MatchesEffects {
             map(value => {
               this.store.dispatch(new LoadExternalMatchSuccess(value));
 
-              // const matchesToSearch = 4;
               const matchesToSearch = 8;
               if (
                 match.number + 1 < match.matches.length &&
