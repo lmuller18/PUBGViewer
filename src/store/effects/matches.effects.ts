@@ -14,6 +14,7 @@ import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import * as fromViewer from "../../store";
+import { LoadingController, Loading } from "ionic-angular";
 
 export interface MatchesResponse {
   matches: any;
@@ -22,11 +23,13 @@ export interface MatchesResponse {
 @Injectable()
 export class MatchesEffects {
   headers: HttpHeaders;
+  loading: Loading;
 
   constructor(
     private http: HttpClient,
     private actions$: Actions,
-    private store: Store<fromViewer.ViewerState>
+    private store: Store<fromViewer.ViewerState>,
+    private loadingCtrl: LoadingController
   ) {
     this.headers = new HttpHeaders()
       .set("Accept", "application/vnd.api+json")
@@ -34,6 +37,10 @@ export class MatchesEffects {
         "Authorization",
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyYzI4Njg1MC0xOGNmLTAxMzYtZTdjMy0wMzMxODI1NzdmN2YiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIyNjkyNjgyLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1Ymctdmlld2VyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.-W2PdClWJoDPNuSp1lA-45YPZkQLCGJbLiZOD5ouZ6s"
       );
+
+    this.loading = this.loadingCtrl.create({
+      content: "Loading Matches..."
+    });
   }
 
   @Effect()
@@ -42,6 +49,7 @@ export class MatchesEffects {
     .pipe(
       map((action: LoadMatches) => action.payload),
       map((params: any) => {
+        this.loading.present();
         console.log("Loading Matches: ", params);
         return new LoadExternalMatch({
           region: params.region,
@@ -89,11 +97,13 @@ export class MatchesEffects {
 
                 return new LoadExternalMatch(newParams);
               } else {
+                this.loading.dismiss();
                 console.log("Loading Matches Done");
                 return new LoadMatchesSuccess();
               }
             }),
             catchError(error => {
+              this.loading.dismiss();
               console.log("Error Loading Match: ", error);
               return of(new LoadExternalMatchFailure(error));
             })

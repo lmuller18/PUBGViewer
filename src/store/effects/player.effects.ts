@@ -13,7 +13,7 @@ import {
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
-import { ToastController, App } from "ionic-angular";
+import { ToastController, App, LoadingController } from "ionic-angular";
 
 export interface PlayerResponse {
   player: any;
@@ -27,7 +27,8 @@ export class PlayerEffects {
     private app: App,
     private http: HttpClient,
     private actions$: Actions,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
   ) {
     this.headers = new HttpHeaders()
       .set("Accept", "application/vnd.api+json")
@@ -44,6 +45,11 @@ export class PlayerEffects {
       map((action: LoadPlayer) => action.payload),
       switchMap((player: any) => {
         console.log("Load Player: ", player);
+        let loading = this.loadingCtrl.create({
+          content: "Searching Player..."
+        });
+
+        loading.present();
         return this.http
           .get<any>(
             `https://api.playbattlegrounds.com/shards/${player.platform}-${
@@ -53,6 +59,7 @@ export class PlayerEffects {
           )
           .pipe(
             map(value => {
+              loading.dismiss();
               console.log("Loading Player Done", value.data[0]);
               if (this.app.getActiveNav().parent) {
                 this.app.getActiveNav().parent.select(0);
@@ -62,6 +69,7 @@ export class PlayerEffects {
               return new LoadPlayerSuccess(value.data[0]);
             }),
             catchError(error => {
+              loading.dismiss();
               let toast = this.toastCtrl.create({
                 message: "Player was not found",
                 duration: 3000,
