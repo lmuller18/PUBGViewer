@@ -1,14 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>List Title</ion-title>
-
-    <ion-buttons end>
-      <button ion-button
-              icon-only>
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>{{ player.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -21,26 +14,29 @@
         <ion-avatar match-start>
           <img src="assets/img/miramar.jpg" />
         </ion-avatar>
-        <ng-container *ngIf="match.gameMode.includes('solo')">
-          <h2>
+        <h2>
+          <ng-container *ngIf="match.gameMode.includes('solo')">
             <ion-icon name="md-person"></ion-icon>
-          </h2>
-        </ng-container>
-        <ng-container *ngIf="match.gameMode.includes('duo')">
-          <h2>
+          </ng-container>
+          <ng-container *ngIf="match.gameMode.includes('duo')">
             <ion-icon name="md-people"></ion-icon>
-          </h2>
-        </ng-container>
-        <ng-container *ngIf="match.gameMode.includes('squad')">
-          <h2>
+          </ng-container>
+          <ng-container *ngIf="match.gameMode.includes('squad')">
             <ion-icon name="md-people"></ion-icon>
             <ion-icon name="md-people"></ion-icon>
-          </h2>
-        </ng-container>
-        <p>A test of the sliding list thing for the pubg viewer</p>
-        <ion-note item-end>
-          Duration {{ match.duration }}
-        </ion-note>
+          </ng-container>
+          {{ match.duration }}
+        </h2>
+
+        <h2>Rank #{{ match.team.stats.rank }}
+          <span *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</span>
+        </h2>
+        <p *ngIf="!match.gameMode.includes('solo')">
+          <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
+            {{teammate.stats.name}}
+            <span *ngIf="!last">, </span>
+          </ng-container>
+        </p>
       </button>
       <ion-item-options>
         <button ion-button

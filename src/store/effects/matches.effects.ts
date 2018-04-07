@@ -3,25 +3,24 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Actions, Effect } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import {
-  MatchActionTypes,
-  LoadMatch,
-  LoadMatchSuccess,
-  LoadMatchFailure,
+  MatchesActionTypes,
+  LoadExternalMatch,
+  LoadExternalMatchSuccess,
+  LoadExternalMatchFailure,
   LoadMatches,
-  LoadMatchesSuccess,
-  LoadMatchesFailure
-} from "../actions/match.actions";
+  LoadMatchesSuccess
+} from "../actions/matches.actions";
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import * as fromViewer from "../../store";
 
-export interface MatchResponse {
-  match: any;
+export interface MatchesResponse {
+  matches: any;
 }
 
 @Injectable()
-export class MatchEffects {
+export class MatchesEffects {
   headers: HttpHeaders;
 
   constructor(
@@ -39,42 +38,25 @@ export class MatchEffects {
 
   @Effect()
   loadMatches$: Observable<Action> = this.actions$
-    .ofType(MatchActionTypes.LoadMatches)
+    .ofType(MatchesActionTypes.LoadMatches)
     .pipe(
       map((action: LoadMatches) => action.payload),
-      switchMap((params: any) => {
-        console.log("Loading All Matches: ", params);
-        return of(
-          params.matches.every((match, i) => {
-            if (i === 5) return false;
-            let next = params.matches[i + 1].id;
-            if (i === 4) next = null;
-            params.matches[i] = { ...match, next };
-            return true;
-          })
-        ).pipe(
-          map(value => {
-            console.log("load matches value: ", params.matches);
-            return new LoadMatch({
-              region: params.region,
-              platform: params.platform,
-              matches: params.matches,
-              number: 0
-            });
-          }),
-          catchError(error => {
-            console.log("Error Loading All Matches");
-            return of(new LoadMatchesFailure(error));
-          })
-        );
+      map((params: any) => {
+        console.log("Loading Matches: ", params);
+        return new LoadExternalMatch({
+          region: params.region,
+          platform: params.platform,
+          matches: params.matches,
+          number: 0
+        });
       })
     );
 
   @Effect()
   loadMatch$: Observable<Action> = this.actions$
-    .ofType(MatchActionTypes.LoadMatch)
+    .ofType(MatchesActionTypes.LoadExternalMatch)
     .pipe(
-      map((action: LoadMatch) => action.payload),
+      map((action: LoadExternalMatch) => action.payload),
       switchMap((match: any) => {
         console.log("Loading Match: ", match);
         return this.http
@@ -87,11 +69,14 @@ export class MatchEffects {
           .pipe(
             map(value => {
               console.log("Loading Match Done", value);
-              this.store.dispatch(new LoadMatchSuccess(value));
+              this.store.dispatch(new LoadExternalMatchSuccess(value));
 
-              const matchesToSearch = 4;
-              // const matchesToSearch = 1;
-              if (match.number < matchesToSearch) {
+              // const matchesToSearch = 4;
+              const matchesToSearch = 1;
+              if (
+                match.number + 1 < match.matches.length &&
+                match.number < matchesToSearch
+              ) {
                 const newParams = {
                   region: match.region,
                   platform: match.platform,
@@ -102,7 +87,7 @@ export class MatchEffects {
 
                 console.log("NEW PARAMS: ", newParams);
 
-                return new LoadMatch(newParams);
+                return new LoadExternalMatch(newParams);
               } else {
                 console.log("Loading Matches Done");
                 return new LoadMatchesSuccess();
@@ -110,7 +95,7 @@ export class MatchEffects {
             }),
             catchError(error => {
               console.log("Error Loading Match: ", error);
-              return of(new LoadMatchFailure(error));
+              return of(new LoadExternalMatchFailure(error));
             })
           );
       })

@@ -37,6 +37,7 @@ export function reducer(
     case PlayerActionTypes.LoadPlayerFailure: {
       return {
         ...state,
+        player: undefined,
         loaded: true,
         loading: false
       };
