@@ -81,6 +81,7 @@ export const getMatches = createSelector(
       matches.push({
         gameMode: rawMatch.data.attributes.gameMode,
         duration: duration.getMinutes() + ":" + seconds,
+        map: rawMatch.data.attributes.mapName,
         player: playerParticipant,
         team: team,
         included: rawMatch.included

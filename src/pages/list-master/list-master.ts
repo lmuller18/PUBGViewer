@@ -16,7 +16,6 @@ export class ListMasterPage implements OnInit {
   player$: Observable<any>;
   player: any;
   matches$: Observable<any[]>;
-  matches: any[];
 
   constructor(
     public toastCtrl: ToastController,
@@ -30,11 +29,6 @@ export class ListMasterPage implements OnInit {
   }
 
   ngOnInit() {
-    this.matches$.subscribe((matches: any[]) => {
-      if (matches) {
-        this.matches = matches;
-      }
-    });
     this.player$.subscribe(player => {
       this.player = player;
     });

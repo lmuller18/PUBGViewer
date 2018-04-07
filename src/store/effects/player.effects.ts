@@ -13,7 +13,12 @@ import {
 import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
-import { ToastController, App, LoadingController } from "ionic-angular";
+import {
+  ToastController,
+  App,
+  LoadingController,
+  Loading
+} from "ionic-angular";
 
 export interface PlayerResponse {
   player: any;
@@ -22,6 +27,7 @@ export interface PlayerResponse {
 @Injectable()
 export class PlayerEffects {
   headers: HttpHeaders;
+  loading: Loading;
 
   constructor(
     private app: App,
@@ -36,6 +42,13 @@ export class PlayerEffects {
         "Authorization",
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyYzI4Njg1MC0xOGNmLTAxMzYtZTdjMy0wMzMxODI1NzdmN2YiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIyNjkyNjgyLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1Ymctdmlld2VyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.-W2PdClWJoDPNuSp1lA-45YPZkQLCGJbLiZOD5ouZ6s"
       );
+    this.loading = this.createLoader();
+  }
+
+  createLoader(): Loading {
+    return this.loadingCtrl.create({
+      content: "Searching Player..."
+    });
   }
 
   @Effect()
@@ -44,12 +57,11 @@ export class PlayerEffects {
     .pipe(
       map((action: LoadPlayer) => action.payload),
       switchMap((player: any) => {
-        console.log("Load Player: ", player);
-        let loading = this.loadingCtrl.create({
-          content: "Searching Player..."
-        });
+        if (!this.loading) {
+          this.loading = this.createLoader();
+        }
 
-        loading.present();
+        this.loading.present();
         return this.http
           .get<any>(
             `https://api.playbattlegrounds.com/shards/${player.platform}-${
@@ -59,8 +71,10 @@ export class PlayerEffects {
           )
           .pipe(
             map(value => {
-              loading.dismiss();
-              console.log("Loading Player Done", value.data[0]);
+              if (this.loading) {
+                this.loading.dismiss();
+                this.loading = null;
+              }
               if (this.app.getActiveNav().parent) {
                 this.app.getActiveNav().parent.select(0);
               } else {
@@ -69,7 +83,10 @@ export class PlayerEffects {
               return new LoadPlayerSuccess(value.data[0]);
             }),
             catchError(error => {
-              loading.dismiss();
+              if (this.loading) {
+                this.loading.dismiss();
+                this.loading = null;
+              }
               let toast = this.toastCtrl.create({
                 message: "Player was not found",
                 duration: 3000,

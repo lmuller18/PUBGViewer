@@ -1,3 +1,17 @@
 page-list-master {
+  .parallax {
+    height: 100px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
+  .miramar {
+    background-image: url("../assets/img/pubg-assests/Miramar_Minimap.jpg");
+  }
+
+  .erangel {
+    background-image: url("../assets/img/pubg-assests/Erangel_Minimap.png");
+  }
 }

@@ -38,7 +38,11 @@ export class MatchesEffects {
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyYzI4Njg1MC0xOGNmLTAxMzYtZTdjMy0wMzMxODI1NzdmN2YiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIyNjkyNjgyLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1Ymctdmlld2VyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.-W2PdClWJoDPNuSp1lA-45YPZkQLCGJbLiZOD5ouZ6s"
       );
 
-    this.loading = this.loadingCtrl.create({
+    this.loading = this.createLoader();
+  }
+
+  createLoader(): Loading {
+    return this.loadingCtrl.create({
       content: "Loading Matches..."
     });
   }
@@ -49,8 +53,10 @@ export class MatchesEffects {
     .pipe(
       map((action: LoadMatches) => action.payload),
       map((params: any) => {
+        if (!this.loading) {
+          this.loading = this.createLoader();
+        }
         this.loading.present();
-        console.log("Loading Matches: ", params);
         return new LoadExternalMatch({
           region: params.region,
           platform: params.platform,
@@ -66,7 +72,6 @@ export class MatchesEffects {
     .pipe(
       map((action: LoadExternalMatch) => action.payload),
       switchMap((match: any) => {
-        console.log("Loading Match: ", match);
         return this.http
           .get<any>(
             `https://api.playbattlegrounds.com/shards/${match.platform}-${
@@ -76,11 +81,10 @@ export class MatchesEffects {
           )
           .pipe(
             map(value => {
-              console.log("Loading Match Done", value);
               this.store.dispatch(new LoadExternalMatchSuccess(value));
 
               // const matchesToSearch = 4;
-              const matchesToSearch = 1;
+              const matchesToSearch = 8;
               if (
                 match.number + 1 < match.matches.length &&
                 match.number < matchesToSearch
@@ -93,18 +97,20 @@ export class MatchesEffects {
                   number: (match.number += 1)
                 };
 
-                console.log("NEW PARAMS: ", newParams);
-
                 return new LoadExternalMatch(newParams);
               } else {
-                this.loading.dismiss();
-                console.log("Loading Matches Done");
+                if (this.loading) {
+                  this.loading.dismiss();
+                  this.loading = null;
+                }
                 return new LoadMatchesSuccess();
               }
             }),
             catchError(error => {
-              this.loading.dismiss();
-              console.log("Error Loading Match: ", error);
+              if (this.loading) {
+                this.loading.dismiss();
+                this.loading = null;
+              }
               return of(new LoadExternalMatchFailure(error));
             })
           );
