@@ -12,7 +12,6 @@ import { filter } from "rxjs/operators";
   templateUrl: "list-master.html"
 })
 export class ListMasterPage implements OnInit {
-  // currentItems: Item[];
   player$: Observable<any>;
   player: any;
   matches$: Observable<any[]>;

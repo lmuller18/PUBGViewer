@@ -20,7 +20,6 @@ export function reducer(
     case PlayerActionTypes.LoadPlayer: {
       return {
         ...state,
-        player: undefined,
         loading: true
       };
     }
@@ -38,7 +37,6 @@ export function reducer(
     case PlayerActionTypes.LoadPlayerFailure: {
       return {
         ...state,
-        player: undefined,
         loaded: true,
         loading: false
       };

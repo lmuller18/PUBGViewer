@@ -22,8 +22,6 @@ export function reducer(
     case MatchesActionTypes.LoadMatches: {
       return {
         ...state,
-        matches: [],
-        rawMatches: [],
         loading: true
       };
     }
