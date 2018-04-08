@@ -28,7 +28,7 @@
                 <ion-icon name="md-people"></ion-icon>
                 <ion-icon name="md-people"></ion-icon>
               </ng-container>
-              {{ match.duration }}
+              {{ match.duration | date:'mm:ss' }}
             </h2>
 
             <h2>Rank #{{ match.team.stats.rank }}
@@ -43,7 +43,12 @@
           </div>
           <div>
             <h2>
-              <ion-icon name="ios-locate-outline"></ion-icon> {{match.player.stats.kills}}</h2>
+              {{ match.date | date:'shortDate' }}
+            </h2>
+            <h2>
+              <ion-icon name="ios-locate-outline"></ion-icon>
+              {{ match.player.stats.kills }}
+            </h2>
           </div>
         </div>
       </button>

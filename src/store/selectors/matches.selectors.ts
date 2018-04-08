@@ -19,6 +19,7 @@ export const getMatches = createSelector(
   (player: any, rawMatches: any[]) => {
     const matches: any[] = [];
     if (!player || !rawMatches) return matches;
+    console.log("rawMatches: ", rawMatches);
     rawMatches.forEach(rawMatch => {
       // get list of all participants
       const participantList: any[] = rawMatch.included.filter(element => {
@@ -77,13 +78,10 @@ export const getMatches = createSelector(
 
       let duration = new Date(null);
       duration.setSeconds(rawMatch.data.attributes.duration);
-      let seconds = duration.getSeconds().toString();
-      if (duration.getSeconds() < 10) {
-        seconds = "0" + duration.getSeconds();
-      }
       matches.push({
         gameMode: rawMatch.data.attributes.gameMode,
-        duration: duration.getMinutes() + ":" + seconds,
+        duration: duration,
+        date: new Date(rawMatch.data.attributes.createdAt),
         map: rawMatch.data.attributes.mapName,
         player: playerParticipant,
         team: team,
@@ -91,7 +89,7 @@ export const getMatches = createSelector(
       });
     });
     console.log("formatted matches: ", matches);
-    return matches;
+    return matches.sort((a, b) => a.date - b.date);
   }
 );
 

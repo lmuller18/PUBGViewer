@@ -14,7 +14,7 @@ import { Observable } from "rxjs/Observable";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import * as fromViewer from "../../store";
-import { LoadingController, Loading } from "ionic-angular";
+import { ToastController, LoadingController, Loading } from "ionic-angular";
 
 export interface MatchesResponse {
   matches: any;
@@ -29,7 +29,8 @@ export class MatchesEffects {
     private http: HttpClient,
     private actions$: Actions,
     private store: Store<fromViewer.ViewerState>,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
   ) {
     this.headers = new HttpHeaders()
       .set("Accept", "application/vnd.api+json")
@@ -110,6 +111,14 @@ export class MatchesEffects {
                 this.loading.dismiss();
                 this.loading = null;
               }
+              let toast = this.toastCtrl.create({
+                message: "Error Loading Matches",
+                duration: 3000,
+                position: "top"
+              });
+
+              toast.present();
+
               return of(new LoadExternalMatchFailure(error));
             })
           );
