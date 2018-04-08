@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ player.name }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let match of (matches$ | async)">
+      <button ion-item>
+        <ng-container match-start>
+          <div class="parallax"
+               [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'"></div>
+        </ng-container>
+        <div class="flex space-between">
+          <div>
+            <h2>
+              <ng-container *ngIf="match.gameMode.includes('solo')">
+                <ion-icon name="md-person"></ion-icon>
+              </ng-container>
+              <ng-container *ngIf="match.gameMode.includes('duo')">
+                <ion-icon name="md-people"></ion-icon>
+              </ng-container>
+              <ng-container *ngIf="match.gameMode.includes('squad')">
+                <ion-icon name="md-people"></ion-icon>
+                <ion-icon name="md-people"></ion-icon>
+              </ng-container>
+              {{ match.duration }}
+            </h2>
+
+            <h2>Rank #{{ match.team.stats.rank }}
+              <span *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</span>
+            </h2>
+            <p *ngIf="!match.gameMode.includes('solo')">
+              <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
+                {{teammate.stats.name}}
+                <span *ngIf="!last">, </span>
+              </ng-container>
+            </p>
+          </div>
+          <div>
+            <h2>
+              <ion-icon name="ios-locate-outline"></ion-icon> {{match.player.stats.kills}}</h2>
+          </div>
+        </div>
+      </button>
+      <ion-item-options>
+        <button ion-button
+                color="danger">
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

@@ -8,10 +8,10 @@ import { filter } from "rxjs/operators";
 
 @IonicPage()
 @Component({
-  selector: "page-list-master",
-  templateUrl: "list-master.html"
+  selector: "page-matches",
+  templateUrl: "matches.html"
 })
-export class ListMasterPage implements OnInit {
+export class MatchesPage implements OnInit {
   player$: Observable<any>;
   player: any;
   matches$: Observable<any[]>;
