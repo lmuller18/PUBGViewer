@@ -89,7 +89,7 @@ export const getMatches = createSelector(
       });
     });
     console.log("formatted matches: ", matches);
-    return matches.sort((a, b) => a.date - b.date);
+    return matches.sort((a, b) => b.date - a.date);
   }
 );
 
