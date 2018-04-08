@@ -1,7 +1,7 @@
 page-matches {
   .parallax {
     height: 100px;
-    background-attachment: fixed;
+    // background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -16,10 +16,10 @@ page-matches {
   }
 
   .miramar {
-    background-image: url("../assets/img/pubg-assests/Miramar_Minimap_Small.jpg");
+    background-image: url("../assets/img/pubg-assests/miramar_minimap_small.jpg");
   }
 
   .erangel {
-    background-image: url("../assets/img/pubg-assests/Erangel_Minimap_Small.png");
+    background-image: url("../assets/img/pubg-assests/erangel_minimap_small.jpg");
   }
 }
