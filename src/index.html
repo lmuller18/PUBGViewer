@@ -26,6 +26,20 @@
   <meta name="apple-mobile-web-app-status-bar-style"
         content="black">
 
+  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAV8hLdmBbVgoeOR8EgNE7X9bDgIRFGIzk",
+      authDomain: "pubgviewer.firebaseapp.com",
+      databaseURL: "https://pubgviewer.firebaseio.com",
+      projectId: "pubgviewer",
+      storageBucket: "",
+      messagingSenderId: "573083045690"
+    };
+    firebase.initializeApp(config);
+  </script>
+
   <!-- cordova.js required for cordova apps (remove if not needed) -->
   <script src="cordova.js"></script>
 
