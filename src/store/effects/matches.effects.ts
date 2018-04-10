@@ -8,10 +8,11 @@ import {
   LoadExternalMatchSuccess,
   LoadExternalMatchFailure,
   LoadMatches,
-  LoadMatchesSuccess
+  LoadMatchesSuccess,
+  LoadMatchesFailure
 } from "../actions/matches.actions";
 import { Observable } from "rxjs/Observable";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { switchMap, map, catchError, mergeMap } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import * as fromViewer from "../../store";
 import { ToastController, LoadingController, Loading } from "ionic-angular";
@@ -53,17 +54,48 @@ export class MatchesEffects {
     .ofType(MatchesActionTypes.LoadMatches)
     .pipe(
       map((action: LoadMatches) => action.payload),
-      map((params: any) => {
+      switchMap((params: any) => {
         if (!this.loading) {
           this.loading = this.createLoader();
         }
+        const matchesToSearch = 8;
+
         this.loading.present();
-        return new LoadExternalMatch({
-          region: params.region,
-          platform: params.platform,
-          matches: params.matches,
-          number: 0
-        });
+
+        return of(
+          params.matches.forEach((match, index) => {
+            if (index < matchesToSearch) {
+              this.store.dispatch(
+                new LoadExternalMatch({
+                  region: params.region,
+                  platform: params.platform,
+                  match
+                })
+              );
+            }
+          })
+        ).pipe(
+          map(value => {
+            if (this.loading) {
+              this.loading.dismiss();
+              this.loading = null;
+            }
+            return new LoadMatchesSuccess();
+          }),
+          catchError(error => {
+            if (this.loading) {
+              this.loading.dismiss();
+              this.loading = null;
+            }
+            let toast = this.toastCtrl.create({
+              message: "Error Loading Matches",
+              duration: 3000,
+              position: "top"
+            });
+            toast.present();
+            return of(new LoadMatchesFailure(error));
+          })
+        );
       })
     );
 
@@ -72,39 +104,17 @@ export class MatchesEffects {
     .ofType(MatchesActionTypes.LoadExternalMatch)
     .pipe(
       map((action: LoadExternalMatch) => action.payload),
-      switchMap((match: any) => {
+      mergeMap((params: any) => {
         return this.http
           .get<any>(
-            `https://api.playbattlegrounds.com/shards/${match.platform}-${
-              match.region
-            }/matches/${match.matches[match.number].id}`,
+            `https://api.playbattlegrounds.com/shards/${params.platform}-${
+              params.region
+            }/matches/${params.match.id}`,
             { headers: this.headers }
           )
           .pipe(
             map(value => {
-              this.store.dispatch(new LoadExternalMatchSuccess(value));
-
-              const matchesToSearch = 8;
-              if (
-                match.number + 1 < match.matches.length &&
-                match.number < matchesToSearch
-              ) {
-                const newParams = {
-                  region: match.region,
-                  platform: match.platform,
-                  id: match.id,
-                  matches: match.matches,
-                  number: (match.number += 1)
-                };
-
-                return new LoadExternalMatch(newParams);
-              } else {
-                if (this.loading) {
-                  this.loading.dismiss();
-                  this.loading = null;
-                }
-                return new LoadMatchesSuccess();
-              }
+              return new LoadExternalMatchSuccess(value);
             }),
             catchError(error => {
               if (this.loading) {
