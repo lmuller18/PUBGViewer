@@ -18,6 +18,8 @@ self.toolbox.precache([
   "./build/polyfills.js",
   "./assets/img/pubg-assests/erangel_minimap_small.jpg",
   "./assets/img/pubg-assests/miramar_minimap_small.jpg",
+  "./assets/img/splash2.jpg",
+  "./assets/img/icon3.png",
   "index.html",
   "manifest.json"
 ]);
