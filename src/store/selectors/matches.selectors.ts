@@ -73,7 +73,11 @@ export const getMatches = createSelector(
           rank: playerRoster.attributes.stats.rank,
           teamId: playerRoster.attributes.stats.teamId
         },
-        teammates
+        teammates: teammates.sort(function(a, b) {
+          return a.id === playerParticipant.id
+            ? -1
+            : b.id == playerParticipant.id ? 1 : 0;
+        })
       };
 
       let duration = new Date(null);
