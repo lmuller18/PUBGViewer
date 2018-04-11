@@ -9,11 +9,8 @@
     <form [formGroup]="searchForm"
           (submit)="search()">
       <ion-list>
-        <ion-item [class.error]="playerNotFound$ | async"
-                  [class.ng-invalid]="playerNotFound$ | async">
-          <ion-searchbar [class.error]="playerNotFound$ | async"
-                         [class.ng-invalid]="playerNotFound$ | async"
-                         formControlName="username"
+        <ion-item>
+          <ion-searchbar formControlName="username"
                          placeholder="Search for a player"></ion-searchbar>
         </ion-item>
 
