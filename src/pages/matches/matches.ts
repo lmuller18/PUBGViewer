@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { IonicPage, ToastController } from "ionic-angular";
+import { IonicPage, ToastController, NavController } from "ionic-angular";
 
 import { Observable } from "rxjs/Observable";
 import { Store, select } from "@ngrx/store";
 import * as fromViewer from "../../store";
 import { filter } from "rxjs/operators";
+import { LoadMatches } from "../../store";
 
 @IonicPage()
 @Component({
@@ -18,6 +19,7 @@ export class MatchesPage implements OnInit {
 
   constructor(
     public toastCtrl: ToastController,
+    public navCtrl: NavController,
     private store: Store<fromViewer.ViewerState>
   ) {
     this.player$ = this.store.pipe(
@@ -35,14 +37,21 @@ export class MatchesPage implements OnInit {
       this.player = player;
     });
   }
-}
 
-//   /**
-//    * Navigate to the detail page for this item.
-//    */
-//   openItem(item: Item) {
-//     this.navCtrl.push('ItemDetailPage', {
-//       item: item
-//     });
-//   }
-// }
+  loadMatches(refresher) {
+    this.store.dispatch(
+      new LoadMatches({
+        platform: this.player.platform,
+        region: this.player.region,
+        matches: this.player.matches
+      })
+    );
+    refresher.complete();
+  }
+
+  // openMatch(match: any) {
+  //   this.navCtrl.push("MatchPage", {
+  //     match: match
+  //   });
+  // }
+}
