@@ -1,13 +1,13 @@
-import { Action } from "@ngrx/store";
+import { Action } from '@ngrx/store';
 
 export enum MatchesActionTypes {
-  LoadMatches = "[Viewer] Load Matches",
-  LoadMatchesSuccess = "[Viewer] Load Matches Success",
-  LoadMatchesFailure = "[Viewer] Load Matches Failure",
+  LoadMatches = '[Viewer] Load Matches',
+  LoadMatchesSuccess = '[Viewer] Load Matches Success',
+  LoadMatchesFailure = '[Viewer] Load Matches Failure',
 
-  LoadExternalMatch = "[Viewer] Load External Match",
-  LoadExternalMatchSuccess = "[Viewer] Load External Match Success",
-  LoadExternalMatchFailure = "[Viewer] Load External Match Failure"
+  LoadExternalMatch = '[Viewer] Load External Match',
+  LoadExternalMatchSuccess = '[Viewer] Load External Match Success',
+  LoadExternalMatchFailure = '[Viewer] Load External Match Failure'
 }
 
 export class LoadExternalMatch implements Action {
@@ -32,6 +32,7 @@ export class LoadMatches implements Action {
 
 export class LoadMatchesSuccess implements Action {
   readonly type = MatchesActionTypes.LoadMatchesSuccess;
+  constructor(public payload: any) {}
 }
 
 export class LoadMatchesFailure implements Action {

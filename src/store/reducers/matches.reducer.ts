@@ -1,4 +1,4 @@
-import { MatchesActionTypes, MatchesActions } from "../actions/matches.actions";
+import { MatchesActionTypes, MatchesActions } from '../actions/matches.actions';
 
 export interface MatchesState {
   matches: Array<any>;
@@ -34,8 +34,10 @@ export function reducer(
     }
 
     case MatchesActionTypes.LoadMatchesSuccess: {
+      const matches = action.payload;
       return {
         ...state,
+        matches,
         loading: false,
         loaded: true
       };

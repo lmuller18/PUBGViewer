@@ -73,12 +73,17 @@ export class PlayerEffects {
               } else {
                 this.app.getActiveNav().push(MainPage);
               }
+              const matchesNumbers = value.player.matches.map(
+                match => match.id
+              );
+              const matchesString = matchesNumbers.join('|');
               return [
                 new LoadPlayerSuccess(value.player),
                 new LoadMatches({
                   platform: player.platform,
                   region: player.region,
-                  matches: value.player.matches
+                  matches: matchesString,
+                  playerId: value.player.id
                 })
               ];
             }),
