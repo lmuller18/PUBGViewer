@@ -52,7 +52,7 @@ export class MatchesEffects {
       switchMap((params: any) => {
         return this.http
           .get<any>(
-            `https://pubgapi.herokuapp.com/api/matches?matches=${
+            `https://pubgapi.lmuller.me/api/matches?matches=${
               params.matches
             }&platform=${params.platform}&region=${params.region}&playerId=${
               params.playerId

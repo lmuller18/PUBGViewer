@@ -58,9 +58,9 @@ export class PlayerEffects {
         this.loading.present();
         return this.http
           .get<any>(
-            `https://pubgapi.herokuapp.com/api/player/${
-              player.username
-            }?region=${player.region}&platform=${player.platform}`
+            `https://pubgapi.lmuller.me/api/player/${player.username}?region=${
+              player.region
+            }&platform=${player.platform}`
           )
           .pipe(
             concatMap(value => {
