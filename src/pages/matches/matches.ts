@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { IonicPage, ToastController, NavController } from "ionic-angular";
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, ToastController, NavController } from 'ionic-angular';
 
-import { Observable } from "rxjs/Observable";
-import { Store, select } from "@ngrx/store";
-import * as fromViewer from "../../store";
-import { filter } from "rxjs/operators";
-import { LoadMatches } from "../../store";
+import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import * as fromViewer from '../../store';
+import { filter } from 'rxjs/operators';
+import { LoadMatches } from '../../store';
 
 @IonicPage()
 @Component({
-  selector: "page-matches",
-  templateUrl: "matches.html"
+  selector: 'page-matches',
+  templateUrl: 'matches.html'
 })
 export class MatchesPage implements OnInit {
   player$: Observable<any>;
@@ -39,11 +39,14 @@ export class MatchesPage implements OnInit {
   }
 
   loadMatches(refresher) {
+    const matchesNumbers = this.player.matches.map(match => match.id);
+    const matchesString = matchesNumbers.join('|');
     this.store.dispatch(
       new LoadMatches({
         platform: this.player.platform,
         region: this.player.region,
-        matches: this.player.matches
+        matches: matchesString,
+        playerId: this.player.id
       })
     );
     refresher.complete();
