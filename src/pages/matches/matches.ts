@@ -52,9 +52,9 @@ export class MatchesPage implements OnInit {
     refresher.complete();
   }
 
-  // openMatch(match: any) {
-  //   this.navCtrl.push("MatchPage", {
-  //     match: match
-  //   });
-  // }
+  openMatch(match: any) {
+    this.navCtrl.push('MatchDetailsPage', {
+      match: match
+    });
+  }
 }
