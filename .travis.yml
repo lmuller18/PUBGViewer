@@ -1,9 +1,0 @@
-language: node_js
-node_js:
- — “7”
-script:
- — echo “Deploy!!”
-install:
- — npm install -g firebase-tools
-after_success:
- — firebase deploy — project PUBGViewer — token 1/oMQUdhoa4FLUOxjP0rRtnLB9IBfTQSJxAyaOnz71O6Q.
