@@ -3,12 +3,18 @@ page-match-details {
     width: 100%;
     background-position: center center;
     background-size: cover;
-    height: 250px;
+    height: 215px;
   }
 
   .item-detail {
     width: 100%;
     background: white;
     position: absolute;
+  }
+
+  .mat-list-text {
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-direction: row !important;
   }
 }

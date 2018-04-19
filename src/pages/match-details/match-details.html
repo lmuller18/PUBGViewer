@@ -17,18 +17,40 @@
   <div class="item-detail"
        padding>
     <h2>Rank #{{ match.team.stats.rank }}</h2>
-    <h2 *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</h2>
-    <ion-list>
-      <ion-item *ngFor="let teammate of match.team.teammates">
-        <div class="flex space-between">
-          <h2>{{ teammate.stats.name}}</h2>
-          <h2>
-            <ion-icon name="ios-locate-outline"></ion-icon>
-            {{ teammate.stats.kills }}
-          </h2>
-        </div>
-      </ion-item>
-    </ion-list>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let teammate of match.team.teammates; let first = first"
+                           [expanded]="first"
+                           hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ teammate.stats.name}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon>folder</mat-icon>
+            <h3 matLine> Kills </h3>
+            <h3 matLine>
+              {{ teammate.stats.kills }}
+            </h3>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon>folder</mat-icon>
+            <h3 matLine> Damage Dealt </h3>
+            <h3 matLine>
+              {{ teammate.stats.damageDealt | number : '1.0-2' }}
+            </h3>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon>folder</mat-icon>
+            <h3 matLine> Headshot Kills </h3>
+            <h3 matLine>
+              {{ teammate.stats.headshotKills }}
+            </h3>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
 
   </div>
 </ion-content>
