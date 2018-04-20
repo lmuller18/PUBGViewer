@@ -23,7 +23,7 @@
                            hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ teammate.stats.name}}
+            {{ teammate.stats.name }}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list>
@@ -48,6 +48,18 @@
               {{ teammate.stats.headshotKills }}
             </h3>
           </mat-list-item>
+          <mat-accordion *ngIf="telemetry">
+            <mat-expansion-panel *ngFor="let telem of telemetry[teammate.stats.name]; let first = first"
+                                 [expanded]="first"
+                                 hideToggle="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Damage
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              {{ telem.weapon.itemId | damageTypePipe }}
+            </mat-expansion-panel>
+          </mat-accordion>
         </mat-list>
       </mat-expansion-panel>
     </mat-accordion>

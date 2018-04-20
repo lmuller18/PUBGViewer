@@ -1,13 +1,13 @@
-import { MatchActionTypes, MatchActions } from "../actions/match.actions";
+import { MatchActionTypes, MatchActions } from '../actions/match.actions';
 
 export interface MatchState {
-  match: any;
+  matchTelemetry: any;
   loading: boolean;
   loaded: boolean;
 }
 
 export const initialState: MatchState = {
-  match: undefined,
+  matchTelemetry: undefined,
   loading: false,
   loaded: false
 };
@@ -20,16 +20,16 @@ export function reducer(
     case MatchActionTypes.LoadMatch: {
       return {
         ...state,
-        match: undefined,
+        matchTelemetry: undefined,
         loading: true
       };
     }
 
     case MatchActionTypes.LoadMatchSuccess: {
-      const match = action.payload;
+      const matchTelemetry = action.payload;
       return {
         ...state,
-        match,
+        matchTelemetry,
         loading: false,
         loaded: true
       };
@@ -48,6 +48,6 @@ export function reducer(
   }
 }
 
-export const getMatch = (state: MatchState) => state.match;
-export const getMatchLoading = (state: MatchState) => state.loading;
-export const getMatchLoaded = (state: MatchState) => state.loaded;
+export const getMatchTelemetry = (state: MatchState) => state.matchTelemetry;
+export const getMatchTelemetryLoading = (state: MatchState) => state.loading;
+export const getMatchTelemetryLoaded = (state: MatchState) => state.loaded;

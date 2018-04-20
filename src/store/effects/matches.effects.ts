@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import {
@@ -19,7 +19,6 @@ export interface MatchesResponse {
 
 @Injectable()
 export class MatchesEffects {
-  headers: HttpHeaders;
   loading: Loading;
 
   constructor(
@@ -28,13 +27,6 @@ export class MatchesEffects {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    this.headers = new HttpHeaders()
-      .set('Accept', 'application/vnd.api+json')
-      .set(
-        'Authorization',
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyYzI4Njg1MC0xOGNmLTAxMzYtZTdjMy0wMzMxODI1NzdmN2YiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIyNjkyNjgyLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1Ymctdmlld2VyIiwic2NvcGUiOiJjb21tdW5pdHkiLCJsaW1pdCI6MTB9.-W2PdClWJoDPNuSp1lA-45YPZkQLCGJbLiZOD5ouZ6s'
-      );
-
     this.loading = this.createLoader();
   }
 

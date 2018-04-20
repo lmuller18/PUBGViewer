@@ -1,20 +1,23 @@
-import { createSelector } from "@ngrx/store";
-import * as fromViewer from "../reducers";
-import * as fromMatch from "../reducers/match.reducer";
+import { createSelector } from '@ngrx/store';
+import * as fromViewer from '../reducers';
+import * as fromMatch from '../reducers/match.reducer';
 
 export const getMatchState = createSelector(
   fromViewer.getViewerState,
   (state: fromViewer.ViewerState) => state.match
 );
 
-export const getMatch = createSelector(getMatchState, fromMatch.getMatch);
-
-export const getMatchLoading = createSelector(
+export const getMatchTelemetry = createSelector(
   getMatchState,
-  fromMatch.getMatchLoading
+  fromMatch.getMatchTelemetry
 );
 
-export const getMatchLoaded = createSelector(
+export const getMatchTelemetryLoading = createSelector(
   getMatchState,
-  fromMatch.getMatchLoaded
+  fromMatch.getMatchTelemetryLoading
+);
+
+export const getMatchTelemetryLoaded = createSelector(
+  getMatchState,
+  fromMatch.getMatchTelemetryLoaded
 );
