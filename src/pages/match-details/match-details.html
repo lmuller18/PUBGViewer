@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar [color]="'secondary'">
+  <ion-navbar [color]="'primary'">
     <ion-title>{{ match.date | date:'shortDate' }}</ion-title>
   </ion-navbar>
 
@@ -8,11 +8,12 @@
 
 
 <ion-content>
-  <div class="item-profile"
-       text-center
-       #profilePic
-       [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'">
-  </div>
+  <canvas id="map"
+          class="item-profile"
+          text-center
+          #profilePic
+          [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'">
+  </canvas>
 
   <div class="item-detail"
        padding>
@@ -54,10 +55,16 @@
                                  hideToggle="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Damage
+                  {{ telem[0].damageCauserName | damageTypePipe }}
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              {{ telem.weapon.itemId | damageTypePipe }}
+              <mat-list *ngFor="let attack of telem">
+                <mat-list-item>
+                  <h3 matLine> {{ attack.damage | number : '1.0-2' }} </h3>
+                  <h3 matLine> {{ attack.damageReason }} </h3>
+                  <h3 matLine> {{ attack.victim.name }} </h3>
+                </mat-list-item>
+              </mat-list>
             </mat-expansion-panel>
           </mat-accordion>
         </mat-list>

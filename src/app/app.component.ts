@@ -7,7 +7,7 @@ import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
 
 @Component({
-  template: `<ion-nav [color]="'secondary'" #content [root]="rootPage"></ion-nav>`
+  template: `<ion-nav [color]="'primary'" #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
   rootPage = FirstRunPage;

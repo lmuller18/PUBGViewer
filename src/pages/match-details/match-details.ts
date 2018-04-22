@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Store, select } from '@ngrx/store';
@@ -18,13 +18,13 @@ export class MatchDetailsPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
+    private elementRef: ElementRef,
     private store: Store<fromViewer.ViewerState>
   ) {
     this.match = navParams.get('match');
     const teammateNames = this.match.team.teammates.map(
       teammate => teammate.stats.name
     );
-    console.log(teammateNames);
     const teammates = teammateNames.join('|');
     this.store.dispatch(
       new LoadMatch({
@@ -41,6 +41,17 @@ export class MatchDetailsPage implements OnInit {
   ngOnInit() {
     this.telemetry$.subscribe(telemetry => {
       this.telemetry = telemetry;
+      // this.drawMap();
     });
+  }
+
+  drawMap() {
+    const canvas = this.elementRef.nativeElement.ownerDocument.getElementById(
+      'map'
+    );
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = 'green';
+    ctx.fillRect(10, 10, 100, 100);
   }
 }
