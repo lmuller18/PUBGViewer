@@ -6,15 +6,12 @@
 
 </ion-header>
 
-
 <ion-content>
-  <canvas id="map"
+  <canvas ion-fixed
+          id="map"
           class="item-profile"
-          text-center
-          #profilePic
           [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'">
   </canvas>
-
   <div class="item-detail"
        padding>
     <h2>Rank #{{ match.team.stats.rank }}</h2>
@@ -59,7 +56,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-list *ngFor="let attack of telem">
-                <mat-list-item>
+                <mat-list-item (click)="drawAttack(attack)">
                   <h3 matLine> {{ attack.damage | number : '1.0-2' }} </h3>
                   <h3 matLine> {{ attack.damageReason }} </h3>
                   <h3 matLine> {{ attack.victim.name }} </h3>
