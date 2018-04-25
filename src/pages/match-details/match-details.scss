@@ -1,23 +1,17 @@
 page-match-details {
-  .item-profile,
-  #map {
-    width: 100vw;
+  .item-profile {
+    width: 100%;
     background-position: center center;
     background-size: cover;
-    height: 100vw;
-  }
-
-  .fixed-height {
-    height: 215px;
+    height: 250px;
+    position: fixed;
   }
 
   .item-detail {
+    margin-top: 175px;
     width: 100%;
     background: white;
-    z-index: 1;
     position: absolute;
-    top: calc(100vw / 2);
-    // position: absolute;
   }
 
   .mat-list-text {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Store, select } from '@ngrx/store';
@@ -18,14 +18,18 @@ export class MatchDetailsPage implements OnInit {
 
   canvas: any;
   ctx: any;
+  segment = 'details';
+  mapName: string;
 
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
-    private elementRef: ElementRef,
+    // private elementRef: ElementRef,
     private store: Store<fromViewer.ViewerState>
   ) {
     this.match = navParams.get('match');
+    const map = this.match.map === 'Desert_Main' ? 'miramar' : 'erangel';
+    this.mapName = `../../assets/img/pubg-assests/${map}_minimap_small.jpg`;
     const teammateNames = this.match.team.teammates.map(
       teammate => teammate.stats.name
     );
@@ -46,12 +50,12 @@ export class MatchDetailsPage implements OnInit {
     this.telemetry$.subscribe(telemetry => {
       this.telemetry = telemetry;
     });
-    this.canvas = this.elementRef.nativeElement.ownerDocument.getElementById(
-      'map'
-    );
-    this.ctx = this.canvas.getContext('2d');
-    this.ctx.canvas.width = window.innerWidth;
-    this.ctx.canvas.height = window.innerWidth;
+    // this.canvas = this.elementRef.nativeElement.ownerDocument.getElementById(
+    //   'map'
+    // );
+    // this.ctx = this.canvas.getContext('2d');
+    // this.ctx.canvas.width = window.innerWidth;
+    // this.ctx.canvas.height = window.innerWidth;
     // this.drawMap();
   }
 
