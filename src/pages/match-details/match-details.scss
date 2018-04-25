@@ -1,15 +1,22 @@
 page-match-details {
-  .item-profile {
-    width: 100%;
+  .item-profile,
+  #map {
+    width: 100vw;
     background-position: center center;
     background-size: cover;
+    height: 100vw;
+  }
+
+  .fixed-height {
     height: 215px;
   }
 
   .item-detail {
     width: 100%;
     background: white;
-    margin-top: 215px;
+    z-index: 1;
+    position: absolute;
+    top: calc(100vw / 2);
     // position: absolute;
   }
 

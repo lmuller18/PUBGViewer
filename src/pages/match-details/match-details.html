@@ -7,13 +7,16 @@
 </ion-header>
 
 <ion-content>
-  <canvas ion-fixed
-          id="map"
-          class="item-profile"
-          [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'">
-  </canvas>
+  <zoom-area>
+    <canvas id="map"
+            class="item-profile"
+            [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'">
+      <!-- <img src="../../assets/img/pubg-assests/erangel_minimap_small.jpg"> -->
+    </canvas>
+  </zoom-area>
   <div class="item-detail"
        padding>
+
     <h2>Rank #{{ match.team.stats.rank }}</h2>
     <mat-accordion>
       <mat-expansion-panel *ngFor="let teammate of match.team.teammates; let first = first"

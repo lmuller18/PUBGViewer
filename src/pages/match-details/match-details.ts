@@ -51,14 +51,11 @@ export class MatchDetailsPage implements OnInit {
     );
     this.ctx = this.canvas.getContext('2d');
     this.ctx.canvas.width = window.innerWidth;
-    this.ctx.canvas.height = 250;
+    this.ctx.canvas.height = window.innerWidth;
     // this.drawMap();
   }
 
-  drawMap() {
-    this.ctx.fillStyle = 'green';
-    this.ctx.fillRect(10, 10, 100, 100);
-  }
+  drawMap() {}
 
   drawAttack(attack) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -69,20 +66,15 @@ export class MatchDetailsPage implements OnInit {
     const victimX = attack.victim.location.x / this.mapsize * this.canvas.width;
     const victimY = attack.victim.location.y / this.mapsize * this.canvas.width;
 
-    console.log(`(${this.canvas.width}, ${this.canvas.height})`);
-
-    console.log(`(${attackX}, ${attackY}`);
-    console.log(`(${victimX}, ${victimY}`);
-
     this.ctx.fillStyle = 'green';
     this.ctx.beginPath();
-    this.ctx.arc(attackX, attackY, 5, 0, 2 * Math.PI);
+    this.ctx.arc(attackX, attackY, 1, 0, 2 * Math.PI);
     this.ctx.closePath();
     this.ctx.fill();
 
     this.ctx.fillStyle = 'red';
     this.ctx.beginPath();
-    this.ctx.arc(victimX, victimY, 5, 0, 2 * Math.PI);
+    this.ctx.arc(victimX, victimY, 1, 0, 2 * Math.PI);
     this.ctx.closePath();
     this.ctx.fill();
 
