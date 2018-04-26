@@ -49,6 +49,12 @@ export class MatchEffects {
     .pipe(
       map((action: LoadMatch) => action.payload),
       switchMap((params: any) => {
+        if (!this.loading) {
+          this.loading = this.createLoader();
+        }
+
+        this.loading.present();
+
         return this.http
           .get<any>(
             `https://pubgapi.lmuller.me/api/telemetry?uri=${

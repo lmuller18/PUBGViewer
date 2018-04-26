@@ -7,6 +7,13 @@ page-match-details {
     position: fixed;
   }
 
+  #map {
+    width: 100vw;
+    height: 100vw;
+    background-position: center center;
+    background-size: cover;
+  }
+
   .item-detail {
     margin-top: 175px;
     width: 100%;
@@ -18,5 +25,14 @@ page-match-details {
     display: flex !important;
     justify-content: space-between !important;
     flex-direction: row !important;
+  }
+
+  .mat-expansion-panel-header-title {
+    flex-basis: 0;
+  }
+
+  .mat-expansion-panel-header-title {
+    justify-content: space-between;
+    align-items: center;
   }
 }

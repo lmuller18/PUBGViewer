@@ -9,7 +9,8 @@
       <ion-segment-button value="details">
         Details
       </ion-segment-button>
-      <ion-segment-button value="map">
+      <ion-segment-button value="map"
+                          (click)="initMap()">
         Replay
       </ion-segment-button>
     </ion-segment>
@@ -35,40 +36,48 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-list>
-              <mat-list-item>
-                <h3 matLine> Kills </h3>
-                <h3 matLine>
-                  {{ teammate.stats.kills }}
-                </h3>
-              </mat-list-item>
-              <mat-list-item>
-                <h3 matLine> Damage Dealt </h3>
-                <h3 matLine>
-                  {{ teammate.stats.damageDealt | number : '1.0-2' }}
-                </h3>
-              </mat-list-item>
-              <mat-list-item>
-                <h3 matLine> Headshot Kills </h3>
-                <h3 matLine>
-                  {{ teammate.stats.headshotKills }}
-                </h3>
-              </mat-list-item>
               <mat-accordion *ngIf="telemetry">
-                <mat-expansion-panel *ngFor="let telem of telemetry[teammate.stats.name]; let first = first"
-                                     [expanded]="first"
-                                     hideToggle="true">
+                <mat-expansion-panel hideToggle="true">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      {{ telem[0].damageCauserName | damageTypePipe }}
+                      <span>Kills</span>
+                      <span>{{ teammate.stats.kills }}</span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <mat-list *ngFor="let attack of telem">
-                    <mat-list-item (click)="drawAttack(attack)">
-                      <h3 matLine> {{ attack.damage | number : '1.0-2' }} </h3>
-                      <h3 matLine> {{ attack.damageReason }} </h3>
-                      <h3 matLine> {{ attack.victim.name }} </h3>
+                  <mat-list *ngFor="let kill of telemetry.teamKills[teammate.stats.name]">
+                    <mat-list-item>
+                      <h3 matLine> {{ kill.damageCauserName | damageTypePipe }} </h3>
+                      <h3 matLine> {{ kill.victim.name }} </h3>
                     </mat-list-item>
                   </mat-list>
+                </mat-expansion-panel>
+              </mat-accordion>
+              <mat-accordion *ngIf="telemetry">
+                <mat-expansion-panel hideToggle="true">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <span>Damage Dealt</span>
+                      <span>{{ teammate.stats.damageDealt | number : '1.0-2' }}</span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-accordion>
+                    <mat-expansion-panel *ngFor="let attacks of telemetry.teamAttacks[teammate.stats.name]; let first=first"
+                                         [expanded]="first"
+                                         hideToggle="true">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          {{ attacks[0].damageCauserName | damageTypePipe }}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-list *ngFor="let attack of attacks">
+                        <mat-list-item (click)="drawAttack(attack)">
+                          <h3 matLine> {{ attack.damage | number : '1.0-2' }} </h3>
+                          <h3 matLine> {{ attack.damageReason }} </h3>
+                          <h3 matLine> {{ attack.victim.name }} </h3>
+                        </mat-list-item>
+                      </mat-list>
+                    </mat-expansion-panel>
+                  </mat-accordion>
                 </mat-expansion-panel>
               </mat-accordion>
             </mat-list>
@@ -79,7 +88,7 @@
 
     <ng-container *ngSwitchCase="'map'">
       <zoom-area>
-        <img [src]="mapName">
+        <canvas id="map"></canvas>
       </zoom-area>
     </ng-container>
   </div>
