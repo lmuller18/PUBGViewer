@@ -21,6 +21,7 @@ export class MatchDetailsPage implements OnInit {
   segment = 'details';
   mapName: string;
   zoom: number;
+  extraZoom = 1;
 
   colors = ['#ffeb3b', '#304ffe', '#00c853', '#ffab00'];
 
@@ -74,22 +75,35 @@ export class MatchDetailsPage implements OnInit {
       this.canvas = this.elementRef.nativeElement.ownerDocument.getElementById(
         'map'
       );
-      this.zoom = this.canvas.getBoundingClientRect().width / 816000;
-      const mapScale = 819200 / 2048;
-      const scaledSize = mapScale * 2048 * this.zoom;
       this.ctx = this.canvas.getContext('2d');
       this.ctx.canvas.width = this.canvas.getBoundingClientRect().width;
       this.ctx.canvas.height = this.canvas.getBoundingClientRect().width;
-
-      var img = new Image();
-      img.onload = () => {
-        this.ctx.drawImage(img, 0, 0, scaledSize, scaledSize);
-        this.drawMap();
-      };
-      img.src = this.mapName;
-
-      this.drawMap();
+      this.zoom = this.canvas.getBoundingClientRect().width / 816000;
+      this.drawImage();
     });
+  }
+
+  drawImage(event?: any) {
+    this.zoom = this.zoom * this.extraZoom;
+    this.extraZoom *= 1.5;
+    let imgX = event ? event.offsetX - this.canvas.offsetLeft : 0;
+    let imgY = event ? event.offsetY - this.canvas.offsetTop : 0;
+    if (this.extraZoom > 5) {
+      this.extraZoom = 1 * 1.5;
+      this.zoom = this.canvas.getBoundingClientRect().width / 816000;
+      imgX = imgY = 0;
+    }
+    const mapScale = 819200 / 2048;
+    const scaledSize = mapScale * 2048 * this.zoom;
+    this.ctx.translate(imgX, imgY);
+    var img = new Image();
+    img.onload = () => {
+      this.ctx.drawImage(img, 0, 0, scaledSize, scaledSize);
+      this.drawMap();
+    };
+    img.src = this.mapName;
+
+    this.drawMap();
   }
 
   drawMap() {

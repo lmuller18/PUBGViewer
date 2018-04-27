@@ -87,9 +87,8 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'map'">
-      <zoom-area>
-        <canvas id="map"></canvas>
-      </zoom-area>
+      <canvas id="map"
+              (tap)="drawImage($event)"></canvas>
     </ng-container>
   </div>
 </ion-content>
