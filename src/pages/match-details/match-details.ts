@@ -14,14 +14,20 @@ export class MatchDetailsPage implements OnInit {
   telemetry$: Observable<any>;
   telemetry: any;
   match: any;
-  mapsize = 819200;
+  segment = 'details';
 
+  // canvas variables
   canvas: any;
   ctx: any;
-  segment = 'details';
   mapName: string;
   zoom: number;
+  clear: number;
   extraZoom = 1;
+  mapsize = 819200;
+  mapScale = 819200 / 2048;
+  originX = 0;
+  originY = 0;
+  zoomCount = 0;
 
   colors = ['#ffeb3b', '#304ffe', '#00c853', '#ffab00'];
 
@@ -56,6 +62,7 @@ export class MatchDetailsPage implements OnInit {
     });
   }
 
+  // waits for an element to be visible
   onElementReady = $element =>
     new Promise(resolve => {
       const waitForElement = () => {
@@ -70,96 +77,103 @@ export class MatchDetailsPage implements OnInit {
       waitForElement();
     });
 
+  // credits for helping with canvas logic go to creator of http://zomgmoz.tv/pubg/
   initMap() {
+    // wait for canvas to be visible
     this.onElementReady('map').then(() => {
+      // get canvas object
       this.canvas = this.elementRef.nativeElement.ownerDocument.getElementById(
         'map'
       );
       this.ctx = this.canvas.getContext('2d');
       this.ctx.canvas.width = this.canvas.getBoundingClientRect().width;
       this.ctx.canvas.height = this.canvas.getBoundingClientRect().width;
+
+      // init zoom level
       this.zoom = this.canvas.getBoundingClientRect().width / 816000;
-      this.drawImage();
+
+      // init what the original size is (used to clear the canvas)
+      this.clear = this.mapScale * 2048 * this.zoom;
+
+      // draw map with no touch event
+      this.drawMap(null);
     });
   }
 
-  drawImage(event?: any) {
-    this.zoom = this.zoom * this.extraZoom;
-    this.extraZoom *= 1.5;
-    let imgX = event ? event.offsetX - this.canvas.offsetLeft : 0;
-    let imgY = event ? event.offsetY - this.canvas.offsetTop : 0;
-    if (this.extraZoom > 5) {
-      this.extraZoom = 1 * 1.5;
+  drawMap(event: any) {
+    // increase zoom by 1.5x on tap
+    this.zoom = this.zoomCount === 0 ? this.zoom : this.zoom * 1.5;
+
+    // get tapped location
+    const tappedX = event ? event.center.x - this.canvas.offsetLeft : 0;
+    const tappedY = event ? event.center.y - this.canvas.offsetTop : 0;
+    this.originX = this.originX + tappedX;
+    this.originY = this.originY + tappedY;
+
+    // reset image to normal size if zoom > 5x
+    if (this.zoomCount > 5) {
+      this.zoomCount = 0;
       this.zoom = this.canvas.getBoundingClientRect().width / 816000;
-      imgX = imgY = 0;
+      this.originX = this.originY = 0;
     }
-    const mapScale = 819200 / 2048;
-    const scaledSize = mapScale * 2048 * this.zoom;
-    this.ctx.translate(imgX, imgY);
+    // scale image
+    const scaledSize = this.mapScale * 2048 * this.zoom;
+
+    // create image
     var img = new Image();
     img.onload = () => {
-      this.ctx.drawImage(img, 0, 0, scaledSize, scaledSize);
-      this.drawMap();
+      // clear off all other points and images
+      this.ctx.clearRect(0, 0, this.clear, this.clear);
+
+      // draw and zoom to the tapped area
+      this.ctx.drawImage(
+        img,
+        -this.originX,
+        -this.originY,
+        scaledSize,
+        scaledSize
+      );
+
+      // draw points on the map
+      this.drawEvents();
     };
     img.src = this.mapName;
-
-    this.drawMap();
+    this.zoomCount++;
   }
 
-  drawMap() {
+  drawEvents() {
+    let pointSize = 6 / this.zoomCount;
+    pointSize = pointSize < 1 ? 1 : pointSize;
+
+    // draw attacker and victim for each kill by teammate
     this.match.team.teammates.forEach((teammate, index) => {
       this.telemetry.teamKills[teammate.stats.name].forEach(kill => {
-        const attackX = kill.killer.location.x * this.zoom;
-        const attackY = kill.killer.location.y * this.zoom;
-        const victimX = kill.victim.location.x * this.zoom;
-        const victimY = kill.victim.location.y * this.zoom;
+        const attackX = kill.killer.location.x * this.zoom - this.originX;
+        const attackY = kill.killer.location.y * this.zoom - this.originY;
+        const victimX = kill.victim.location.x * this.zoom - this.originX;
+        const victimY = kill.victim.location.y * this.zoom - this.originY;
 
-        this.ctx.fillStyle = this.colors[index];
-        this.ctx.beginPath();
-        this.ctx.arc(attackX, attackY, 1, 0, 2 * Math.PI);
-        this.ctx.closePath();
-        this.ctx.fill();
-
+        // draw victim location
         this.ctx.fillStyle = 'red';
         this.ctx.beginPath();
-        this.ctx.arc(victimX, victimY, 1, 0, 2 * Math.PI);
+        this.ctx.arc(victimX, victimY, pointSize, 0, 2 * Math.PI);
         this.ctx.closePath();
         this.ctx.fill();
 
-        this.ctx.setLineDash([5, 3]); /*dashes are 5px and spaces are 3px*/
+        // get teammate color from color array
+        this.ctx.fillStyle = this.colors[index];
+        this.ctx.beginPath();
+        this.ctx.arc(attackX, attackY, pointSize, 0, 2 * Math.PI);
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        // draw dashed line between
+        this.ctx.setLineDash([5, 3]);
         this.ctx.beginPath();
         this.ctx.moveTo(attackX, attackY);
         this.ctx.lineTo(victimX, victimY);
         this.ctx.stroke();
       });
     });
-  }
-
-  drawAttack(attack) {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    const attackX =
-      attack.attacker.location.x / this.mapsize * this.canvas.width;
-    const attackY =
-      attack.attacker.location.z / this.mapsize * this.canvas.width;
-    const victimX = attack.victim.location.x / this.mapsize * this.canvas.width;
-    const victimY = attack.victim.location.z / this.mapsize * this.canvas.width;
-
-    this.ctx.fillStyle = 'green';
-    this.ctx.beginPath();
-    this.ctx.arc(attackX, attackY, 1, 0, 2 * Math.PI);
-    this.ctx.closePath();
-    this.ctx.fill();
-
-    this.ctx.fillStyle = 'red';
-    this.ctx.beginPath();
-    this.ctx.arc(victimX, victimY, 1, 0, 2 * Math.PI);
-    this.ctx.closePath();
-    this.ctx.fill();
-
-    this.ctx.setLineDash([5, 3]); /*dashes are 5px and spaces are 3px*/
-    this.ctx.beginPath();
-    this.ctx.moveTo(attackX, attackY);
-    this.ctx.lineTo(victimX, victimY);
-    this.ctx.stroke();
   }
 }
