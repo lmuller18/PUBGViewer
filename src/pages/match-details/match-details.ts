@@ -142,23 +142,33 @@ export class MatchDetailsPage implements OnInit {
   }
 
   drawEvents() {
-    let pointSize = 6 / this.zoomCount;
+    let pointSize = 6 / (this.zoomCount / 2);
     pointSize = pointSize < 1 ? 1 : pointSize;
 
     // draw attacker and victim for each kill by teammate
     this.match.team.teammates.forEach((teammate, index) => {
+      let prevPoint = this.telemetry.teamMovements[teammate.stats.name][0]
+        .character.location;
+      const origX = prevPoint.x * this.zoom - this.originX;
+      const origY = prevPoint.y * this.zoom - this.originY;
+
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = this.colors[index];
+      this.ctx.lineWidth = pointSize * 0.66;
+      this.ctx.moveTo(origX, origY);
+
+      this.telemetry.teamMovements[teammate.stats.name].forEach(move => {
+        const toPoint = move.character.location;
+
+        const toX = toPoint.x * this.zoom - this.originX;
+        const toY = toPoint.y * this.zoom - this.originY;
+        this.ctx.lineTo(toX, toY);
+      });
+      this.ctx.stroke();
+
       this.telemetry.teamKills[teammate.stats.name].forEach(kill => {
         const attackX = kill.killer.location.x * this.zoom - this.originX;
         const attackY = kill.killer.location.y * this.zoom - this.originY;
-        const victimX = kill.victim.location.x * this.zoom - this.originX;
-        const victimY = kill.victim.location.y * this.zoom - this.originY;
-
-        // draw victim location
-        this.ctx.fillStyle = 'red';
-        this.ctx.beginPath();
-        this.ctx.arc(victimX, victimY, pointSize, 0, 2 * Math.PI);
-        this.ctx.closePath();
-        this.ctx.fill();
 
         // get teammate color from color array
         this.ctx.fillStyle = this.colors[index];
@@ -166,13 +176,6 @@ export class MatchDetailsPage implements OnInit {
         this.ctx.arc(attackX, attackY, pointSize, 0, 2 * Math.PI);
         this.ctx.closePath();
         this.ctx.fill();
-
-        // draw dashed line between
-        this.ctx.setLineDash([5, 3]);
-        this.ctx.beginPath();
-        this.ctx.moveTo(attackX, attackY);
-        this.ctx.lineTo(victimX, victimY);
-        this.ctx.stroke();
       });
     });
   }
