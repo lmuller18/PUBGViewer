@@ -3,19 +3,36 @@ page-match-details {
     width: 100%;
     background-position: center center;
     background-size: cover;
-    height: 215px;
+    height: 250px;
+    position: fixed;
+  }
+
+  #map {
+    width: 100vw;
+    height: 100vw;
+    background-position: center center;
+    background-size: cover;
   }
 
   .item-detail {
+    margin-top: 175px;
     width: 100%;
     background: white;
-    margin-top: 215px;
-    // position: absolute;
+    position: absolute;
   }
 
   .mat-list-text {
     display: flex !important;
     justify-content: space-between !important;
     flex-direction: row !important;
+  }
+
+  .mat-expansion-panel-header-title {
+    flex-basis: 0;
+  }
+
+  .mat-expansion-panel-header-title {
+    justify-content: space-between;
+    align-items: center;
   }
 }
