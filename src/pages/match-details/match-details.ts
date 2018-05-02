@@ -29,7 +29,7 @@ export class MatchDetailsPage implements OnInit {
   originY = 0;
   zoomCount = 0;
 
-  colors = ['#ffeb3b', '#304ffe', '#00c853', '#ffab00'];
+  colors = ['#ffeb3b', '#304ffe', '#00c853', '#ffab00', '#ec407a'];
 
   constructor(
     public navCtrl: NavController,
@@ -142,41 +142,115 @@ export class MatchDetailsPage implements OnInit {
   }
 
   drawEvents() {
-    let pointSize = 6 / (this.zoomCount / 2);
-    pointSize = pointSize < 1 ? 1 : pointSize;
+    // let pointSize = 6 / (this.zoomCount / 2);
+    // pointSize = pointSize < 1 ? 1 : pointSize;
 
     // draw attacker and victim for each kill by teammate
     this.match.team.teammates.forEach((teammate, index) => {
-      let prevPoint = this.telemetry.teamMovements[teammate.stats.name][0]
+      // get color for lines and dots
+      // 4th color is what all players over 4 will be assigned in special modes
+      const color = index <= 3 ? this.colors[index] : this.colors[4];
+
+      // get key for colored icon name
+      const teammateIndex = index <= 3 ? index + 1 : 'extra';
+
+      // start the trace at the first point in the movement data
+      const prevPoint = this.telemetry.teamMovements[teammate.stats.name][0]
         .character.location;
       const origX = prevPoint.x * this.zoom - this.originX;
       const origY = prevPoint.y * this.zoom - this.originY;
 
+      // mark first point with circle
+      this.ctx.fillStyle = color;
       this.ctx.beginPath();
-      this.ctx.strokeStyle = this.colors[index];
-      this.ctx.lineWidth = pointSize * 0.66;
+      this.ctx.arc(origX, origY, 4, 0, 2 * Math.PI);
+      this.ctx.closePath();
+      this.ctx.fill();
+
+      // start the trace
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = color;
+      this.ctx.lineWidth = 2;
       this.ctx.moveTo(origX, origY);
 
       this.telemetry.teamMovements[teammate.stats.name].forEach(move => {
+        // move to each point in the movement data
         const toPoint = move.character.location;
 
         const toX = toPoint.x * this.zoom - this.originX;
         const toY = toPoint.y * this.zoom - this.originY;
         this.ctx.lineTo(toX, toY);
       });
+      // draw the trace
       this.ctx.stroke();
 
+      // mark kills
       this.telemetry.teamKills[teammate.stats.name].forEach(kill => {
+        // get location of player when kill is achieved
         const attackX = kill.killer.location.x * this.zoom - this.originX;
         const attackY = kill.killer.location.y * this.zoom - this.originY;
 
-        // get teammate color from color array
-        this.ctx.fillStyle = this.colors[index];
-        this.ctx.beginPath();
-        this.ctx.arc(attackX, attackY, pointSize, 0, 2 * Math.PI);
-        this.ctx.closePath();
-        this.ctx.fill();
+        // load map pin icon of appropriate color based on teammateIndex
+        var img = new Image();
+        img.onload = () => {
+          // offset by half width and full height to get the pin centered on the true poiint
+          this.ctx.drawImage(img, attackX - 9, attackY - 18);
+        };
+        img.src = `../../assets/img/pubg-assests/map-icons/player-${teammateIndex}-pin.svg`;
       });
+
+      // get last point of movement
+      const moveLen = this.telemetry.teamMovements[teammate.stats.name].length;
+      const finPoint = this.telemetry.teamMovements[teammate.stats.name][
+        moveLen - 1
+      ].character.location;
+      const finX = finPoint.x * this.zoom - this.originX;
+      const finY = finPoint.y * this.zoom - this.originY;
+
+      // mark last point of movement with circle
+      this.ctx.fillStyle = color;
+      this.ctx.beginPath();
+      this.ctx.arc(finX, finY, 4, 0, 2 * Math.PI);
+      this.ctx.closePath();
+      this.ctx.fill();
     });
   }
 }
+
+/**
+ * yep, the conversion is just something like gameX = (canvasX - pan.x) / zoom and other way around canvasX = (gameX * zoom) + pan.x
+
+
+
+
+
+
+  const { offsetX: x, offsetY: y } = ev.nativeEvent;
+
+        const gamePt = this.renderer.canvasToGame({
+            x: x,
+            y: y
+        });
+
+        if(ev.deltaY < 0) {
+            const newScale = this.renderer.zoom * 1.1;
+            this.renderer.zoom = newScale;
+            const newPoint = this.renderer.gameToCanvas(gamePt);
+            this.setState({
+                scaling: newScale,
+                translateX: this.state.translateX + (x - newPoint.x),
+                translateY: this.state.translateY + (y - newPoint.y)
+            });
+        }
+        else if(ev.deltaY > 0) {
+            const newScale = this.renderer.zoom * 0.9;
+            this.renderer.zoom = newScale;
+            const newPoint = this.renderer.gameToCanvas(gamePt);
+            this.setState({
+                scaling: newScale,
+                translateX: this.state.translateX + (x - newPoint.x),
+                translateY: this.state.translateY + (y - newPoint.y)
+            });
+        }
+
+ */
