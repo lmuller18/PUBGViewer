@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar [color]="'primary'">
+    <ion-title>{{ player.name }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content *ngIf="playerDetails">
+  <button mat-raised-button
+          (tap)="toMatches()">
+    Matches
+  </button>
+  <mat-expansion-panel hideToggle="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span>Details</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    {{playerDetails | json}}
+  </mat-expansion-panel>
+</ion-content>

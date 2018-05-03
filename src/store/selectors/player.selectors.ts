@@ -18,3 +18,10 @@ export const getPlayerLoaded = createSelector(
   getPlayerState,
   fromPlayer.getPlayerLoaded
 );
+
+export const getSeasons = createSelector(getPlayerState, fromPlayer.getSeasons);
+
+export const getPlayerDetails = createSelector(
+  getPlayerState,
+  fromPlayer.getDetails
+);
