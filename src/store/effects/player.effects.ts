@@ -63,7 +63,7 @@ export class PlayerEffects {
         this.loading.present();
         return this.http
           .get<any>(
-            `https://pubgapi.lmuller.me/api/player/${player.username}?region=${
+            `https://pubgapi.lmuller.me/api/player/${player.username.trim()}?region=${
               player.region
             }&platform=${player.platform}`
           )
@@ -170,6 +170,11 @@ export class PlayerEffects {
     .pipe(
       map((action: LoadPlayer) => action.payload),
       switchMap((player: any) => {
+        if (!this.loading) {
+          this.loading = this.createLoader('Loading Player Details');
+        }
+
+        this.loading.present();
         return this.http
           .get<any>(
             `https://pubgapi.lmuller.me/api/player-details/${

@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromViewer from '../../store';
 import { filter } from 'rxjs/operators';
 import { Tab1Root } from '../pages';
+import { LoadPlayerDetails } from '../../store';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,9 @@ export class PlayerPage implements OnInit {
   player: any;
   playerDetails$: Observable<any>;
   playerDetails: any;
+  seasons$: Observable<any>;
+  seasons: any[];
+  segment = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -30,15 +34,79 @@ export class PlayerPage implements OnInit {
       select(fromViewer.getPlayer),
       filter(Boolean)
     );
+    this.seasons$ = this.store.pipe(
+      select(fromViewer.getSeasons),
+      filter(Boolean)
+    );
   }
 
   ngOnInit() {
-    this.playerDetails$.subscribe(details => {
-      this.playerDetails = details;
+    this.seasons$.subscribe(seasons => {
+      this.seasons = this.formatSeasons(seasons);
     });
     this.player$.subscribe(player => {
       this.player = player;
     });
+    this.playerDetails$.subscribe(details => {
+      const props = Object.keys(details);
+      const formattedDetails = [];
+      props.forEach(prop => {
+        formattedDetails.push({ key: prop, ...details[prop] });
+      });
+      this.playerDetails = formattedDetails;
+    });
+  }
+
+  formatSeasons(seasons): any[] {
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    const filtered = seasons
+      .slice(-5)
+      .map(season => {
+        const fullName = season.id.split('.')[3].split('-');
+        let secondName = fullName[1];
+        if (/^[0-9][0-9]$/.test(secondName)) {
+          secondName = monthNames[parseInt(secondName) - 1];
+        }
+        return {
+          ...season,
+          verbose: `${secondName} ${fullName[0]}`
+        };
+      })
+      .reverse();
+
+    return filtered;
+  }
+
+  changeSeason(index) {
+    if (this.segment !== index) {
+      this.store.dispatch(
+        new LoadPlayerDetails({
+          playerId: this.player.id,
+          platform: this.player.platform,
+          region: this.player.region,
+          season: {
+            id: this.seasons[index].id,
+            isCurrent: this.seasons[index].attributes.isCurrentSeason
+          }
+        })
+      );
+    }
+
+    this.segment = index;
   }
 
   toMatches() {

@@ -1,22 +1,40 @@
 <ion-header>
 
   <ion-navbar [color]="'primary'">
-    <ion-title>{{ player.name }}</ion-title>
+    <ion-title *ngIf="player">{{ player.name }}</ion-title>
   </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button *ngFor="let season of seasons; let i = index"
+                          (click)="changeSeason(i)"
+                          [value]="i">
+        {{ season.verbose }}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 </ion-header>
 
-<ion-content *ngIf="playerDetails">
+<ion-content padding>
   <button mat-raised-button
           (tap)="toMatches()">
     Matches
   </button>
-  <mat-expansion-panel hideToggle="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <span>Details</span>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    {{playerDetails | json}}
-  </mat-expansion-panel>
+  <div *ngIf="seasons && seasons[segment] && playerDetails">
+    <h2>{{ seasons[segment].verbose }} Details</h2>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let stats of playerDetails; let first = first"
+                           [expanded]="first">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>{{ stats.key }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        {{ stats | json }}
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+
 </ion-content>
