@@ -5,10 +5,11 @@
   </ion-navbar>
 
   <ion-toolbar no-border-top>
-    <ion-segment [(ngModel)]="segment">
-      <ion-segment-button *ngFor="let season of seasons; let i = index"
-                          (click)="changeSeason(i)"
-                          [value]="i">
+    <ion-segment *ngIf="segment"
+                 [(ngModel)]="segment">
+      <ion-segment-button *ngFor="let season of seasons"
+                          (click)="changeSeason(season.id)"
+                          [value]="season.id">
         {{ season.verbose }}
       </ion-segment-button>
     </ion-segment>
@@ -21,8 +22,8 @@
           (tap)="toMatches()">
     Matches
   </button>
-  <div *ngIf="seasons && seasons[segment] && playerDetails">
-    <h2>{{ seasons[segment].verbose }} Details</h2>
+  <div *ngIf="season && playerDetails">
+    <h2>{{ season.verbose }} Details</h2>
     <mat-accordion>
       <mat-expansion-panel *ngFor="let stats of playerDetails; let first = first"
                            [expanded]="first">

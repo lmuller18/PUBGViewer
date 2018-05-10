@@ -20,7 +20,8 @@ export class PlayerPage implements OnInit {
   playerDetails: any;
   seasons$: Observable<any>;
   seasons: any[];
-  segment = 0;
+  segment = undefined;
+  season: any;
 
   constructor(
     public navCtrl: NavController,
@@ -43,6 +44,10 @@ export class PlayerPage implements OnInit {
   ngOnInit() {
     this.seasons$.subscribe(seasons => {
       this.seasons = this.formatSeasons(seasons);
+      this.season = this.seasons.find(
+        season => season.attributes.isCurrentSeason
+      );
+      this.segment = this.season.id;
     });
     this.player$.subscribe(player => {
       this.player = player;
@@ -91,22 +96,22 @@ export class PlayerPage implements OnInit {
     return filtered;
   }
 
-  changeSeason(index) {
-    if (this.segment !== index) {
-      this.store.dispatch(
-        new LoadPlayerDetails({
-          playerId: this.player.id,
-          platform: this.player.platform,
-          region: this.player.region,
-          season: {
-            id: this.seasons[index].id,
-            isCurrent: this.seasons[index].attributes.isCurrentSeason
-          }
-        })
-      );
-    }
-
-    this.segment = index;
+  changeSeason(id) {
+    console.log('here', id, this.segment);
+    console.log(this.season);
+    this.season = this.seasons.find(season => season.id === id);
+    console.log(this.season);
+    this.store.dispatch(
+      new LoadPlayerDetails({
+        playerId: this.player.id,
+        platform: this.player.platform,
+        region: this.player.region,
+        season: {
+          id: this.season.id,
+          isCurrent: this.season.attributes.isCurrentSeason
+        }
+      })
+    );
   }
 
   toMatches() {
