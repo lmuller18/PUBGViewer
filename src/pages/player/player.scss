@@ -12,3 +12,56 @@ ion-segment {
     flex: 1 0 150px !important;
   }
 }
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 1rem;
+}
+
+.mat-expansion-panel-header-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 0.5rem;
+}
+
+.panel-glance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding-top: 0.5rem;
+}
+
+.glance {
+  display: flex;
+  flex-direction: column;
+
+  .stat-1 {
+    color: #56cadf;
+  }
+  .stat-2 {
+    color: #e65757;
+  }
+  .stat-3 {
+    color: #ef8350;
+  }
+  .stat-4 {
+    color: #40c695;
+  }
+}
+.icon-container {
+  padding-left: 1rem;
+}
+.mat-list-text {
+  display: flex !important;
+  justify-content: space-between !important;
+  flex-direction: row !important;
+}

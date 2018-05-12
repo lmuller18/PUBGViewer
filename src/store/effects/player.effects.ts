@@ -23,7 +23,6 @@ import {
   LoadingController,
   Loading
 } from 'ionic-angular';
-import { LoadMatches } from '../actions/matches.actions';
 
 export interface PlayerResponse {
   player: any;
@@ -78,19 +77,9 @@ export class PlayerEffects {
               } else {
                 this.app.getActiveNav().push(MainPage);
               }
-              const matchesNumbers = value.player.matches.map(
-                match => match.id
-              );
-              const matchesString = matchesNumbers.join('|');
               return [
                 new LoadPlayerSuccess(value.player),
-                new LoadSeasons(value.player),
-                new LoadMatches({
-                  platform: player.platform,
-                  region: player.region,
-                  matches: matchesString,
-                  playerId: value.player.id
-                })
+                new LoadSeasons(value.player)
               ];
             }),
             catchError(error => {

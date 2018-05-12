@@ -11,8 +11,8 @@ $font-path: '../assets/fonts';
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-$text-color: #000;
-$background-color: #fff;
+$text-color: #ffffff;
+$background-color: #272b3a;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -24,8 +24,11 @@ $background-color: #fff;
 // primary:    #488aff,
 
 $colors: (
-  primary: #2c2c2b,
+  primary: #272b3a,
   secondary: #f2a900,
+  gradient-left: #e25f65,
+  gradient-right: #fa8850,
+  boxes: #363649,
   success: #32db64,
   danger: #f53d3d,
   light: #f4f4f4,
@@ -40,6 +43,11 @@ $colors: (
 // Material Design only Sass variables can go here
 // App Windows Variables
 // --------------------------------------------------
+// non selected background #1d1f2b
+$segment-button-ios-background-color: #1d1f2b !important;
+$segment-button-md-text-color-activated: #f5f0ef !important;
+// non selected text #61626b
+
 // Windows only Sass variables can go here
 // App Theme
 // --------------------------------------------------

@@ -10,7 +10,7 @@
       <ion-segment-button *ngFor="let season of seasons"
                           (click)="changeSeason(season.id)"
                           [value]="season.id">
-        {{ season.verbose }}
+        {{ season.verbose | uppercase }}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -18,21 +18,108 @@
 </ion-header>
 
 <ion-content padding>
-  <button mat-raised-button
-          (tap)="toMatches()">
-    Matches
-  </button>
   <div *ngIf="season && playerDetails">
-    <h2>{{ season.verbose }} Details</h2>
+    <div class="details-header">
+      <h2>{{ season.verbose | uppercase }} Details</h2>
+      <button class="gradient-button"
+              mat-raised-button
+              (tap)="toMatches()">
+        <ion-icon name="ios-locate-outline"></ion-icon>
+        Matches
+      </button>
+    </div>
+
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let stats of playerDetails; let first = first"
-                           [expanded]="first">
-        <mat-expansion-panel-header>
+      <mat-expansion-panel *ngFor="let stats of playerDetails">
+        <mat-expansion-panel-header [collapsedHeight]="'100px'"
+                                    [expandedHeight]="'110px'">
           <mat-panel-title>
-            <span>{{ stats.key }}</span>
+            <div class="panel-title">
+              <span>{{ stats.key | uppercase }}</span>
+              <div class="icon-container">
+                <ng-container *ngIf="stats.key.includes('solo')">
+                  <ion-icon name="md-walk"></ion-icon>
+                </ng-container>
+                <ng-container *ngIf="stats.key.includes('duo')">
+                  <ion-icon name="md-walk"></ion-icon>
+                  <ion-icon name="md-walk"></ion-icon>
+                </ng-container>
+                <ng-container *ngIf="stats.key.includes('squad')">
+                  <ion-icon name="md-walk"></ion-icon>
+                  <ion-icon name="md-walk"></ion-icon>
+                  <ion-icon name="md-walk"></ion-icon>
+                  <ion-icon name="md-walk"></ion-icon>
+                </ng-container>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="panel-glance">
+              <div class="glance">
+                <span>Wins</span>
+                <div class="stat-1">{{ stats.wins }}</div>
+              </div>
+              <div class="glance">
+                <span>Win %</span>
+                <div class="stat-2">{{ (stats.wins !== 0 ? stats.wins / stats.roundsPlayed : 0) | number : '1.0-2' }}%</div>
+              </div>
+              <div class="glance">
+                <span>Top 10</span>
+                <div class="stat-3">{{ (stats.top10s !== 0 ? stats.top10s / stats.roundsPlayed : 0) | number : '1.0-2' }}%</div>
+              </div>
+              <div class="glance">
+                <span>KDR</span>
+                <div class="stat-4">{{ (stats.kills !== 0 ? stats.kills / stats.losses : 0) | number : '1.0-2' }}</div>
+              </div>
+            </div>
+
           </mat-panel-title>
         </mat-expansion-panel-header>
-        {{ stats | json }}
+        <mat-list dense>
+          <mat-list-item>
+            <h3 matLine> WINS </h3>
+            <h3 matLine> {{ stats.wins }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> MATCHES PLAYED </h3>
+            <h3 matLine> {{ stats.roundsPlayed }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> TIME SURVIVED </h3>
+            <h3 matLine> {{ stats.timeSurvived | timePipe }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> KILLS </h3>
+            <h3 matLine> {{ stats.kills }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> TEAM KILLS </h3>
+            <h3 matLine> {{ stats.teamKills }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> LONGEST KILL </h3>
+            <h3 matLine> {{ stats.longestKill | number : '1.0-2' }}m </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> MOST KILLS IN GAME </h3>
+            <h3 matLine> {{ stats.roundMostKills }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> HEALS </h3>
+            <h3 matLine> {{ stats.heals | number : '1.0-2' }} </h3>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h3 matLine> BOOSTS </h3>
+            <h3 matLine> {{ stats.boosts | number : '1.0-2' }} </h3>
+          </mat-list-item>
+        </mat-list>
       </mat-expansion-panel>
     </mat-accordion>
 

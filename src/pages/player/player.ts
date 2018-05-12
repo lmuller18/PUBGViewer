@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromViewer from '../../store';
 import { filter } from 'rxjs/operators';
 import { Tab1Root } from '../pages';
-import { LoadPlayerDetails } from '../../store';
+import { LoadPlayerDetails, LoadMatches } from '../../store';
 
 @IonicPage()
 @Component({
@@ -53,11 +53,13 @@ export class PlayerPage implements OnInit {
       this.player = player;
     });
     this.playerDetails$.subscribe(details => {
-      const props = Object.keys(details);
       const formattedDetails = [];
-      props.forEach(prop => {
-        formattedDetails.push({ key: prop, ...details[prop] });
-      });
+      formattedDetails.push({ key: 'solo', ...details['solo'] });
+      formattedDetails.push({ key: 'solo - fpp', ...details['solo-fpp'] });
+      formattedDetails.push({ key: 'duo', ...details['duo'] });
+      formattedDetails.push({ key: 'duo - fpp', ...details['duo-fpp'] });
+      formattedDetails.push({ key: 'squad', ...details['squad'] });
+      formattedDetails.push({ key: 'squad - fpp', ...details['squad-fpp'] });
       this.playerDetails = formattedDetails;
     });
   }
@@ -79,7 +81,6 @@ export class PlayerPage implements OnInit {
     ];
 
     const filtered = seasons
-      .slice(-5)
       .map(season => {
         const fullName = season.id.split('.')[3].split('-');
         let secondName = fullName[1];
@@ -97,10 +98,7 @@ export class PlayerPage implements OnInit {
   }
 
   changeSeason(id) {
-    console.log('here', id, this.segment);
-    console.log(this.season);
     this.season = this.seasons.find(season => season.id === id);
-    console.log(this.season);
     this.store.dispatch(
       new LoadPlayerDetails({
         playerId: this.player.id,
@@ -115,6 +113,16 @@ export class PlayerPage implements OnInit {
   }
 
   toMatches() {
+    const matchesNumbers = this.player.matches.map(match => match.id);
+    const matchesString = matchesNumbers.join('|');
+    this.store.dispatch(
+      new LoadMatches({
+        platform: this.player.platform,
+        region: this.player.region,
+        matches: matchesString,
+        playerId: this.player.id
+      })
+    );
     this.navCtrl.push(Tab1Root);
   }
 }

@@ -16,7 +16,8 @@
 
         <ion-item>
           <ion-label>Platform</ion-label>
-          <ion-select formControlName="platform">
+          <ion-select interface="action-sheet"
+                      formControlName="platform">
             <ion-option value="pc">PC</ion-option>
             <ion-option value="xbox">Xbox</ion-option>
           </ion-select>
@@ -25,7 +26,8 @@
 
         <ion-item>
           <ion-label>Region</ion-label>
-          <ion-select formControlName="region">
+          <ion-select interface="action-sheet"
+                      formControlName="region">
             <ion-option value="na">North America</ion-option>
             <ion-option value="eu">Europe</ion-option>
             <ion-option value="as">Asia</ion-option>
@@ -44,7 +46,7 @@
 
         <div padding>
           <button ion-button
-                  color="primary"
+                  class="gradient-button"
                   [disabled]="!formValid()"
                   block>Search</button>
         </div>
