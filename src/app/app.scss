@@ -109,7 +109,8 @@ mat-expansion-panel-header mat-expanded {
   letter-spacing: normal;
   text-align: left;
 }
-.Stat-Title {
+.Stat-Title,
+.panel-title span {
   font-family: 'Nunito Sans', sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -129,7 +130,8 @@ mat-expansion-panel-header mat-expanded {
   letter-spacing: 0.5px;
   text-align: center;
 }
-.Stat-Number {
+.Stat-Number,
+.glance div {
   font-family: 'Nunito Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -149,7 +151,16 @@ mat-expansion-panel-header mat-expanded {
   letter-spacing: normal;
   text-align: left;
 }
-.List-Value {
+.list-key {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.list-value {
   font-family: 'Nunito Sans', sans-serif;
   font-size: 14px;
   font-weight: normal;
@@ -169,17 +180,9 @@ mat-expansion-panel-header mat-expanded {
   letter-spacing: 0.4px;
   text-align: center;
 }
-.List-Key {
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 2.75;
-  letter-spacing: normal;
-  text-align: left;
-}
-.Stat-Key {
+
+.Stat-Key,
+.glance span {
   font-family: 'Nunito Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;

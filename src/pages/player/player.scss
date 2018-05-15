@@ -17,7 +17,25 @@ ion-segment {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  padding: 1rem;
+  padding: 8px 1rem 24px;
+}
+
+.matches-button {
+  width: 104px;
+  height: 36px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.season-title {
+  margin: 0;
+  align-self: center;
 }
 
 .mat-expansion-panel-header-title {
