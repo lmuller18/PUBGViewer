@@ -37,22 +37,6 @@
   background-image: url('../assets/img/pubg-assests/erangel_minimap_small.jpg');
 }
 
-mat-expansion-panel {
-  background: linear-gradient(
-    to right,
-    color($colors, dark-five),
-    color($colors, dirty-purple)
-  );
-}
-
-mat-expansion-panel-header mat-expanded {
-  background-image: linear-gradient(
-    to right,
-    color($colors, charcoal-grey),
-    color($colors, purplish-brown-two)
-  );
-}
-
 .gradient-button {
   background: linear-gradient(
     to left,
@@ -159,6 +143,7 @@ mat-expansion-panel-header mat-expanded {
   font-stretch: normal;
   letter-spacing: normal;
   text-align: left;
+  color: #adaeb7;
 }
 .list-value {
   font-family: 'Nunito Sans', sans-serif;

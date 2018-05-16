@@ -1,4 +1,58 @@
 page-match-details {
+  .mat-expansion-panel.player-panel-0 {
+    margin-bottom: 0px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark),
+      color($colors, dusk-two) 61%,
+      color($colors, dusk)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-1 {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      96deg,
+      color($colors, charcoal-grey-two),
+      color($colors, dirty-purple-two) 53%,
+      color($colors, purplish-brown-three)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-2 {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      103deg,
+      color($colors, dark-two),
+      color($colors, greyish-brown) 64%,
+      color($colors, purplish-brown)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-3 {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark),
+      color($colors, slate) 55%,
+      color($colors, dark-grey-blue)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-extra {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark),
+      color($colors, dusk-four) 61%,
+      color($colors, dusk-three)
+    );
+  }
+
   .item-profile {
     width: 100%;
     background-position: center center;
@@ -17,7 +71,7 @@ page-match-details {
   .item-detail {
     margin-top: 175px;
     width: 100%;
-    background: white;
+    background: color($colors, dark-three);
     position: absolute;
   }
 
@@ -25,14 +79,5 @@ page-match-details {
     display: flex !important;
     justify-content: space-between !important;
     flex-direction: row !important;
-  }
-
-  .mat-expansion-panel-header-title {
-    flex-basis: 0;
-  }
-
-  .mat-expansion-panel-header-title {
-    justify-content: space-between;
-    align-items: center;
   }
 }

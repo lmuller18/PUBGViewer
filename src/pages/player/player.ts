@@ -54,12 +54,12 @@ export class PlayerPage implements OnInit {
     });
     this.playerDetails$.subscribe(details => {
       const formattedDetails = [];
-      formattedDetails.push({ key: 'solo', ...details['solo'] });
-      formattedDetails.push({ key: 'solo - fpp', ...details['solo-fpp'] });
-      formattedDetails.push({ key: 'duo', ...details['duo'] });
-      formattedDetails.push({ key: 'duo - fpp', ...details['duo-fpp'] });
-      formattedDetails.push({ key: 'squad', ...details['squad'] });
-      formattedDetails.push({ key: 'squad - fpp', ...details['squad-fpp'] });
+      formattedDetails.push({ key: 'Solo', ...details['solo'] });
+      formattedDetails.push({ key: 'Solo - FPP', ...details['solo-fpp'] });
+      formattedDetails.push({ key: 'Duo', ...details['duo'] });
+      formattedDetails.push({ key: 'Duo - FPP', ...details['duo-fpp'] });
+      formattedDetails.push({ key: 'Squad', ...details['squad'] });
+      formattedDetails.push({ key: 'Squad - FPP', ...details['squad-fpp'] });
       this.playerDetails = formattedDetails;
     });
   }

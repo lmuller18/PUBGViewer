@@ -27,9 +27,9 @@
            padding>
         <h2>Rank #{{ match.team.stats.rank }}</h2>
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let teammate of match.team.teammates; let first = first"
+          <mat-expansion-panel *ngFor="let teammate of match.team.teammates; let first = first; let i = index;"
                                [expanded]="first"
-                               hideToggle="true">
+                               [ngClass]="'player-panel-' + (i <= 3 ? i : 'extra')">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 {{ teammate.stats.name }}
@@ -70,7 +70,7 @@
                         </mat-panel-title>
                       </mat-expansion-panel-header>
                       <mat-list *ngFor="let attack of attacks">
-                        <mat-list-item (click)="drawAttack(attack)">
+                        <mat-list-item>
                           <h3 matLine> {{ attack.damage | number : '1.0-2' }} </h3>
                           <h3 matLine> {{ attack.damageReason }} </h3>
                           <h3 matLine> {{ attack.victim.name }} </h3>
