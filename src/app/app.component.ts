@@ -5,6 +5,8 @@ import { Nav, Platform, App, ViewController } from 'ionic-angular';
 
 import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
+import { AuthService } from '../services/auth.service';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   template: `<ion-menu [content]="content">
@@ -36,9 +38,10 @@ export class MyApp {
   ];
 
   constructor(
-    platform: Platform,
+    private platform: Platform,
     settings: Settings,
     app: App,
+    private auth: AuthService,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen
   ) {

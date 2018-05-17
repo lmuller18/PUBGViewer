@@ -1,25 +1,60 @@
-import { Component } from "@angular/core";
-import { IonicPage, NavController, ToastController } from "ionic-angular";
-
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IonicPage, NavController } from 'ionic-angular';
+import { AuthService } from '../../services/auth.service';
+import { FirstRunPage } from '../pages';
 @IonicPage()
 @Component({
-  selector: "page-login",
-  templateUrl: "login.html"
+  selector: 'page-login',
+  templateUrl: 'login.html'
 })
 export class LoginPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
-  account: { email: string; password: string } = {
-    email: "test@example.com",
-    password: "test"
-  };
+  loginForm: FormGroup;
+  loginError: string;
 
   constructor(
-    public navCtrl: NavController,
-    public toastCtrl: ToastController
-  ) {}
+    private navCtrl: NavController,
+    private auth: AuthService,
+    fb: FormBuilder
+  ) {
+    this.loginForm = fb.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      password: [
+        '',
+        Validators.compose([Validators.required, Validators.minLength(6)])
+      ]
+    });
+  }
 
-  // Attempt to login in through our User service
-  doLogin() {}
+  login() {
+    let data = this.loginForm.value;
+
+    if (!data.email) {
+      return;
+    }
+
+    let credentials = {
+      email: data.email,
+      password: data.password
+    };
+    this.auth
+      .signInWithEmail(credentials)
+      .then(
+        () => this.navCtrl.setRoot(FirstRunPage),
+        error => (this.loginError = error.message)
+      );
+  }
+
+  signup() {
+    this.navCtrl.push('SignupPage');
+  }
+
+  loginWithGoogle() {
+    this.auth
+      .signInWithGoogle()
+      .then(
+        () => this.navCtrl.setRoot(FirstRunPage),
+        error => console.log(error.message)
+      );
+  }
 }
