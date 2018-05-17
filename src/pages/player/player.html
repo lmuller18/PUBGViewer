@@ -61,11 +61,11 @@
               </div>
               <div class="glance">
                 <span>Win %</span>
-                <div class="stat-2">{{ (stats.wins !== 0 ? stats.wins / stats.roundsPlayed : 0) | number : '1.0-2' }}%</div>
+                <div class="stat-2">{{ (stats.wins !== 0 ? (stats.wins / stats.roundsPlayed) * 100 : 0) | number : '1.0-2' }}%</div>
               </div>
               <div class="glance">
                 <span>Top 10</span>
-                <div class="stat-3">{{ (stats.top10s !== 0 ? stats.top10s / stats.roundsPlayed : 0) | number : '1.0-2' }}%</div>
+                <div class="stat-3">{{ (stats.top10s !== 0 ? (stats.top10s / stats.roundsPlayed) * 100 : 0) | number : '1.0-2' }}%</div>
               </div>
               <div class="glance">
                 <span>KDR</span>
