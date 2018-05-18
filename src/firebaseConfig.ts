@@ -1,6 +1,6 @@
 export const firebaseConfig = {
   fire: {
-    apiKey: 'AIzaSyAV8hLdmBbVgoeOR8EgNE7X9bDgIRFGIzk',
+    apiKey: 'AIzaSyA2XlnY0FBnuSogE4pNYdg9l5pDt1YUeKo',
     authDomain: 'pubgviewer.firebaseapp.com',
     databaseURL: 'https://pubgviewer.firebaseio.com',
     projectId: 'pubgviewer',
