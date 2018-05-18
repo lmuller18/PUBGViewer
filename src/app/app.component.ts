@@ -73,6 +73,18 @@ export class MyApp implements OnInit {
     });
   }
 
+  getDisplayValue() {
+    if (this.auth) {
+      if (this.auth.getName()) {
+        return this.auth.getName();
+      } else if (this.auth.getEmail()) {
+        return this.auth.getEmail();
+      }
+    }
+
+    return 'PUBG Viewer';
+  }
+
   logout() {
     this.auth.signOut();
     this.nav.setRoot(FirstRunPage);

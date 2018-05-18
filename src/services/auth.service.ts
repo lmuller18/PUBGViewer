@@ -36,6 +36,14 @@ export class AuthService {
     return this.user && this.user.email;
   }
 
+  getName() {
+    return this.user && this.user.displayName;
+  }
+
+  getPhoto() {
+    return this.user && this.user.photoURL;
+  }
+
   signOut(): Promise<void> {
     return this.afAuth.auth.signOut();
   }
