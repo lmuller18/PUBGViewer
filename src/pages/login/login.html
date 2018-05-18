@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [color]="'primary'">
     <button ion-button
             menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -31,6 +31,7 @@
 
       <button ion-button
               full
+              class="gradient-button"
               type="submit"
               [disabled]="!loginForm.valid">Log in</button>
       <div class="login-footer">
@@ -46,6 +47,7 @@
                 icon-left
                 block
                 clear
+                class="gradient-button"
                 (click)="loginWithGoogle()">
           <ion-icon name="logo-google"></ion-icon>
           Log in with Google
@@ -55,6 +57,7 @@
                 icon-left
                 block
                 clear
+                class="gradient-button"
                 (click)="signup()">
           <ion-icon name="person-add"></ion-icon>
           Sign up

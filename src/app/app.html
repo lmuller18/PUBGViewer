@@ -1,0 +1,53 @@
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar [color]="'primary'">
+      <ion-title>{{ auth.getEmail() ? auth.getEmail() : 'PUBGViewer'}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <button menuClose
+              ion-item
+              *ngFor="let p of pages"
+              (click)="openPage(p)">
+        {{p.title}}
+      </button>
+
+      <button *ngIf="player$ | async"
+              menuClose
+              ion-item
+              (click)="openPage({component: 'PlayerPage'})">
+        Player Details
+      </button>
+
+      <button *ngIf="player$ | async"
+              menuClose
+              ion-item
+              (click)="openPage({component: 'MatchesPage'})">
+        Player Matches
+      </button>
+    </ion-list>
+    <ion-list class="bottom">
+      <ion-item menuClose
+                (click)="logout()"
+                *ngIf="auth.authenticated">
+        <ion-icon name="log-out"
+                  item-left></ion-icon>
+        Log out
+      </ion-item>
+
+      <ion-item menuClose
+                (click)="login()"
+                *ngIf="!auth.authenticated">
+        <ion-icon name="log-in"
+                  item-left></ion-icon>
+        Log in
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+<ion-nav [color]="'primary'"
+         #content
+         [root]="rootPage"></ion-nav>

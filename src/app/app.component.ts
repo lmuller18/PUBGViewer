@@ -1,57 +1,61 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Nav, Platform, App, ViewController } from 'ionic-angular';
 
-import { FirstRunPage } from '../pages/pages';
+import { FirstRunPage, LoginPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
 import { AuthService } from '../services/auth.service';
-import { LoginPage } from '../pages/login/login';
+
+import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import * as fromViewer from '../store';
+import { filter } from 'rxjs/operators';
 
 @Component({
-  template: `<ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Pages</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
-    </ion-list>
-  </ion-content>
-
-</ion-menu>
-  <ion-nav [color]="'primary'" #content [root]="rootPage"></ion-nav>`
+  templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit {
   rootPage = FirstRunPage;
 
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
-    { title: 'Search', component: 'SearchPage' },
-    { title: 'Player', component: 'PlayerPage' }
+    { title: 'Home', component: 'WelcomePage' },
+    { title: 'Search', component: 'SearchPage' }
   ];
 
+  private app;
+  private platform;
+  player$: Observable<any>;
+
   constructor(
-    private platform: Platform,
+    platform: Platform,
     settings: Settings,
     app: App,
     private auth: AuthService,
     private statusBar: StatusBar,
-    private splashScreen: SplashScreen
+    private splashScreen: SplashScreen,
+    private store: Store<fromViewer.ViewerState>
   ) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+    this.app = app;
+    this.platform = platform;
+    this.initializeApp();
+  }
+
+  ngOnInit() {
+    this.player$ = this.store.pipe(
+      select(fromViewer.getPlayer),
+      filter(Boolean)
+    );
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      platform.registerBackButtonAction(() => {
-        let nav = app.getActiveNav();
+      this.platform.registerBackButtonAction(() => {
+        let nav = this.app.getActiveNav();
         let activeView: ViewController = nav.getActive();
 
         if (activeView != null) {
@@ -67,6 +71,16 @@ export class MyApp {
         }
       });
     });
+  }
+
+  logout() {
+    this.auth.signOut();
+    this.nav.setRoot(FirstRunPage);
+  }
+
+  login() {
+    this.auth.signOut();
+    this.nav.setRoot(LoginPage);
   }
 
   openPage(page) {

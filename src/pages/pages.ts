@@ -6,6 +6,7 @@ export const FirstRunPage = 'WelcomePage';
 // export const MainPage = "TabsPage";
 export const MainPage = 'PlayerPage';
 export const TabPage = 'TabsPage';
+export const LoginPage = 'LoginPage';
 
 // The initial root pages for our tabs (remove if not using tabs)
 export const Tab1Root = 'MatchesPage';
