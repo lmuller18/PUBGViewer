@@ -75,7 +75,7 @@ export class PlayerEffects {
               if (this.app.getActiveNav().parent) {
                 this.app.getActiveNav().parent.select(0);
               } else {
-                this.app.getActiveNav().push(MainPage);
+                this.app.getActiveNav().setRoot(MainPage);
               }
               return [
                 new LoadPlayerSuccess(value.player),

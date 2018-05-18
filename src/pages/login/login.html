@@ -1,45 +1,68 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Login</ion-title>
+  <ion-navbar [color]="'primary'">
+    <button ion-button
+            menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Log in</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content>
-  <form (submit)="doLogin()">
-    <ion-list>
+  <form (ngSubmit)="login()"
+        [formGroup]="loginForm">
+    <ion-list inset>
 
       <ion-item>
-        <ion-label fixed>Email</ion-label>
-        <ion-input type="email"
-                   [(ngModel)]="account.email"
-                   name="email"></ion-input>
+        <ion-input type="text"
+                   placeholder="Email"
+                   formControlName="email"></ion-input>
       </ion-item>
 
-      <!--
-      Want to use a Username instead of an Email? Here you go:
-
       <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
-      </ion-item>
-      -->
-
-      <ion-item>
-        <ion-label fixed>Password</ion-label>
         <ion-input type="password"
-                   [(ngModel)]="account.password"
-                   name="password"></ion-input>
+                   placeholder="Password"
+                   formControlName="password"></ion-input>
       </ion-item>
+    </ion-list>
 
-      <div padding>
-        <button ion-button
-                color="primary"
-                block>Login</button>
+    <div padding-horizontal>
+      <div class="form-error">{{loginError}}</div>
+
+      <button ion-button
+              full
+              class="gradient-button"
+              type="submit"
+              [disabled]="!loginForm.valid">Log in</button>
+      <div class="login-footer">
+        <p>
+          <a href="#">Forgot password?</a>
+          If you're a new user, please sign up.
+        </p>
       </div>
 
-    </ion-list>
+      <ion-list>
+
+        <button ion-button
+                icon-left
+                block
+                clear
+                class="gradient-button"
+                (click)="loginWithGoogle()">
+          <ion-icon name="logo-google"></ion-icon>
+          Log in with Google
+        </button>
+
+        <button ion-button
+                icon-left
+                block
+                clear
+                class="gradient-button"
+                (click)="signup()">
+          <ion-icon name="person-add"></ion-icon>
+          Sign up
+        </button>
+      </ion-list>
+    </div>
   </form>
 </ion-content>
