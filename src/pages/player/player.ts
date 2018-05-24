@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
@@ -6,7 +6,11 @@ import { Store, select } from '@ngrx/store';
 import * as fromViewer from '../../store';
 import { filter } from 'rxjs/operators';
 import { Tab1Root } from '../pages';
-import { LoadPlayerDetails, LoadMatches } from '../../store';
+import {
+  LoadPlayerDetails,
+  LoadMatches,
+  SetPlayerCharacter
+} from '../../store';
 
 @IonicPage()
 @Component({
@@ -25,7 +29,8 @@ export class PlayerPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
-    private store: Store<fromViewer.ViewerState>
+    private store: Store<fromViewer.ViewerState>,
+    private cf: ChangeDetectorRef
   ) {
     this.playerDetails$ = this.store.pipe(
       select(fromViewer.getPlayerDetails),
@@ -112,6 +117,10 @@ export class PlayerPage implements OnInit {
     );
   }
 
+  segmentChanged() {
+    this.cf.detectChanges();
+  }
+
   toMatches() {
     const matchesNumbers = this.player.matches.map(match => match.id);
     const matchesString = matchesNumbers.join('|');
@@ -124,5 +133,15 @@ export class PlayerPage implements OnInit {
       })
     );
     this.navCtrl.push(Tab1Root);
+  }
+
+  setPlayer() {
+    this.store.dispatch(
+      new SetPlayerCharacter({
+        platform: this.player.platform,
+        region: this.player.region,
+        playerId: this.player.id
+      })
+    );
   }
 }

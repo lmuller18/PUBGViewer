@@ -19,6 +19,7 @@ import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from '../firebaseConfig';
 
 // The translate loader needs to know where to load i18n files
@@ -50,7 +51,8 @@ export function provideSettings(storage: Storage) {
     EffectsModule.forRoot(effects),
     StoreModule.forFeature('viewer', reducers),
     EffectsModule.forFeature(effects),
-    AngularFireModule.initializeApp(firebaseConfig.fire)
+    AngularFireModule.initializeApp(firebaseConfig.fire),
+    AngularFirestoreModule.enablePersistence()
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],

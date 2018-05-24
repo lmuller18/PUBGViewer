@@ -1,20 +1,37 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from 'angularfire2/firestore';
 import * as firebase from 'firebase';
 import AuthProvider = firebase.auth.AuthProvider;
 
 @Injectable()
 export class AuthService {
   private user: any;
+  private userPlayer: any;
+  private usersCollection: AngularFirestoreCollection<any>;
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore) {
+    this.usersCollection = this.afs.collection('users');
     afAuth.authState.subscribe(user => {
       this.user = user;
+      if (this.getEmail()) {
+        this.usersCollection
+          .doc(this.getEmail())
+          .valueChanges()
+          .subscribe(userPlayer => {
+            if (userPlayer) {
+              this.userPlayer = userPlayer;
+              console.log(this.userPlayer);
+            }
+          });
+      }
     });
   }
 
   signInWithEmail(credentials) {
-    console.log('Sign in with email');
     return this.afAuth.auth.signInWithEmailAndPassword(
       credentials.email,
       credentials.password
@@ -40,6 +57,39 @@ export class AuthService {
     return this.user && this.user.displayName;
   }
 
+  getUserPlayer() {
+    return this.userPlayer && this.userPlayer;
+  }
+
+  setUserPlayer(userPlayer: any) {
+    this.usersCollection
+      .doc(this.getEmail())
+      .ref.get()
+      .then(snap => {
+        return snap.exists
+          ? this.updateUserPlayer(userPlayer)
+          : this.createUserPlayer(userPlayer);
+      })
+      .catch(err => console.log(err));
+  }
+
+  createUserPlayer(userPlayer: any) {
+    return this.usersCollection.doc(this.getEmail()).set({
+      email: this.getEmail(),
+      platform: userPlayer.platform,
+      region: userPlayer.platform,
+      playerId: userPlayer.playerId
+    });
+  }
+
+  updateUserPlayer(userPlayer: any) {
+    return this.usersCollection.doc(this.getEmail()).update({
+      platform: userPlayer.platform,
+      region: userPlayer.platform,
+      playerId: userPlayer.playerId
+    });
+  }
+
   getPhoto() {
     return this.user && this.user.photoURL;
   }
@@ -49,7 +99,6 @@ export class AuthService {
   }
 
   signInWithGoogle() {
-    console.log('Sign in with google');
     return this.oauthSignIn(new firebase.auth.GoogleAuthProvider());
   }
 

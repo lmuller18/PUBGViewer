@@ -12,7 +12,10 @@ import {
   LoadSeasons,
   LoadSeasonsSuccess,
   LoadPlayerDetails,
-  LoadPlayerDetailsSuccess
+  LoadPlayerDetailsSuccess,
+  SetPlayerCharacter,
+  SetPlayerCharacterSuccess,
+  SetPlayerCharacterFailure
 } from '../actions/player.actions';
 import { Observable } from 'rxjs/Observable';
 import { switchMap, map, concatMap, catchError } from 'rxjs/operators';
@@ -23,6 +26,7 @@ import {
   LoadingController,
   Loading
 } from 'ionic-angular';
+import { AuthService } from '../../services/auth.service';
 
 export interface PlayerResponse {
   player: any;
@@ -37,7 +41,8 @@ export class PlayerEffects {
     private http: HttpClient,
     private actions$: Actions,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private auth: AuthService
   ) {
     this.loading = this.createLoader();
   }
@@ -150,6 +155,19 @@ export class PlayerEffects {
               return of(new LoadPlayerFailure(error));
             })
           );
+      })
+    );
+
+  @Effect()
+  setPlayerCharacter$: Observable<Action> = this.actions$
+    .ofType(PlayerActionTypes.SetPlayerCharacter)
+    .pipe(
+      map((action: SetPlayerCharacter) => action.payload),
+      switchMap((player: any) => {
+        return of(this.auth.setUserPlayer(player)).pipe(
+          map(value => new SetPlayerCharacterSuccess()),
+          catchError(error => of(new SetPlayerCharacterFailure()))
+        );
       })
     );
 

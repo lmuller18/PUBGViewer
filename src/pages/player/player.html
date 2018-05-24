@@ -5,12 +5,15 @@
             menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title *ngIf="player">{{ player.name }}</ion-title>
+    <ion-title *ngIf="player">{{ player.name }}
+      <button (tap)="setPlayer()">Set Player</button>
+    </ion-title>
   </ion-navbar>
 
   <ion-toolbar no-border-top>
     <ion-segment *ngIf="segment"
-                 [(ngModel)]="segment">
+                 [(ngModel)]="segment"
+                 (ionChange)="segmentChanged()">
       <ion-segment-button *ngFor="let season of seasons"
                           (click)="changeSeason(season.id)"
                           [value]="season.id">

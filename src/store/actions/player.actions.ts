@@ -11,7 +11,11 @@ export enum PlayerActionTypes {
 
   LoadPlayerDetails = '[Viewer] Load Player Details',
   LoadPlayerDetailsSuccess = '[Viewer] Load Player Details Success',
-  LoadPlayerDetailsFailure = '[Viewer] Load Player Details Failure'
+  LoadPlayerDetailsFailure = '[Viewer] Load Player Details Failure',
+
+  SetPlayerCharacter = '[Viewer] Set Player Character',
+  SetPlayerCharacterSuccess = '[Viewer] Set Player Character Success',
+  SetPlayerCharacterFailure = '[Viewer] Set Player Character Failure'
 }
 
 export class LoadPlayer implements Action {
@@ -58,6 +62,19 @@ export class LoadPlayerDetailsFailure implements Action {
   readonly type = PlayerActionTypes.LoadPlayerDetailsFailure;
   constructor(public payload: any) {}
 }
+
+export class SetPlayerCharacter implements Action {
+  readonly type = PlayerActionTypes.SetPlayerCharacter;
+  constructor(public payload: any) {}
+}
+
+export class SetPlayerCharacterSuccess implements Action {
+  readonly type = PlayerActionTypes.SetPlayerCharacterSuccess;
+}
+
+export class SetPlayerCharacterFailure implements Action {
+  readonly type = PlayerActionTypes.SetPlayerCharacterFailure;
+}
 export type PlayerActions =
   | LoadPlayer
   | LoadPlayerSuccess
@@ -67,4 +84,7 @@ export type PlayerActions =
   | LoadPlayerDetailsFailure
   | LoadSeasons
   | LoadSeasonsSuccess
-  | LoadSeasonsFailure;
+  | LoadSeasonsFailure
+  | SetPlayerCharacter
+  | SetPlayerCharacterSuccess
+  | SetPlayerCharacterFailure;
