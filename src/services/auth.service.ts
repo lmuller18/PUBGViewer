@@ -77,16 +77,18 @@ export class AuthService {
     return this.usersCollection.doc(this.getEmail()).set({
       email: this.getEmail(),
       platform: userPlayer.platform,
-      region: userPlayer.platform,
-      playerId: userPlayer.playerId
+      region: userPlayer.region,
+      playerId: userPlayer.playerId,
+      username: userPlayer.username
     });
   }
 
   updateUserPlayer(userPlayer: any) {
     return this.usersCollection.doc(this.getEmail()).update({
       platform: userPlayer.platform,
-      region: userPlayer.platform,
-      playerId: userPlayer.playerId
+      region: userPlayer.region,
+      playerId: userPlayer.playerId,
+      username: userPlayer.username
     });
   }
 

@@ -65,9 +65,13 @@ export class PlayerEffects {
         }
 
         this.loading.present();
+        player = {
+          ...player,
+          username: player.username.trim()
+        };
         return this.http
           .get<any>(
-            `https://pubgapi.lmuller.me/api/player/${player.username.trim()}?region=${
+            `https://pubgapi.lmuller.me/api/player/${player.username}?region=${
               player.region
             }&platform=${player.platform}`
           )
@@ -82,10 +86,23 @@ export class PlayerEffects {
               } else {
                 this.app.getActiveNav().setRoot(MainPage);
               }
-              return [
-                new LoadPlayerSuccess(value.player),
-                new LoadSeasons(value.player)
-              ];
+              if (player.default) {
+                return [
+                  new SetPlayerCharacter({
+                    platform: value.player.platform,
+                    region: value.player.region,
+                    playerId: value.player.id,
+                    username: value.player.name
+                  }),
+                  new LoadPlayerSuccess(value.player),
+                  new LoadSeasons(value.player)
+                ];
+              } else {
+                return [
+                  new LoadPlayerSuccess(value.player),
+                  new LoadSeasons(value.player)
+                ];
+              }
             }),
             catchError(error => {
               if (this.loading) {

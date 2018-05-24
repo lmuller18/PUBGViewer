@@ -6,11 +6,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromViewer from '../../store';
 import { filter } from 'rxjs/operators';
 import { Tab1Root } from '../pages';
-import {
-  LoadPlayerDetails,
-  LoadMatches,
-  SetPlayerCharacter
-} from '../../store';
+import { LoadPlayerDetails, LoadMatches } from '../../store';
 
 @IonicPage()
 @Component({
@@ -133,15 +129,5 @@ export class PlayerPage implements OnInit {
       })
     );
     this.navCtrl.push(Tab1Root);
-  }
-
-  setPlayer() {
-    this.store.dispatch(
-      new SetPlayerCharacter({
-        platform: this.player.platform,
-        region: this.player.region,
-        playerId: this.player.id
-      })
-    );
   }
 }

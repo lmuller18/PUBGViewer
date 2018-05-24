@@ -6,8 +6,7 @@
     </div>
   </div>
   <div>
-    <form [formGroup]="searchForm"
-          (submit)="search()">
+    <form [formGroup]="searchForm">
       <ion-list>
         <ion-item>
           <ion-searchbar formControlName="username"
@@ -35,11 +34,23 @@
           </ion-select>
         </ion-item>
 
+        <ion-item *ngIf="auth.getEmail()">
+          <ion-label>This is me</ion-label>
+          <ion-checkbox [checked]="getIsUserPlayer()"
+                        formControlName="default"></ion-checkbox>
+        </ion-item>
+
         <div padding>
           <button ion-button
                   class="gradient-button"
                   [disabled]="!formValid()"
+                  (tap)="search()"
                   block>Search</button>
+          <button *ngIf="auth.getEmail() && auth.getUserPlayer()"
+                  ion-button
+                  class="gradient-button"
+                  (tap)="searchMe()"
+                  block>Search Me</button>
         </div>
 
       </ion-list>
