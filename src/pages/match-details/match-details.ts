@@ -15,6 +15,8 @@ export class MatchDetailsPage implements OnInit {
   telemetry: any;
   match: any;
   segment = 'details';
+  panelState = [];
+  loaded = false;
 
   // canvas variables
   canvas: any;
@@ -38,6 +40,10 @@ export class MatchDetailsPage implements OnInit {
     private store: Store<fromViewer.ViewerState>
   ) {
     this.match = navParams.get('match');
+    this.match.team.teammates.forEach((teammate, i) => {
+      this.panelState.push(false);
+    });
+    this.loaded = true;
     const map = this.match.map === 'Desert_Main' ? 'miramar' : 'erangel';
     this.mapName = `../../assets/img/pubg-assests/${map}_minimap_small.jpg`;
     const teammateNames = this.match.team.teammates.map(
