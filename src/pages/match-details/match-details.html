@@ -30,7 +30,7 @@
       <div class="item-detail"
            padding>
         <div class="team">
-          <div class="team-name">Team Satan</div>
+          <div class="team-name">Player Team</div>
           <div class="rank">
             <img *ngIf="match.team.stats.rank === 1"
                  src="../../assets/img/ic_winner.png"
@@ -39,15 +39,15 @@
         <mat-accordion *ngIf="loaded">
           <mat-expansion-panel *ngFor="let teammate of match.team.teammates; let i = index;"
                                [ngClass]="'player-panel-' + (i <= 3 ? i : 'extra')"
-                               (opened)="panelState[i] = true"
-                               (closed)="panelState[i] = false">
+                               (opened)="teamPanelState[i] = true"
+                               (closed)="teamPanelState[i] = false">
             <mat-expansion-panel-header [collapsedHeight]="'84px'"
                                         [expandedHeight]="'48px'">
-              <mat-panel-title *ngIf="panelState[i] !== undefined">
+              <mat-panel-title *ngIf="teamPanelState[i] !== undefined">
                 <div class="Player-Name">{{ teammate.stats.name }}</div>
-                <mat-divider *ngIf="panelState[i] === false"></mat-divider>
+                <mat-divider *ngIf="teamPanelState[i] === false"></mat-divider>
                 <div class="panel-glance"
-                     *ngIf="panelState[i] === false">
+                     *ngIf="teamPanelState[i] === false">
                   <div class="kills">
                     <img class="stat-img"
                          src="../../assets/img/ic_kill.png">
@@ -57,7 +57,7 @@
                   </div>
                   <div class="damage">
                     <img class="stat-img"
-                         src="../../assets/img/ic-damage.png">
+                         src="../../assets/img/ic-damage@2x.png">
                     <span class="stat-key">DAMAGE DEALT</span>
                     <span class="stat-value"
                           [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.damageDealt | number : '1.0-2' }}</span>
@@ -89,7 +89,94 @@
                 <h3 matLine
                     class="list-key">
                   <img class="stat-img"
-                       src="../../assets/img/ic-damage.png">
+                       src="../../assets/img/ic-damage@2x.png">
+                  <span>DAMAGE DEALT</span>
+                </h3>
+                <h3 matLine
+                    class="list-value"
+                    [ngClass]="'player-' + (i <= 3 ? i : 'extra')"> {{ teammate.stats.damageDealt | number : '1.0-2' }}</h3>
+              </mat-list-item>
+              <!-- <mat-expansion-panel *ngFor="let attacks of telemetry.teamAttacks[teammate.stats.name]; let first=first"
+                                   [expanded]="first"
+                                   hideToggle="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ attacks[0].damageCauserName | damageTypePipe }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list *ngFor="let attack of attacks">
+                  <mat-list-item>
+                    <h3 matLine> {{ attack.damage | number : '1.0-2' }} </h3>
+                    <h3 matLine> {{ attack.damageReason }} </h3>
+                    <h3 matLine> {{ attack.victim.name }} </h3>
+                  </mat-list-item>
+                </mat-list>
+              </mat-expansion-panel> -->
+            </mat-list>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div *ngIf="match.enemies && match.enemies.teammates"
+             class="team enemy-team">
+          <div class="team-name">Winning Team</div>
+          <div class="rank">
+            <img *ngIf="match.enemies.stats.rank === 1"
+                 src="../../assets/img/ic_winner.png"
+                 class="ic_winner"> Rank #{{ match.enemies.stats.rank }}</div>
+        </div>
+        <mat-accordion *ngIf="loaded && match.enemies && match.enemies.teammates">
+          <mat-expansion-panel *ngFor="let teammate of match.enemies.teammates; let i = index;"
+                               [ngClass]="'player-panel-' + (i <= 3 ? i : 'extra')"
+                               (opened)="enemyPanelState[i] = true"
+                               (closed)="enemyPanelState[i] = false">
+            <mat-expansion-panel-header [collapsedHeight]="'84px'"
+                                        [expandedHeight]="'48px'">
+              <mat-panel-title *ngIf="enemyPanelState[i] !== undefined">
+                <div class="Player-Name">{{ teammate.stats.name }}</div>
+                <mat-divider *ngIf="enemyPanelState[i] === false"></mat-divider>
+                <div class="panel-glance"
+                     *ngIf="enemyPanelState[i] === false">
+                  <div class="kills">
+                    <img class="stat-img"
+                         src="../../assets/img/ic_kill.png">
+                    <span class="stat-key">KILLS</span>
+                    <span class="stat-value"
+                          [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.kills }}</span>
+                  </div>
+                  <div class="damage">
+                    <img class="stat-img"
+                         src="../../assets/img/ic-damage@2x.png">
+                    <span class="stat-key">DAMAGE DEALT</span>
+                    <span class="stat-value"
+                          [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.damageDealt | number : '1.0-2' }}</span>
+                  </div>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list *ngIf="telemetry">
+              <mat-list-item>
+                <h3 matLine
+                    class="list-key">
+                  <img class="stat-img"
+                       src="../../assets/img/ic_kill.png">
+                  <span>KILLS</span>
+                </h3>
+                <h3 matLine
+                    class="list-value"
+                    [ngClass]="'player-' + (i <= 3 ? i : 'extra')"> {{ teammate.stats.kills }} </h3>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+              <mat-list *ngFor="let kill of telemetry.enemyKills[teammate.stats.name]">
+                <mat-list-item>
+                  <h3 matLine
+                      class="stat-key"> {{ kill.damageCauserName | damageTypePipe }} </h3>
+                  <h3 matLine> {{ kill.victim.name }} </h3>
+                </mat-list-item>
+              </mat-list>
+              <mat-list-item>
+                <h3 matLine
+                    class="list-key">
+                  <img class="stat-img"
+                       src="../../assets/img/ic-damage@2x.png">
                   <span>DAMAGE DEALT</span>
                 </h3>
                 <h3 matLine
