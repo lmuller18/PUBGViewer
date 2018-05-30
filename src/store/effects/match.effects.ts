@@ -59,7 +59,7 @@ export class MatchEffects {
           .get<any>(
             `https://pubgapi.lmuller.me/api/telemetry?uri=${
               params.telemUrl
-            }&teammates=${params.teammates}`
+            }&teammates=${params.teammates}&enemies=${params.enemies}`
           )
           .pipe(
             map(value => {

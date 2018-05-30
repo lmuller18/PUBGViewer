@@ -6,8 +6,7 @@
     </div>
   </div>
   <div>
-    <form [formGroup]="searchForm"
-          (submit)="search()">
+    <form [formGroup]="searchForm">
       <ion-list>
         <ion-item>
           <ion-searchbar formControlName="username"
@@ -16,7 +15,8 @@
 
         <ion-item>
           <ion-label>Platform</ion-label>
-          <ion-select formControlName="platform">
+          <ion-select interface="action-sheet"
+                      formControlName="platform">
             <ion-option value="pc">PC</ion-option>
             <ion-option value="xbox">Xbox</ion-option>
           </ion-select>
@@ -25,7 +25,8 @@
 
         <ion-item>
           <ion-label>Region</ion-label>
-          <ion-select formControlName="region">
+          <ion-select interface="action-sheet"
+                      formControlName="region">
             <ion-option value="na">North America</ion-option>
             <ion-option value="eu">Europe</ion-option>
             <ion-option value="as">Asia</ion-option>
@@ -33,20 +34,23 @@
           </ion-select>
         </ion-item>
 
-        <!--
-      Want to add a Username? Here you go:
-
-      <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
-      </ion-item>
-      -->
+        <ion-item *ngIf="auth.getEmail()">
+          <ion-label>This is me</ion-label>
+          <ion-checkbox [checked]="getIsUserPlayer()"
+                        formControlName="default"></ion-checkbox>
+        </ion-item>
 
         <div padding>
           <button ion-button
-                  color="primary"
+                  class="gradient-button"
                   [disabled]="!formValid()"
+                  (tap)="search()"
                   block>Search</button>
+          <button *ngIf="auth.getEmail() && auth.getUserPlayer()"
+                  ion-button
+                  class="gradient-button"
+                  (tap)="searchMe()"
+                  block>Search Me</button>
         </div>
 
       </ion-list>

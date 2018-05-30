@@ -11,8 +11,8 @@ $font-path: '../assets/fonts';
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-$text-color: #000;
-$background-color: #fff;
+$text-color: #ffffff;
+$background-color: #272b3a;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -24,12 +24,36 @@ $background-color: #fff;
 // primary:    #488aff,
 
 $colors: (
-  primary: #2c2c2b,
+  primary: #272b3a,
   secondary: #f2a900,
-  success: #32db64,
-  danger: #f53d3d,
-  light: #f4f4f4,
-  dark: #222
+  gradient-left: #e25f65,
+  gradient-right: #fa8850,
+  boxes: #363649,
+  orangeish: #fe8f4d,
+  dusk: #454a79,
+  dusk-two: #425079,
+  purplish-brown: #684e50,
+  greyish-brown: #685350,
+  dark-two: #313449,
+  dark-grey-blue: #355b5d,
+  slate: #395a5e,
+  dark: #313448,
+  dusk-three: #4d396b,
+  dusk-four: #614e76,
+  dark-three: #272b3a,
+  dark-four: #1d1f2b,
+  orangish: #fa8850,
+  charcoal-grey-0: rgba(52, 54, 72, 0),
+  darkish-pink: #e15e65,
+  purplish-brown-two: #56454a,
+  charcoal-grey: #42384c,
+  dirty-purple: #463d4a,
+  dark-five: #323649,
+  dark-orangish: #b44347,
+  purplish-brown-three: #684454,
+  dirty-purple-two: #68455b,
+  charcoal-grey-two: #333648,
+  damage-fill: #e65757
 );
 
 // App iOS Variables
@@ -40,6 +64,11 @@ $colors: (
 // Material Design only Sass variables can go here
 // App Windows Variables
 // --------------------------------------------------
+// non selected background #1d1f2b
+// $segment-button-ios-background-color: color($colors, orangeish) !important;
+$segment-button-md-text-color-activated: #f5f0ef !important;
+// non selected text #61626b
+
 // Windows only Sass variables can go here
 // App Theme
 // --------------------------------------------------

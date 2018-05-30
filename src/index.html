@@ -29,20 +29,6 @@
   <meta name="apple-mobile-web-app-status-bar-style"
         content="black">
 
-  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyAV8hLdmBbVgoeOR8EgNE7X9bDgIRFGIzk",
-      authDomain: "pubgviewer.firebaseapp.com",
-      databaseURL: "https://pubgviewer.firebaseio.com",
-      projectId: "pubgviewer",
-      storageBucket: "pubgviewer.appspot.com",
-      messagingSenderId: "573083045690"
-    };
-    firebase.initializeApp(config);
-  </script>
-
   <!-- cordova.js required for cordova apps (remove if not needed) -->
   <!-- <script src="cordova.js"></script> -->
 
@@ -54,7 +40,20 @@
         .catch(err => console.error('Error', err));
     }
   </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async
+          src="https://www.googletagmanager.com/gtag/js?id=UA-119694798-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-119694798-1');
+  </script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700"
         rel="stylesheet">
 
 

@@ -1,10 +1,154 @@
 page-match-details {
+  .team {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+  }
+
+  .enemy-team {
+    padding-top: 2rem;
+  }
+
+  .player-damage {
+    margin-top: 1rem;
+  }
+
+  .img-holder {
+    height: 300px;
+    display: flex;
+  }
+
+  .damage-img {
+    margin: auto;
+  }
+
+  .damage-value {
+    padding-left: 1rem !important;
+  }
+
+  .team-name {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+  }
+
+  .segment-button {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.4px;
+    text-align: center;
+  }
+
+  .rank {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+  }
+
+  .player-0 {
+    color: #5394d8;
+  }
+
+  .player-1 {
+    color: #e65757;
+  }
+
+  .player-2 {
+    color: #f98751;
+  }
+
+  .player-3 {
+    color: #40c695;
+  }
+
+  .player-extra {
+    color: #986fe5;
+  }
+
+  .mat-expansion-panel-body {
+    background-color: #33364b;
+  }
+
+  .mat-expansion-panel.player-panel-0 {
+    margin-bottom: 0px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark),
+      color($colors, dusk-two) 61%,
+      color($colors, dusk)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-1 {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      96deg,
+      color($colors, charcoal-grey-two),
+      color($colors, dirty-purple-two) 53%,
+      color($colors, purplish-brown-three)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-2 {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      103deg,
+      color($colors, dark-two),
+      color($colors, greyish-brown) 64%,
+      color($colors, purplish-brown)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-3 {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark),
+      color($colors, slate) 55%,
+      color($colors, dark-grey-blue)
+    );
+  }
+
+  .mat-expansion-panel.player-panel-extra {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark),
+      color($colors, dusk-four) 61%,
+      color($colors, dusk-three)
+    );
+  }
+
   .item-profile {
     width: 100%;
     background-position: center center;
     background-size: cover;
-    height: 250px;
+    height: 200px;
     position: fixed;
+    mask-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(rgba(0, 0, 0, 1)),
+      to(rgba(0, 0, 0, 0))
+    );
   }
 
   #map {
@@ -15,10 +159,48 @@ page-match-details {
   }
 
   .item-detail {
-    margin-top: 175px;
+    margin-top: 150px;
     width: 100%;
-    background: white;
     position: absolute;
+  }
+
+  .mat-2-line {
+    height: 40px !important;
+  }
+
+  .ic_winner {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-bottom: -3px;
+  }
+
+  .stat-key {
+    opacity: 0.6;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    text-align: left;
+  }
+
+  .stat-value {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    text-align: left;
+  }
+
+  .stat-img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+    margin-bottom: -3px;
   }
 
   .mat-list-text {
@@ -28,11 +210,16 @@ page-match-details {
   }
 
   .mat-expansion-panel-header-title {
-    flex-basis: 0;
+    display: flex;
+    flex-direction: column;
   }
 
-  .mat-expansion-panel-header-title {
+  .panel-glance {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
+    padding-top: 0.5rem;
+    vertical-align: middle;
   }
 }

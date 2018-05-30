@@ -16,6 +16,12 @@ import { Settings } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
 
+import { AngularFireModule } from 'angularfire2';
+import { AuthService } from '../services/auth.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { firebaseConfig } from '../firebaseConfig';
+
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 
@@ -44,7 +50,9 @@ export function provideSettings(storage: Storage) {
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     StoreModule.forFeature('viewer', reducers),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    AngularFireModule.initializeApp(firebaseConfig.fire),
+    AngularFirestoreModule.enablePersistence()
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
@@ -54,6 +62,8 @@ export function provideSettings(storage: Storage) {
     Camera,
     SplashScreen,
     StatusBar,
+    AuthService,
+    AngularFireAuth,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }

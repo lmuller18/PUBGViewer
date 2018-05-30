@@ -8,7 +8,14 @@ import {
   PlayerActionTypes,
   LoadPlayer,
   LoadPlayerSuccess,
-  LoadPlayerFailure
+  LoadPlayerFailure,
+  LoadSeasons,
+  LoadSeasonsSuccess,
+  LoadPlayerDetails,
+  LoadPlayerDetailsSuccess,
+  SetPlayerCharacter,
+  SetPlayerCharacterSuccess,
+  SetPlayerCharacterFailure
 } from '../actions/player.actions';
 import { Observable } from 'rxjs/Observable';
 import { switchMap, map, concatMap, catchError } from 'rxjs/operators';
@@ -19,7 +26,7 @@ import {
   LoadingController,
   Loading
 } from 'ionic-angular';
-import { LoadMatches } from '../actions/matches.actions';
+import { AuthService } from '../../services/auth.service';
 
 export interface PlayerResponse {
   player: any;
@@ -34,14 +41,16 @@ export class PlayerEffects {
     private http: HttpClient,
     private actions$: Actions,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private auth: AuthService
   ) {
     this.loading = this.createLoader();
   }
 
-  createLoader(): Loading {
+  createLoader(message?): Loading {
+    const content = message || 'Searching Player...';
     return this.loadingCtrl.create({
-      content: 'Searching Player...'
+      content: content
     });
   }
 
@@ -56,6 +65,10 @@ export class PlayerEffects {
         }
 
         this.loading.present();
+        player = {
+          ...player,
+          username: player.username.trim()
+        };
         return this.http
           .get<any>(
             `https://pubgapi.lmuller.me/api/player/${player.username}?region=${
@@ -71,19 +84,76 @@ export class PlayerEffects {
               if (this.app.getActiveNav().parent) {
                 this.app.getActiveNav().parent.select(0);
               } else {
-                this.app.getActiveNav().push(MainPage);
+                this.app.getActiveNav().setRoot(MainPage);
               }
-              const matchesNumbers = value.player.matches.map(
-                match => match.id
+              if (player.default) {
+                return [
+                  new SetPlayerCharacter({
+                    platform: value.player.platform,
+                    region: value.player.region,
+                    playerId: value.player.id,
+                    username: value.player.name
+                  }),
+                  new LoadPlayerSuccess(value.player),
+                  new LoadSeasons(value.player)
+                ];
+              } else {
+                return [
+                  new LoadPlayerSuccess(value.player),
+                  new LoadSeasons(value.player)
+                ];
+              }
+            }),
+            catchError(error => {
+              if (this.loading) {
+                this.loading.dismiss();
+                this.loading = null;
+              }
+              let toast = this.toastCtrl.create({
+                message: 'Player was not found',
+                duration: 3000,
+                position: 'top'
+              });
+
+              toast.present();
+              return of(new LoadPlayerFailure(error));
+            })
+          );
+      })
+    );
+
+  @Effect()
+  loadSeasons$: Observable<Action> = this.actions$
+    .ofType(PlayerActionTypes.LoadSeasons)
+    .pipe(
+      map((action: LoadPlayer) => action.payload),
+      switchMap((player: any) => {
+        if (!this.loading) {
+          this.loading = this.createLoader('Loading Player Details');
+        }
+
+        this.loading.present();
+        return this.http
+          .get<any>(
+            `https://pubgapi.lmuller.me/api/seasons?platform=${
+              player.platform
+            }&region=${player.region}`
+          )
+          .pipe(
+            concatMap(value => {
+              const currentSeason = value.seasons.find(
+                season => season.attributes.isCurrentSeason
               );
-              const matchesString = matchesNumbers.join('|');
               return [
-                new LoadPlayerSuccess(value.player),
-                new LoadMatches({
+                new LoadSeasonsSuccess(value.seasons),
+                new LoadPlayerDetails({
                   platform: player.platform,
                   region: player.region,
-                  matches: matchesString,
-                  playerId: value.player.id
+                  playerId: player.id,
+                  season: {
+                    id: currentSeason.id,
+                    isCurrent: true
+                  }
                 })
               ];
             }),
@@ -93,7 +163,65 @@ export class PlayerEffects {
                 this.loading = null;
               }
               let toast = this.toastCtrl.create({
-                message: 'Player was not found',
+                message: 'Seasons were not found',
+                duration: 3000,
+                position: 'top'
+              });
+
+              toast.present();
+              return of(new LoadPlayerFailure(error));
+            })
+          );
+      })
+    );
+
+  @Effect()
+  setPlayerCharacter$: Observable<Action> = this.actions$
+    .ofType(PlayerActionTypes.SetPlayerCharacter)
+    .pipe(
+      map((action: SetPlayerCharacter) => action.payload),
+      switchMap((player: any) => {
+        return of(this.auth.setUserPlayer(player)).pipe(
+          map(value => new SetPlayerCharacterSuccess()),
+          catchError(error => of(new SetPlayerCharacterFailure()))
+        );
+      })
+    );
+
+  @Effect()
+  loadPlayerDetails$: Observable<Action> = this.actions$
+    .ofType(PlayerActionTypes.LoadPlayerDetails)
+    .pipe(
+      map((action: LoadPlayer) => action.payload),
+      switchMap((player: any) => {
+        if (!this.loading) {
+          this.loading = this.createLoader('Loading Player Details');
+        }
+
+        this.loading.present();
+        return this.http
+          .get<any>(
+            `https://pubgapi.lmuller.me/api/player-details/${
+              player.playerId
+            }?region=${player.region}&platform=${player.platform}&season=${
+              player.season.id
+            }&current=${player.season.isCurrent}`
+          )
+          .pipe(
+            map(value => {
+              if (this.loading) {
+                this.loading.dismiss();
+                this.loading = null;
+              }
+              return new LoadPlayerDetailsSuccess(value.stats);
+            }),
+            catchError(error => {
+              if (this.loading) {
+                this.loading.dismiss();
+                this.loading = null;
+              }
+              let toast = this.toastCtrl.create({
+                message: 'Player details were not found',
                 duration: 3000,
                 position: 'top'
               });

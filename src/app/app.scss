@@ -36,3 +36,135 @@
 .erangel {
   background-image: url('../assets/img/pubg-assests/erangel_minimap_small.jpg');
 }
+
+.gradient-button {
+  background: linear-gradient(
+    to left,
+    color($colors, orangeish),
+    color($colors, darkish-pink)
+  ) !important;
+  border-radius: 2px;
+}
+
+.segment-button {
+  background-color: color($colors, dark-four) !important;
+}
+
+.segment-button.segment-activated {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(52, 54, 72, 0),
+    rgba(250, 137, 80, 0.2)
+  ) !important;
+  border-bottom: solid 2px color($colors, orangeish) !important;
+}
+
+.toolbar-background-md {
+  background: transparent !important;
+  background-color: #1d1f2b !important;
+}
+
+.toolbar-md-primary .toolbar-background-md {
+  background-color: color($colors, dark-four) !important;
+}
+
+.mat-divider {
+  color: #4c4a5b;
+}
+
+.toolbar-title,
+.details-header h2 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.Player-Name {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.Stat-Title,
+.panel-title span {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.Button-Text {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+.Stat-Number,
+.glance div {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.Text-Style {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.list-key {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #adaeb7;
+}
+.list-value {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}
+.Segment-Title {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.4px;
+  text-align: center;
+}
+
+.Stat-Key,
+.glance span {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+}

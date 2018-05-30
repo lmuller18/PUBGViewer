@@ -1,0 +1,104 @@
+page-player {
+  .mat-expansion-panel {
+    margin-bottom: 0;
+    margin-top: 8px;
+    background: linear-gradient(
+      to right,
+      color($colors, dark-five),
+      color($colors, dirty-purple)
+    );
+  }
+
+  .mat-expansion-panel-header.mat-expanded {
+    background: linear-gradient(
+      to right,
+      color($colors, charcoal-grey),
+      color($colors, purplish-brown-two)
+    ) !important;
+  }
+
+  .details-header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 8px 1rem 16px;
+  }
+
+  .matches-button {
+    width: 104px;
+    height: 36px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  .season-title {
+    margin: 0;
+    align-self: center;
+  }
+
+  .mat-expansion-panel-header-title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-title {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 0.5rem;
+  }
+
+  .panel-glance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding-top: 0.5rem;
+  }
+
+  .glance {
+    display: flex;
+    flex-direction: column;
+
+    .stat-1 {
+      color: #56cadf;
+    }
+    .stat-2 {
+      color: #e65757;
+    }
+    .stat-3 {
+      color: #ef8350;
+    }
+    .stat-4 {
+      color: #40c695;
+    }
+  }
+  .icon-container {
+    padding-left: 1rem;
+  }
+  .mat-list-text {
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-direction: row !important;
+  }
+}
+
+ion-segment {
+  justify-content: space-between;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  ion-segment-button.segment-button {
+    flex: 1 0 150px !important;
+  }
+}
