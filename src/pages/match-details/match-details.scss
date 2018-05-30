@@ -9,6 +9,23 @@ page-match-details {
     padding-top: 2rem;
   }
 
+  .player-damage {
+    margin-top: 1rem;
+  }
+
+  .img-holder {
+    height: 300px;
+    display: flex;
+  }
+
+  .damage-img {
+    margin: auto;
+  }
+
+  .damage-value {
+    padding-left: 1rem !important;
+  }
+
   .team-name {
     font-family: 'Nunito Sans', sans-serif;
     font-size: 20px;
