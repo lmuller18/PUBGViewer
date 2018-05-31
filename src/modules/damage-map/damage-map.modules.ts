@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { MatchDetailsPage } from './match-details';
+import { DamageMap } from './damage-map';
 import { MatExpansionModule } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { ZoomAreaModule } from 'ionic2-zoom-area';
 import { Pipes } from '../../pipes/pipes.module';
-import { DamageMapModule } from '../../modules/damage-map/damage-map.modules';
 
 @NgModule({
-  declarations: [MatchDetailsPage],
+  declarations: [DamageMap],
   imports: [
-    IonicPageModule.forChild(MatchDetailsPage),
+    IonicPageModule.forChild(DamageMap),
     MatExpansionModule,
     MatListModule,
     MatIconModule,
-    ZoomAreaModule,
-    DamageMapModule,
     Pipes
   ],
-  exports: [MatchDetailsPage]
+  exports: [DamageMap]
 })
-export class MatchDetailsPageModule {}
+export class DamageMapModule {}
