@@ -5,7 +5,7 @@
             menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ player.name }}</ion-title>
+    <ion-title *ngIf="player">{{ player.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -23,23 +23,25 @@
   <mat-list *ngFor="let match of (matches$ | async)">
     <mat-card>
       <div class="container">
-        <img src="../assets/img/pubg-assests/{{match.map === 'Desert_Main' ? 'miramar' : 'erangel'}}_minimap_small.jpg"
+        <img mat-card-image
+             src="../assets/img/pubg-assests/{{match.map === 'Desert_Main' ? 'miramar' : 'erangel'}}_minimap_small.jpg"
              class="map-image">
-        <div class="overlay">
+        <div mat-card-image
+             class="overlay">
           <ng-container *ngIf="match.gameMode.includes('solo')">
             <img class="player-count"
                  src="../../assets/img/ic-solo@3x.png"
-                 height="50px">
+                 height="25px">
           </ng-container>
           <ng-container *ngIf="match.gameMode.includes('duo')">
             <img class="player-count"
                  src="../../assets/img/ic-duo@3x.png"
-                 height="50px">
+                 height="25px">
           </ng-container>
           <ng-container *ngIf="match.gameMode.includes('squad')">
             <img class="player-count"
                  src="../../assets/img/ic-squard@3x.png"
-                 height="50px">
+                 height="25px">
           </ng-container>
         </div>
       </div>
@@ -63,8 +65,8 @@
       </div>
       <mat-card-content>
         <p *ngIf="!match.gameMode.includes('solo')">
-          <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
-            {{teammate.stats.name}}
+          <ng-container *ngFor="let teammate of match.team.teammates; let i = index; let last = last">
+            <span [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{teammate.stats.name}}</span>
             <span *ngIf="!last">, </span>
           </ng-container>
         </p>

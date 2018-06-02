@@ -22,18 +22,15 @@ page-matches {
 
   .map-image {
     height: 150px;
-    width: 100%;
     object-fit: cover;
   }
 
   .overlay {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: -40px;
+    bottom: 4px;
     left: 0;
     right: 0;
-    height: 97.5%;
-    width: 100%;
     background-color: rgba(0, 0, 0, 0.6);
   }
 
@@ -68,5 +65,25 @@ page-matches {
     font-style: normal;
     font-stretch: normal;
     letter-spacing: normal;
+  }
+
+  .player-0 {
+    color: #5394d8;
+  }
+
+  .player-1 {
+    color: #e65757;
+  }
+
+  .player-2 {
+    color: #f98751;
+  }
+
+  .player-3 {
+    color: #40c695;
+  }
+
+  .player-extra {
+    color: #986fe5;
   }
 }
