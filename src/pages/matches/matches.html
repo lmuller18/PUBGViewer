@@ -20,7 +20,66 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-list>
+  <mat-list *ngFor="let match of (matches$ | async)">
+    <mat-card>
+      <div class="container">
+        <img src="../assets/img/pubg-assests/{{match.map === 'Desert_Main' ? 'miramar' : 'erangel'}}_minimap_small.jpg"
+             class="map-image">
+        <div class="overlay">
+          <ng-container *ngIf="match.gameMode.includes('solo')">
+            <img class="player-count"
+                 src="../../assets/img/ic-solo@3x.png"
+                 height="50px">
+          </ng-container>
+          <ng-container *ngIf="match.gameMode.includes('duo')">
+            <img class="player-count"
+                 src="../../assets/img/ic-duo@3x.png"
+                 height="50px">
+          </ng-container>
+          <ng-container *ngIf="match.gameMode.includes('squad')">
+            <img class="player-count"
+                 src="../../assets/img/ic-squard@3x.png"
+                 height="50px">
+          </ng-container>
+        </div>
+      </div>
+      <!-- <img mat-card-image
+           src="../assets/img/pubg-assests/{{match.map === 'Desert_Main' ? 'miramar' : 'erangel'}}_minimap_small.jpg"
+           class="map-image"> -->
+      <div>
+        <div class="match-desc">
+          <span>Rank #{{ match.team.stats.rank }}
+            <span *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</span>
+          </span>
+          <span>
+            <ion-icon name="ios-locate-outline"></ion-icon>
+            {{ match.player.stats.kills }}
+          </span>
+        </div>
+        <div class="match-desc">
+          <span>{{ match.duration | date:'mm:ss' }}</span>
+          <span>{{ match.date | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <mat-card-content>
+        <p *ngIf="!match.gameMode.includes('solo')">
+          <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
+            {{teammate.stats.name}}
+            <span *ngIf="!last">, </span>
+          </ng-container>
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button class="matches-button gradient-button"
+                mat-raised-button
+                (tap)="openMatch(match)">
+          View Match
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-list>
+
+  <!-- <ion-list>
     <ion-item-sliding *ngFor="let match of (matches$ | async)">
       <button ion-item
               (click)="openMatch(match)">
@@ -66,5 +125,5 @@
         </div>
       </button>
     </ion-item-sliding>
-  </ion-list>
+  </ion-list> -->
 </ion-content>
