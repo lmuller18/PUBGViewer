@@ -22,6 +22,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from '../firebaseConfig';
 
+import { MatCardModule } from '@angular/material/card';
+
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 
@@ -52,7 +54,8 @@ export function provideSettings(storage: Storage) {
     StoreModule.forFeature('viewer', reducers),
     EffectsModule.forFeature(effects),
     AngularFireModule.initializeApp(firebaseConfig.fire),
-    AngularFirestoreModule.enablePersistence()
+    AngularFirestoreModule.enablePersistence(),
+    MatCardModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],

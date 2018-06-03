@@ -1,2 +1,14 @@
-page-signup {
+page-search {
+  .list-md .item-block .item-inner,
+  .item-md.item-block .item-inner {
+    border: none;
+  }
+
+  .search-label {
+    color: white !important;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 17px;
+    font-style: normal;
+    font-stretch: normal;
+  }
 }

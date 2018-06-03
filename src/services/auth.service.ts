@@ -24,7 +24,6 @@ export class AuthService {
           .subscribe(userPlayer => {
             if (userPlayer) {
               this.userPlayer = userPlayer;
-              console.log(this.userPlayer);
             }
           });
       }
@@ -114,10 +113,9 @@ export class AuthService {
           .then(result => {
             // This gives you a Google Access Token.
             // You can use it to access the Google API.
-            let token = result.credential.accessToken;
+            // let token = result.credential.accessToken;
             // The signed-in user info.
-            let user = result.user;
-            console.log(token, user);
+            // let user = result.user;
           })
           .catch(function(error) {
             // Handle Errors here.

@@ -1,7 +1,18 @@
 <ion-menu [content]="content">
-  <ion-header>
+  <ion-header class="menu-header">
     <ion-toolbar [color]="'primary'">
-      <ion-title>{{ getDisplayValue() }}</ion-title>
+      <mat-card *ngIf="getPhoto(); else nonGoogle">
+        <mat-card-header>
+          <div mat-card-avatar
+               class="avatar"
+               [ngStyle]="{ 'background-image': 'url(' + getPhoto() + ')'}"></div>
+          <mat-card-title>{{ getName() }}</mat-card-title>
+          <mat-card-subtitle>{{ getEmail() }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+      <ng-template #nonGoogle>
+        <ion-title>{{ getDisplayValue() }}</ion-title>
+      </ng-template>
     </ion-toolbar>
   </ion-header>
 
@@ -32,16 +43,12 @@
       <ion-item menuClose
                 (click)="logout()"
                 *ngIf="auth.authenticated">
-        <ion-icon name="log-out"
-                  item-left></ion-icon>
         Log out
       </ion-item>
 
       <ion-item menuClose
                 (click)="login()"
                 *ngIf="!auth.authenticated">
-        <ion-icon name="log-in"
-                  item-left></ion-icon>
         Log in
       </ion-item>
     </ion-list>

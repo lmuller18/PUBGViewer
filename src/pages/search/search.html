@@ -14,7 +14,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label>Platform</ion-label>
+          <ion-label class="search-label">Platform</ion-label>
           <ion-select interface="action-sheet"
                       formControlName="platform">
             <ion-option value="pc">PC</ion-option>
@@ -24,7 +24,7 @@
 
 
         <ion-item>
-          <ion-label>Region</ion-label>
+          <ion-label class="search-label">Region</ion-label>
           <ion-select interface="action-sheet"
                       formControlName="region">
             <ion-option value="na">North America</ion-option>
@@ -35,7 +35,7 @@
         </ion-item>
 
         <ion-item *ngIf="auth.getEmail()">
-          <ion-label>This is me</ion-label>
+          <ion-label class="search-label">This is me</ion-label>
           <ion-checkbox [checked]="getIsUserPlayer()"
                         formControlName="default"></ion-checkbox>
         </ion-item>

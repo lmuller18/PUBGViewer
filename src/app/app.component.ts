@@ -13,6 +13,7 @@ import * as fromViewer from '../store';
 import { filter } from 'rxjs/operators';
 
 @Component({
+  selector: 'app',
   templateUrl: 'app.html'
 })
 export class MyApp implements OnInit {
@@ -83,6 +84,27 @@ export class MyApp implements OnInit {
     }
 
     return 'PUBG Viewer';
+  }
+
+  getName() {
+    if (this.auth) {
+      return this.auth.getName();
+    }
+    return '';
+  }
+
+  getEmail() {
+    if (this.auth) {
+      return this.auth.getEmail();
+    }
+    return '';
+  }
+
+  getPhoto() {
+    if (this.auth) {
+      return this.auth.getPhoto();
+    }
+    return false;
   }
 
   logout() {

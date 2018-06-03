@@ -169,3 +169,30 @@
   letter-spacing: normal;
   text-align: left;
 }
+
+.menu-header {
+  .avatar {
+    background-size: cover;
+  }
+
+  .mat-card {
+    padding: 8px 16px !important;
+  }
+
+  .mat-card-avatar {
+    height: 54px;
+    width: 54px;
+  }
+
+  .mat-card-title {
+    color: white;
+    font-size: 20px;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
+  .mat-card-subtitle {
+    color: white;
+    font-size: 15px;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+}
