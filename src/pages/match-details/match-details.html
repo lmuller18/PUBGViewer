@@ -13,8 +13,7 @@
       <ion-segment-button value="details">
         Details
       </ion-segment-button>
-      <ion-segment-button value="map"
-                          (click)="initMap()">
+      <ion-segment-button value="map">
         Replay
       </ion-segment-button>
     </ion-segment>
@@ -184,8 +183,9 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'map'">
-      <canvas id="map"
-              (tap)="drawMap($event)"></canvas>
+      <app-match-replay [telemetry]="telemetry$ | async"
+                        [mapName]="mapName"
+                        [match]="match"></app-match-replay>
     </ng-container>
   </div>
 </ion-content>
