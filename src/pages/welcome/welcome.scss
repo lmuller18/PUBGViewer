@@ -2,8 +2,7 @@ page-welcome,
 page-search {
   .splash-bg {
     position: relative;
-    // background: url("../assets/img/splashbg.png") no-repeat transparent;
-    background: url('../assets/img/splash2.jpg') no-repeat transparent;
+    background: url('../assets/img/global/pubgSplash.jpg') no-repeat transparent;
     background-size: cover;
     height: 45%;
     z-index: 1;
@@ -28,7 +27,8 @@ page-search {
   }
   .splash-logo {
     margin: auto;
-    background: url('../assets/img/icon3.png') repeat transparent;
+    background: url('../assets/img/global/pubgviewerIcon.png') repeat
+      transparent;
     background-size: 100%;
     width: 128px;
     height: 128px;

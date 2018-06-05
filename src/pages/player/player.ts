@@ -100,6 +100,7 @@ export class PlayerPage implements OnInit {
 
   changeSeason(id) {
     this.season = this.seasons.find(season => season.id === id);
+    this.segment = id;
     this.store.dispatch(
       new LoadPlayerDetails({
         playerId: this.player.id,

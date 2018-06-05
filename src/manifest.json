@@ -5,11 +5,11 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "assets/img/icon3.png",
+      "src": "assets/img/global/pubgviewerIcon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "background_color": "#2c2c2b",
-  "theme_color": "#2c2c2b"
+  "background_color": "#272b3a",
+  "theme_color": "#363649"
 }

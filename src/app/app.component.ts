@@ -4,7 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Nav, Platform, App, ViewController } from 'ionic-angular';
 
 import { FirstRunPage, LoginPage } from '../pages/pages';
-import { Settings } from '../providers/providers';
 import { AuthService } from '../services/auth.service';
 
 import { Observable } from 'rxjs/Observable';
@@ -16,7 +15,7 @@ import { filter } from 'rxjs/operators';
   selector: 'app',
   templateUrl: 'app.html'
 })
-export class MyApp implements OnInit {
+export class PUBGViewer implements OnInit {
   rootPage = FirstRunPage;
 
   @ViewChild(Nav) nav: Nav;
@@ -32,7 +31,6 @@ export class MyApp implements OnInit {
 
   constructor(
     platform: Platform,
-    settings: Settings,
     app: App,
     private auth: AuthService,
     private statusBar: StatusBar,
