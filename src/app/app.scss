@@ -22,6 +22,10 @@
 //   background-attachment: fixed;
 // }
 
+app {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
 .flex {
   display: flex;
 }
@@ -170,13 +174,40 @@
   text-align: left;
 }
 
+.menu-inner {
+  .item {
+    background: none;
+  }
+  ion-content {
+    background: linear-gradient(
+      to right,
+      color($colors, charcoal-grey),
+      color($colors, purplish-brown-two)
+    ) !important;
+  }
+}
+
 .menu-header {
+  .toolbar-background-md {
+    background: linear-gradient(
+      to right,
+      color($colors, charcoal-grey),
+      color($colors, purplish-brown-two)
+    ) !important;
+  }
+
+  .toolbar-title {
+    color: white;
+  }
+
   .avatar {
     background-size: cover;
   }
 
   .mat-card {
     padding: 8px 16px !important;
+    background: none;
+    box-shadow: none !important;
   }
 
   .mat-card-avatar {

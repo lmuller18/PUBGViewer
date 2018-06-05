@@ -1,6 +1,6 @@
 <ion-menu [content]="content">
   <ion-header class="menu-header">
-    <ion-toolbar [color]="'primary'">
+    <ion-toolbar>
       <mat-card *ngIf="getPhoto(); else nonGoogle">
         <mat-card-header>
           <div mat-card-avatar
@@ -16,7 +16,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content class="menu-nav">
     <ion-list>
       <button menuClose
               ion-item
@@ -25,18 +25,18 @@
         {{p.title}}
       </button>
 
-      <button *ngIf="player$ | async"
+      <button *ngIf="player && player.name"
               menuClose
               ion-item
               (click)="openPage({component: 'PlayerPage'})">
-        Player Details
+        {{ player.name }}
       </button>
 
-      <button *ngIf="player$ | async"
+      <button *ngIf="getUserPlayer() && (!this.player || this.player && this.player.name !== getUserPlayer().username)"
               menuClose
               ion-item
-              (click)="openPage({component: 'MatchesPage'})">
-        Player Matches
+              (click)="toUserPlayer()">
+        {{ getUserPlayer().username }}
       </button>
     </ion-list>
     <ion-list class="bottom">

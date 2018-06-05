@@ -11,6 +11,8 @@ import { Store, select } from '@ngrx/store';
 import * as fromViewer from '../store';
 import { filter } from 'rxjs/operators';
 
+import { LoadPlayer } from '../store';
+
 @Component({
   selector: 'app',
   templateUrl: 'app.html'
@@ -28,6 +30,7 @@ export class PUBGViewer implements OnInit {
   private app;
   private platform;
   player$: Observable<any>;
+  player: any;
 
   constructor(
     platform: Platform,
@@ -53,6 +56,7 @@ export class PUBGViewer implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.player$.subscribe(player => (this.player = player));
       this.platform.registerBackButtonAction(() => {
         let nav = this.app.getActiveNav();
         let activeView: ViewController = nav.getActive();
@@ -103,6 +107,17 @@ export class PUBGViewer implements OnInit {
       return this.auth.getPhoto();
     }
     return false;
+  }
+
+  getUserPlayer() {
+    if (this.auth) {
+      return this.auth.getUserPlayer();
+    }
+    return false;
+  }
+
+  toUserPlayer() {
+    this.store.dispatch(new LoadPlayer(this.auth.getUserPlayer()));
   }
 
   logout() {

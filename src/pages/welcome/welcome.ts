@@ -1,5 +1,6 @@
-import { Component } from "@angular/core";
-import { IonicPage, NavController } from "ionic-angular";
+import { Component } from '@angular/core';
+import { IonicPage, NavController } from 'ionic-angular';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -9,17 +10,17 @@ import { IonicPage, NavController } from "ionic-angular";
  */
 @IonicPage()
 @Component({
-  selector: "page-welcome",
-  templateUrl: "welcome.html"
+  selector: 'page-welcome',
+  templateUrl: 'welcome.html'
 })
 export class WelcomePage {
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, public auth: AuthService) {}
 
   login() {
-    this.navCtrl.push("LoginPage");
+    this.navCtrl.push('LoginPage');
   }
 
   searchPlayer() {
-    this.navCtrl.push("SearchPage");
+    this.navCtrl.push('SearchPage');
   }
 }

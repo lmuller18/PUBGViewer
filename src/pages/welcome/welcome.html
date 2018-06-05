@@ -11,9 +11,24 @@
             block
             class="gradient-button"
             (click)="searchPlayer()">Search Player</button>
-    <button ion-button
+    <button *ngIf="!auth || !auth.authenticated"
+            ion-button
             block
             class="gradient-button login"
             (click)="login()">Login</button>
+    <button *ngIf="auth && auth.authenticated"
+            ion-button
+            block
+            class="gradient-button login"
+            [disabled]="!auth.getUserPlayer()"
+            (click)="login()">View Profile</button>
+    <div padding-horizontal
+         *ngIf="!auth || !auth.authenticated || !auth.getUserPlayer()">
+      <div *ngIf="!auth || !auth.authenticated; else noUserPlayer"
+           class="form-error">Login to gain access to more features such as quickly view your stats!</div>
+      <ng-template #noUserPlayer>
+        <div class="form-error">Mark a player as you on the search page to easily view your stats!</div>
+      </ng-template>
+    </div>
   </div>
 </ion-content>
