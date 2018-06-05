@@ -33,7 +33,7 @@
           <div class="team-name">Player Team</div>
           <div class="rank">
             <img *ngIf="match.team.stats.rank === 1"
-                 src="../../assets/img/ic_winner.png"
+                 src="../../assets/img/icons/ic_winner.png"
                  class="ic_winner"> Rank #{{ match.team.stats.rank }}</div>
         </div>
         <mat-accordion *ngIf="loaded">
@@ -50,14 +50,14 @@
                      *ngIf="teamPanelState[i] === false">
                   <div class="kills">
                     <img class="stat-img"
-                         src="../../assets/img/ic_kill.png">
+                         src="../../assets/img/icons/ic_kill.png">
                     <span class="stat-key">KILLS</span>
                     <span class="stat-value"
                           [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.kills }}</span>
                   </div>
                   <div class="damage">
                     <img class="stat-img"
-                         src="../../assets/img/ic-damage@2x.png">
+                         src="../../assets/img/icons/ic-damage@2x.png">
                     <span class="stat-key">DAMAGE DEALT</span>
                     <span class="stat-value"
                           [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.damageDealt | number : '1.0-2' }}</span>
@@ -70,7 +70,7 @@
                 <h3 matLine
                     class="list-key">
                   <img class="stat-img"
-                       src="../../assets/img/ic_kill.png">
+                       src="../../assets/img/icons/ic_kill.png">
                   <span>KILLS</span>
                 </h3>
                 <h3 matLine
@@ -89,7 +89,7 @@
                 <h3 matLine
                     class="list-key">
                   <img class="stat-img"
-                       src="../../assets/img/ic-damage@2x.png">
+                       src="../../assets/img/icons/ic-damage@2x.png">
                   <span>DAMAGE DEALT</span>
                 </h3>
                 <h3 matLine
@@ -108,7 +108,7 @@
           <div class="team-name">Winning Team</div>
           <div class="rank">
             <img *ngIf="match.enemies.stats.rank === 1"
-                 src="../../assets/img/ic_winner.png"
+                 src="../../assets/img/icons/ic_winner.png"
                  class="ic_winner"> Rank #{{ match.enemies.stats.rank }}</div>
         </div>
         <mat-accordion *ngIf="loaded && match.enemies && match.enemies.teammates">
@@ -125,14 +125,14 @@
                      *ngIf="enemyPanelState[i] === false">
                   <div class="kills">
                     <img class="stat-img"
-                         src="../../assets/img/ic_kill.png">
+                         src="../../assets/img/icons/ic_kill.png">
                     <span class="stat-key">KILLS</span>
                     <span class="stat-value"
                           [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.kills }}</span>
                   </div>
                   <div class="damage">
                     <img class="stat-img"
-                         src="../../assets/img/ic-damage@2x.png">
+                         src="../../assets/img/icons/ic-damage@2x.png">
                     <span class="stat-key">DAMAGE DEALT</span>
                     <span class="stat-value"
                           [ngClass]="'player-' + (i <= 3 ? i : 'extra')">{{ teammate.stats.damageDealt | number : '1.0-2' }}</span>
@@ -145,7 +145,7 @@
                 <h3 matLine
                     class="list-key">
                   <img class="stat-img"
-                       src="../../assets/img/ic_kill.png">
+                       src="../../assets/img/icons/ic_kill.png">
                   <span>KILLS</span>
                 </h3>
                 <h3 matLine
@@ -164,7 +164,7 @@
                 <h3 matLine
                     class="list-key">
                   <img class="stat-img"
-                       src="../../assets/img/ic-damage@2x.png">
+                       src="../../assets/img/icons/ic-damage@2x.png">
                   <span>DAMAGE DEALT</span>
                 </h3>
                 <h3 matLine

@@ -30,17 +30,17 @@
              class="overlay">
           <ng-container *ngIf="match.gameMode.includes('solo')">
             <img class="player-count"
-                 src="../../assets/img/ic-solo@3x.png"
+                 src="../../assets/img/icons/ic-solo@3x.png"
                  height="25px">
           </ng-container>
           <ng-container *ngIf="match.gameMode.includes('duo')">
             <img class="player-count"
-                 src="../../assets/img/ic-duo@3x.png"
+                 src="../../assets/img/icons/ic-duo@3x.png"
                  height="25px">
           </ng-container>
           <ng-container *ngIf="match.gameMode.includes('squad')">
             <img class="player-count"
-                 src="../../assets/img/ic-squard@3x.png"
+                 src="../../assets/img/icons/ic-squad@3x.png"
                  height="25px">
           </ng-container>
         </div>
@@ -80,52 +80,4 @@
       </mat-card-actions>
     </mat-card>
   </mat-list>
-
-  <!-- <ion-list>
-    <ion-item-sliding *ngFor="let match of (matches$ | async)">
-      <button ion-item
-              (click)="openMatch(match)">
-        <ng-container match-start>
-          <div class="parallax"
-               [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'"></div>
-        </ng-container>
-        <div class="flex space-between">
-          <div>
-            <h2>
-              <ng-container *ngIf="match.gameMode.includes('solo')">
-                <ion-icon name="md-person"></ion-icon>
-              </ng-container>
-              <ng-container *ngIf="match.gameMode.includes('duo')">
-                <ion-icon name="md-people"></ion-icon>
-              </ng-container>
-              <ng-container *ngIf="match.gameMode.includes('squad')">
-                <ion-icon name="md-people"></ion-icon>
-                <ion-icon name="md-people"></ion-icon>
-              </ng-container>
-              {{ match.duration | date:'mm:ss' }}
-            </h2>
-
-            <h2>Rank #{{ match.team.stats.rank }}
-              <span *ngIf="match.team.stats.won">Winner Winner Chicken Dinner</span>
-            </h2>
-            <p *ngIf="!match.gameMode.includes('solo')">
-              <ng-container *ngFor="let teammate of match.team.teammates; let last = last">
-                {{teammate.stats.name}}
-                <span *ngIf="!last">, </span>
-              </ng-container>
-            </p>
-          </div>
-          <div>
-            <h2>
-              {{ match.date | date:'shortDate' }}
-            </h2>
-            <h2>
-              <ion-icon name="ios-locate-outline"></ion-icon>
-              {{ match.player.stats.kills }}
-            </h2>
-          </div>
-        </div>
-      </button>
-    </ion-item-sliding>
-  </ion-list> -->
 </ion-content>

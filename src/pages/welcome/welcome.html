@@ -21,7 +21,7 @@
             block
             class="gradient-button login"
             [disabled]="!auth.getUserPlayer()"
-            (click)="login()">View Profile</button>
+            (click)="toUserPlayer()">View Profile</button>
     <div padding-horizontal
          *ngIf="!auth || !auth.authenticated || !auth.getUserPlayer()">
       <div *ngIf="!auth || !auth.authenticated; else noUserPlayer"
