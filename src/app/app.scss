@@ -77,6 +77,11 @@ app {
   color: #4c4a5b;
 }
 
+.bottom {
+  position: absolute;
+  bottom: 0;
+}
+
 .toolbar-title,
 .details-header h2 {
   font-family: 'Nunito Sans', sans-serif;
@@ -175,6 +180,9 @@ app {
 }
 
 .menu-inner {
+  .item-inner {
+    border: none !important;
+  }
   .item {
     background: none;
   }

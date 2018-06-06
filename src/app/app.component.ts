@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Nav, Platform, App, ViewController } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { FirstRunPage, LoginPage } from '../pages/pages';
 import { AuthService } from '../services/auth.service';
@@ -38,7 +39,8 @@ export class PUBGViewer implements OnInit {
     private auth: AuthService,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
-    private store: Store<fromViewer.ViewerState>
+    private store: Store<fromViewer.ViewerState>,
+    private iab: InAppBrowser
   ) {
     this.app = app;
     this.platform = platform;
@@ -114,6 +116,10 @@ export class PUBGViewer implements OnInit {
       return this.auth.getUserPlayer();
     }
     return false;
+  }
+
+  toDonate() {
+    this.iab.create('https://paypal.me/LiamMuller');
   }
 
   toUserPlayer() {

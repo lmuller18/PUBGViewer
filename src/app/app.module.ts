@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { StoreModule } from '@ngrx/store';
 import { reducers, effects } from '../store';
@@ -40,6 +41,7 @@ import { MatCardModule } from '@angular/material/card';
   entryComponents: [PUBGViewer],
   providers: [
     Camera,
+    InAppBrowser,
     SplashScreen,
     StatusBar,
     AuthService,

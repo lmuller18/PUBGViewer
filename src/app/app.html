@@ -38,20 +38,30 @@
               (click)="toUserPlayer()">
         {{ getUserPlayer().username }}
       </button>
-    </ion-list>
-    <ion-list class="bottom">
-      <ion-item menuClose
-                (click)="logout()"
-                *ngIf="auth.authenticated">
-        Log out
-      </ion-item>
 
-      <ion-item menuClose
-                (click)="login()"
-                *ngIf="!auth.authenticated">
+      <button ion-item
+              menuClose
+              (click)="login()"
+              *ngIf="!auth.authenticated">
         Log in
-      </ion-item>
+      </button>
     </ion-list>
+    <div class="bottom">
+      <ion-list>
+        <button ion-item
+                menuClose
+                (click)="toDonate()">
+          Donate
+        </button>
+
+        <ion-item ion-item
+                  menuClose
+                  (click)="logout()"
+                  *ngIf="auth.authenticated">
+          Log out
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-content>
 
 </ion-menu>
