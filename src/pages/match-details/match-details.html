@@ -25,7 +25,10 @@
   <div [ngSwitch]="segment">
     <ng-container *ngSwitchCase="'details'">
       <div class="item-profile"
-           [ngClass]="match.map === 'Desert_Main' ? 'miramar' : 'erangel'">
+           [ngClass]="{
+             'miramar': match.map === 'Desert_Main',
+             'erangel': match.map === 'Erangel_Main'
+           }">
       </div>
       <div class="item-detail"
            padding>

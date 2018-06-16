@@ -23,9 +23,16 @@
   <mat-list *ngFor="let match of (matches$ | async)">
     <mat-card>
       <div class="container">
-        <img mat-card-image
-             src="../assets/img/pubg-assests/{{match.map === 'Desert_Main' ? 'miramar' : 'erangel'}}_minimap_small.jpg"
-             class="map-image">
+        <ng-container [ngSwitch]="match.map">
+          <img *ngSwitchCase="'Desert_Main'"
+               mat-card-image
+               src="../assets/img/pubg-assests/miramar_minimap_small.jpg"
+               class="map-image">
+          <img *ngSwitchCase="'Erangel_Main'"
+               mat-card-image
+               src="../assets/img/pubg-assests/erangel_minimap_small.jpg"
+               class="map-image">
+        </ng-container>
         <div mat-card-image
              class="overlay">
           <ng-container *ngIf="match.gameMode.includes('solo')">
@@ -45,9 +52,6 @@
           </ng-container>
         </div>
       </div>
-      <!-- <img mat-card-image
-           src="../assets/img/pubg-assests/{{match.map === 'Desert_Main' ? 'miramar' : 'erangel'}}_minimap_small.jpg"
-           class="map-image"> -->
       <div>
         <div class="match-desc">
           <span>Rank #{{ match.team.stats.rank }}
