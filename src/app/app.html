@@ -39,6 +39,13 @@
         {{ getUserPlayer().username }}
       </button>
 
+      <button *ngIf="getFollowing()"
+              menuClose
+              ion-item
+              (click)="toFollowing()">
+        Favorites
+      </button>
+
       <button ion-item
               menuClose
               (click)="login()"

@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar [color]="'primary'">
+    <button ion-button
+            menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="player">{{ player.username }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div class="flex-grid">
+    <ng-container *ngFor="let favorite of following; let i = index">
+      <div (tap)="toFavorite(favorite)"
+           class="col"
+           [ngClass]="{
+             'background-1': i % 1 === 0,
+             'background-2': i % 2 === 0,
+             'background-3': i % 3 === 0,
+             'background-4': i % 4 === 0
+           }">
+        <div class="title">{{favorite.username}}</div>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>
