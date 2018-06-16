@@ -4,7 +4,6 @@ import { MatchDetailsPage } from './match-details';
 import { MatExpansionModule } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { ZoomAreaModule } from 'ionic2-zoom-area';
 import { MatchReplayModule } from '../../components/match-replay/match-replay.module';
 import { Pipes } from '../../pipes/pipes.module';
 import { DamageMapModule } from '../../components/damage-map/damage-map.module';
@@ -17,7 +16,6 @@ import { DamageMapModule } from '../../components/damage-map/damage-map.module';
     MatExpansionModule,
     MatListModule,
     MatIconModule,
-    ZoomAreaModule,
     DamageMapModule,
     Pipes
   ],

@@ -12,16 +12,17 @@ self.toolbox.options.cache = {
 
 // pre-cache our key assets
 self.toolbox.precache([
-  './build/vendor.js',
-  './build/main.js',
+  './assets/*',
+  // './build/vendor.js',
+  // './build/main.js',
   './build/main.css',
-  './build/polyfills.js',
+  // './build/polyfills.js',
   'index.html',
   'manifest.json'
 ]);
 
 // dynamically cache any other local assets
-self.toolbox.router.any('/*', self.toolbox.fastest);
+self.toolbox.router.any('/*', self.toolbox.networkFirst);
 
 // for any other requests go to the network, cache,
 // and then only use that cached resource if your user goes offline
