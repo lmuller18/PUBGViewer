@@ -30,7 +30,15 @@ export class MatchDetailsPage implements OnInit {
     this.match.team.teammates.forEach((teammate, i) => {
       this.teamPanelState.push(false);
     });
-    const map = this.match.map === 'Desert_Main' ? 'miramar' : 'erangel';
+    let map = '';
+    switch (this.match.map) {
+      case 'Desert_Main':
+        map = 'miramar';
+        break;
+      case 'Erangel_Main':
+        map = 'erangel';
+        break;
+    }
     this.mapName = `../../assets/img/pubg-assests/${map}_minimap_small.jpg`;
     const teammateNames = this.match.team.teammates.map(
       teammate => teammate.stats.name
@@ -46,6 +54,7 @@ export class MatchDetailsPage implements OnInit {
       );
       enemies = enemyNames.join('|');
     }
+
     this.loaded = true;
     this.store.dispatch(
       new LoadMatch({
