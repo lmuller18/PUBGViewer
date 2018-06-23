@@ -38,6 +38,9 @@ export class MatchDetailsPage implements OnInit {
       case 'Erangel_Main':
         map = 'erangel';
         break;
+      case 'Savage_Main':
+        map = 'sanhok';
+        break;
     }
     this.mapName = `../../assets/img/pubg-assests/${map}_minimap_small.jpg`;
     const teammateNames = this.match.team.teammates.map(
