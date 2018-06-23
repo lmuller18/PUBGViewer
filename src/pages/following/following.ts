@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromViewer from '../../store';
@@ -13,14 +13,23 @@ import { LoadPlayer } from '../../store';
 export class FollowingPage {
   player: any;
   following: any[];
+  followingLoaded = false;
 
   constructor(
-    private navCtrl: NavController,
     private auth: AuthService,
     private store: Store<fromViewer.ViewerState>
   ) {
     this.player = this.auth.getUserPlayer();
     this.following = this.auth.getFollowing();
+    let index = 1;
+    if (this.following) {
+      this.following.forEach(favorite => {
+        favorite.portrait = index;
+        index === 4 ? (index = 1) : index++;
+      });
+      console.log(this.following);
+      this.followingLoaded = true;
+    }
   }
 
   toFavorite(player) {
