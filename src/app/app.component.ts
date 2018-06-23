@@ -118,12 +118,23 @@ export class PUBGViewer implements OnInit {
     return false;
   }
 
+  getFollowing() {
+    if (this.auth) {
+      return this.auth.getFollowing();
+    }
+    return false;
+  }
+
   toDonate() {
     this.iab.create('https://paypal.me/LiamMuller');
   }
 
   toUserPlayer() {
     this.store.dispatch(new LoadPlayer(this.auth.getUserPlayer()));
+  }
+
+  toFollowing() {
+    this.nav.setRoot('FollowingPage');
   }
 
   logout() {

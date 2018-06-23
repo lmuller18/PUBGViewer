@@ -11,6 +11,7 @@ import AuthProvider = firebase.auth.AuthProvider;
 export class AuthService {
   private user: any;
   private userPlayer: any;
+  private following: any[];
   private usersCollection: AngularFirestoreCollection<any>;
 
   constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore) {
@@ -24,6 +25,15 @@ export class AuthService {
           .subscribe(userPlayer => {
             if (userPlayer) {
               this.userPlayer = userPlayer;
+            }
+          });
+        this.usersCollection
+          .doc(this.getEmail())
+          .collection('following')
+          .valueChanges()
+          .subscribe(following => {
+            if (following) {
+              this.following = following;
             }
           });
       }
@@ -57,7 +67,11 @@ export class AuthService {
   }
 
   getUserPlayer() {
-    return this.userPlayer && this.userPlayer;
+    return this.userPlayer;
+  }
+
+  getFollowing() {
+    return this.following;
   }
 
   setUserPlayer(userPlayer: any) {
@@ -71,6 +85,10 @@ export class AuthService {
       })
       .catch(err => console.log(err));
   }
+
+  followPlayer(player: any) {}
+
+  unfollowPlayer(player: any) {}
 
   createUserPlayer(userPlayer: any) {
     return this.usersCollection.doc(this.getEmail()).set({
