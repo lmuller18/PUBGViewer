@@ -7,6 +7,7 @@ import * as fromViewer from '../../store';
 import { filter } from 'rxjs/operators';
 import { Tab1Root } from '../pages';
 import { LoadPlayerDetails, LoadMatches } from '../../store';
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class PlayerPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public auth: AuthService,
     private store: Store<fromViewer.ViewerState>,
     private cf: ChangeDetectorRef
   ) {

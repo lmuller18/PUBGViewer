@@ -5,7 +5,21 @@
             menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title *ngIf="player">{{ player.name }}</ion-title>
+    <ion-title *ngIf="player">
+      <div class="player-title">
+        <span>{{ player.name }}</span>
+        <ng-container *ngIf="auth.authenticated && player.name !== auth.getUserPlayer().username">
+          <ng-container *ngIf="!auth.isFollowing(player.name); else notFavorite">
+            <mat-icon class="pointer"
+                      (tap)="auth.followPlayer(player)">add_circle_outline</mat-icon>
+          </ng-container>
+          <ng-template #notFavorite>
+            <mat-icon class="pointer"
+                      (tap)="auth.unfollowPlayer(player)">remove_circle_outline</mat-icon>
+          </ng-template>
+        </ng-container>
+      </div>
+    </ion-title>
   </ion-navbar>
 
   <ion-toolbar no-border-top>

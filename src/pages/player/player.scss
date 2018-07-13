@@ -17,6 +17,11 @@ page-player {
     ) !important;
   }
 
+  .player-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .details-header {
     display: flex;
     justify-content: space-between;

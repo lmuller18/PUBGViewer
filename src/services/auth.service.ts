@@ -86,9 +86,33 @@ export class AuthService {
       .catch(err => console.log(err));
   }
 
-  followPlayer(player: any) {}
+  followPlayer(player: any) {
+    this.usersCollection
+      .doc(this.getEmail())
+      .collection('following')
+      .doc(player.id)
+      .set({
+        username: player.name,
+        platform: player.platform,
+        region: player.region,
+        playerId: player.id
+      });
+  }
 
-  unfollowPlayer(player: any) {}
+  unfollowPlayer(player: any) {
+    console.log(player);
+    this.usersCollection
+      .doc(this.getEmail())
+      .collection('following')
+      .doc(player.id)
+      .delete();
+  }
+
+  isFollowing(name: string) {
+    return this.following.find(favorite => favorite.username === name)
+      ? true
+      : false;
+  }
 
   createUserPlayer(userPlayer: any) {
     return this.usersCollection.doc(this.getEmail()).set({
