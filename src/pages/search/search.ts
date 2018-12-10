@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 @IonicPage()
 @Component({
   selector: 'page-search',
-  templateUrl: 'search.html'
+  templateUrl: 'search.html',
 })
 export class SearchPage {
   notFound: boolean;
@@ -25,8 +25,7 @@ export class SearchPage {
     this.searchForm = this.formBuilder.group({
       username: ['', Validators.required],
       platform: ['', Validators.required],
-      region: ['', Validators.required],
-      default: [this.getIsUserPlayer()]
+      default: [this.getIsUserPlayer()],
     });
   }
 
@@ -49,7 +48,6 @@ export class SearchPage {
       this.searchForm !== undefined &&
       this.formValid() &&
       userPlayer.username === this.username.value &&
-      userPlayer.region === this.region.value &&
       userPlayer.platform === this.platform.value
     );
   }
@@ -60,10 +58,6 @@ export class SearchPage {
 
   get platform() {
     return this.searchForm.get('platform');
-  }
-
-  get region() {
-    return this.searchForm.get('region');
   }
 
   get default() {

@@ -15,7 +15,7 @@ import {
   LoadPlayerDetailsSuccess,
   SetPlayerCharacter,
   SetPlayerCharacterSuccess,
-  SetPlayerCharacterFailure
+  SetPlayerCharacterFailure,
 } from '../actions/player.actions';
 import { Observable } from 'rxjs/Observable';
 import { switchMap, map, concatMap, catchError } from 'rxjs/operators';
@@ -24,7 +24,7 @@ import {
   ToastController,
   App,
   LoadingController,
-  Loading
+  Loading,
 } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 
@@ -50,7 +50,7 @@ export class PlayerEffects {
   createLoader(message?): Loading {
     const content = message || 'Searching Player...';
     return this.loadingCtrl.create({
-      content: content
+      content: content,
     });
   }
 
@@ -67,13 +67,13 @@ export class PlayerEffects {
         this.loading.present();
         player = {
           ...player,
-          username: player.username.trim()
+          username: player.username.trim(),
         };
         return this.http
           .get<any>(
-            `https://pubgapi.lmuller.me/api/player/${player.username}?region=${
-              player.region
-            }&platform=${player.platform}`
+            `https://pubgapi.lmuller.me/api/player/${
+              player.username
+            }?platform=${player.platform}`
           )
           .pipe(
             concatMap(value => {
@@ -92,15 +92,15 @@ export class PlayerEffects {
                     platform: value.player.platform,
                     region: value.player.region,
                     playerId: value.player.id,
-                    username: value.player.name
+                    username: value.player.name,
                   }),
                   new LoadPlayerSuccess(value.player),
-                  new LoadSeasons(value.player)
+                  new LoadSeasons(value.player),
                 ];
               } else {
                 return [
                   new LoadPlayerSuccess(value.player),
-                  new LoadSeasons(value.player)
+                  new LoadSeasons(value.player),
                 ];
               }
             }),
@@ -112,7 +112,7 @@ export class PlayerEffects {
               let toast = this.toastCtrl.create({
                 message: 'Player was not found',
                 duration: 3000,
-                position: 'top'
+                position: 'top',
               });
 
               toast.present();
@@ -152,9 +152,9 @@ export class PlayerEffects {
                   playerId: player.id,
                   season: {
                     id: currentSeason.id,
-                    isCurrent: true
-                  }
-                })
+                    isCurrent: true,
+                  },
+                }),
               ];
             }),
             catchError(error => {
@@ -165,7 +165,7 @@ export class PlayerEffects {
               let toast = this.toastCtrl.create({
                 message: 'Seasons were not found',
                 duration: 3000,
-                position: 'top'
+                position: 'top',
               });
 
               toast.present();
@@ -223,7 +223,7 @@ export class PlayerEffects {
               let toast = this.toastCtrl.create({
                 message: 'Player details were not found',
                 duration: 3000,
-                position: 'top'
+                position: 'top',
               });
 
               toast.present();
